@@ -152,7 +152,7 @@
                     @endphp
 
                     @if(Auth::user()->avatar)
-                        <img src="{{ asset('public/storage/' . Auth::user()->avatar) }}" alt="Profile" id="preview-avatar">
+                        <img src="{{ asset('public/storage/app/public/' . Auth::user()->avatar) }}" alt="Profile" id="preview-avatar">
                     @else
                         <div class="{{ $avatarColor }}" id="preview-avatar-initial" style="width: 100%; height: 100%; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; font-weight: 800; color: white; border: 4px solid var(--bg-color); box-shadow: 0 10px 20px rgba(0,0,0,0.1);">{{ $initials }}</div>
                         <img src="" alt="Profile" id="preview-avatar" style="display: none;">
@@ -265,7 +265,7 @@
                                     <i class="bi bi-cloud-arrow-up" style="font-size: 3rem; color: var(--p-color); margin-bottom: 10px; display: block;"></i>
                                     <h4 style="color: var(--text-main); font-weight: 700; margin: 0 0 5px;">Klik untuk unggah file KTM Anda</h4>
                                 </div>
-                                <img id="ktm-preview" class="ktm-preview" src="{{ Auth::user()->ktm_path ? asset('storage/' . Auth::user()->ktm_path) : '' }}" style="display: {{ Auth::user()->ktm_path ? 'inline-block' : 'none' }}">
+                                <img id="ktm-preview" class="ktm-preview" src="{{ Auth::user()->ktm_path ? asset('storage/app/public/' . Auth::user()->ktm_path) : '' }}" style="display: {{ Auth::user()->ktm_path ? 'inline-block' : 'none' }}">
                             </div>
                         </div>
 

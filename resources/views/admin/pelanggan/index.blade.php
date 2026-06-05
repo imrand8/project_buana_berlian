@@ -136,7 +136,7 @@
                         <td>
                             <div class="d-flex align-items-center">
                                 @if($p->avatar)
-                                    <img src="{{ asset('public/storage/' . $p->avatar) }}" class="user-avatar me-3" style="object-fit: cover;">
+                                    <img src="{{ asset('storage/app/public/' . $p->avatar) }}" class="user-avatar me-3" style="object-fit: cover;">
                                 @else
                                     <div class="user-avatar {{ $avatarColor }} me-3">{{ $initials }}</div>
                                 @endif
@@ -168,7 +168,7 @@
                         </td>
                         <td class="text-center" id="btn-col-{{ $p->id }}">
                             @if($p->status_mahasiswa == 'menunggu_verifikasi')
-                                <button class="btn btn-sm btn-primary fw-bold px-3 rounded-3" onclick="bukaModalKTM({{ $p->id }}, '{{ $p->name }}', '{{ asset('storage/' . $p->ktm_path) }}')">Verifikasi</button>
+                                <button class="btn btn-sm btn-primary fw-bold px-3 rounded-3" onclick="bukaModalKTM({{ $p->id }}, '{{ $p->name }}', '{{ asset('storage/app/public/' . $p->ktm_path) }}')">Verifikasi</button>
                             @else
                                 <button class="btn btn-sm btn-outline-secondary fw-bold px-3 rounded-3" onclick="bukaDetail({{ $p->id }}, '{{ $p->name }}', '{{ $p->email }}', '{{ $p->phone }}', '{{ $p->status_mahasiswa }}', '{{ $p->created_at->format('d M Y') }}', '{{ $initials }}', '{{ $avatarColor }}', {{ $totalOrder }})"><i class="bi bi-eye"></i> Detail</button>
                             @endif

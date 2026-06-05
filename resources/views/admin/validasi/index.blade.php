@@ -161,7 +161,7 @@
             $kode = $isTravel ? $pesanan->kode_booking : $pesanan->kode_resi;
             $nama = $isTravel ? $pesanan->nama_penumpang : $pesanan->nama_pengirim;
             $noWaRaw = $isTravel ? $pesanan->nomor_wa : $pesanan->nomor_wa_pengirim;
-            $buktiPath = $pesanan->bukti_transfer ? asset('public/storage/' . $pesanan->bukti_transfer) : null;
+            $buktiPath = $pesanan->bukti_transfer ? asset('storage/app/public/' . $pesanan->bukti_transfer) : null;
             $isCOD = strtoupper($pesanan->metode_bayar) === 'CASH' || strtoupper($pesanan->metode_bayar) === 'COD';
             
             // Konversi Nomor WA untuk Link (08 -> 628)
