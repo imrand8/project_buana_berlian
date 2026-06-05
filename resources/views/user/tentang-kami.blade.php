@@ -249,7 +249,7 @@
                 
                 <div class="team-slide">
                     <div class="team-card card-admin">
-                        <img src="{{ asset('assets/img/shavira.png') }}" class="card-img" alt="Shavira" onerror="this.src='https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=400&auto=format&fit=crop'">
+                        <img src="{{ asset('public/assets/img/shavira.png') }}" class="card-img" alt="Shavira" onerror="this.src='https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=400&auto=format&fit=crop'">
                         <div class="team-info">
                             <div class="team-siluet">
                                 <i class="bi bi-whatsapp"></i>
@@ -265,7 +265,7 @@
 
                 <div class="team-slide">
                     <div class="team-card card-admin">
-                        <img src="{{ asset('assets/img/meilina.png') }}" class="card-img" alt="Admin 2" onerror="this.src='https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=400&auto=format&fit=crop'">
+                        <img src="{{ asset('public/assets/img/meilina.png') }}" class="card-img" alt="Admin 2" onerror="this.src='https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=400&auto=format&fit=crop'">
                         <div class="team-info">
                             <div class="team-siluet">
                                 <i class="bi bi-whatsapp"></i>
@@ -281,7 +281,7 @@
 
                 <div class="team-slide">
                     <div class="team-card card-driver">
-                        <img src="{{ asset('assets/img/dika.png') }}" class="card-img" alt="Dika" onerror="this.src='https://images.unsplash.com/photo-1566492031773-4f4e44671857?q=80&w=400&auto=format&fit=crop'">
+                        <img src="{{ asset('public/assets/img/dika.png') }}" class="card-img" alt="Dika" onerror="this.src='https://images.unsplash.com/photo-1566492031773-4f4e44671857?q=80&w=400&auto=format&fit=crop'">
                         <div class="team-info">
                             <div class="team-siluet">
                                 <i class="bi bi-car-front-fill"></i>
@@ -297,7 +297,7 @@
 
                 <div class="team-slide">
                     <div class="team-card card-driver">
-                        <img src="{{ asset('assets/img/kaka.png') }}" class="card-img" alt="Kaka" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&auto=format&fit=crop'">
+                        <img src="{{ asset('public/assets/img/kaka.png') }}" class="card-img" alt="Kaka" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&auto=format&fit=crop'">
                         <div class="team-info">
                             <div class="team-siluet">
                                 <i class="bi bi-box-seam-fill"></i>
@@ -313,7 +313,7 @@
 
                 <div class="team-slide">
                     <div class="team-card card-driver">
-                        <img src="{{ asset('assets/img/rama.png') }}" class="card-img" alt="Rama" onerror="this.src='https://images.unsplash.com/photo-1552058544-f2b08422138a?q=80&w=400&auto=format&fit=crop'">
+                        <img src="{{ asset('public/assets/img/rama.png') }}" class="card-img" alt="Rama" onerror="this.src='https://images.unsplash.com/photo-1552058544-f2b08422138a?q=80&w=400&auto=format&fit=crop'">
                         <div class="team-info">
                             <div class="team-siluet">
                                 <i class="bi bi-car-front-fill"></i>
@@ -329,7 +329,7 @@
 
                 <div class="team-slide">
                     <div class="team-card card-driver">
-                        <img src="{{ asset('assets/img/shandy.png') }}" class="card-img" alt="Shandy" onerror="this.src='https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=400&auto=format&fit=crop'">
+                        <img src="{{ asset('public/assets/img/shandy.png') }}" class="card-img" alt="Shandy" onerror="this.src='https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=400&auto=format&fit=crop'">
                         <div class="team-info">
                             <div class="team-siluet">
                                 <i class="bi bi-box-seam-fill"></i>
@@ -345,7 +345,7 @@
 
                 <div class="team-slide">
                     <div class="team-card card-driver">
-                        <img src="{{ asset('assets/img/eko.png') }}" class="card-img" alt="Driver" onerror="this.src='https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=400&auto=format&fit=crop'">
+                        <img src="{{ asset('public/assets/img/eko.png') }}" class="card-img" alt="Driver" onerror="this.src='https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=400&auto=format&fit=crop'">
                         <div class="team-info">
                             <div class="team-siluet">
                                 <i class="bi bi-car-front-fill"></i>
@@ -361,7 +361,7 @@
 
                 <div class="team-slide">
                     <div class="team-card card-dev">
-                        <img src="{{ asset('assets/img/imran2.png') }}" class="card-img" alt="Imran Darajati" onerror="this.src='https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=400&auto=format&fit=crop'">
+                        <img src="{{ asset('public/assets/img/imran2.png') }}" class="card-img" alt="Imran Darajati" onerror="this.src='https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=400&auto=format&fit=crop'">
                         <div class="team-info">
                             <div class="team-siluet">
                                 <i class="bi bi-code-slash"></i>

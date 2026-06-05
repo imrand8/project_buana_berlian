@@ -136,7 +136,7 @@
                         <td>
                             <div class="d-flex align-items-center">
                                 @if($p->avatar)
-                                    <img src="{{ asset('storage/' . $p->avatar) }}" class="user-avatar me-3" style="object-fit: cover;">
+                                    <img src="{{ asset('public/storage/' . $p->avatar) }}" class="user-avatar me-3" style="object-fit: cover;">
                                 @else
                                     <div class="user-avatar {{ $avatarColor }} me-3">{{ $initials }}</div>
                                 @endif

@@ -50,7 +50,7 @@
                         @endphp
 
                         @if(Auth::user()->avatar)
-                            <img src="{{ asset('storage/' . Auth::user()->avatar) }}" alt="User" class="user-avatar-header">
+                            <img src="{{ asset('public/storage/' . Auth::user()->avatar) }}" alt="User" class="user-avatar-header">
                         @else
                             <div class="{{ $avatarColor }}" style="width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; font-size: 0.8rem; margin-right: 8px;">{{ $initials }}</div>
                         @endif

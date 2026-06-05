@@ -256,7 +256,7 @@
 
     <div class="auth-card">
         <div class="auth-banner">
-            <img src="{{ asset('assets/img/LOGO.png') }}" alt="Logo" class="banner-logo">
+            <img src="{{ asset('public/assets/img/LOGO.png') }}" alt="Logo" class="banner-logo">
             <div class="banner-footer">
                 <h2>Perjalanan Nyaman, Harga Aman di Kantong.</h2>
                 <p>Daftar sekarang dan nikmati kemudahan booking travel reguler & kargo kilat. Khusus Mahasiswa, dapatkan potongan harga spesial!</p>

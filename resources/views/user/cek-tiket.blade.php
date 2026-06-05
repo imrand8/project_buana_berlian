@@ -198,7 +198,7 @@
                                 <h4 id="res-tr-kode" style="margin:0; font-size:1.5rem; font-weight:700;">-</h4>
                             </div>
                             <div style="text-align: right;">
-                                <div class="ticket-logo-wrapper"><img src="{{ asset('assets/img/LOGO.png') }}" alt="Logo"></div>
+                                <div class="ticket-logo-wrapper"><img src="{{ asset('public/assets/img/LOGO.png') }}" alt="Logo"></div>
                             </div>
                         </div>
                         <div class="ticket-body">
@@ -237,7 +237,7 @@
                                 <h4 id="res-kg-kode" style="margin:0; font-size:1.5rem; font-weight:700;">-</h4>
                             </div>
                             <div style="text-align: right;">
-                                <div class="ticket-logo-wrapper"><img src="{{ asset('assets/img/LOGO.png') }}" alt="Logo"></div>
+                                <div class="ticket-logo-wrapper"><img src="{{ asset('public/assets/img/LOGO.png') }}" alt="Logo"></div>
                             </div>
                         </div>
                         <div class="ticket-body">

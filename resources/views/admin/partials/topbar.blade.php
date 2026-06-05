@@ -29,7 +29,7 @@
                 @endphp
 
                 @if(Auth::user()->avatar)
-                    <img src="{{ asset('storage/' . Auth::user()->avatar) }}" class="rounded-circle border" width="35" height="35" style="object-fit: cover;">
+                    <img src="{{ asset('public/storage/' . Auth::user()->avatar) }}" class="rounded-circle border" width="35" height="35" style="object-fit: cover;">
                 @else
                     <div class="{{ $avatarColor }}" style="width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; font-size: 0.9rem; border: 1px solid var(--border-color);">{{ $initials }}</div>
                 @endif

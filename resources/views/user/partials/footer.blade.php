@@ -1,7 +1,7 @@
 <footer class="main-footer">
     <div class="footer-container">
         <div class="footer-section branding">
-            <img src="{{ asset('assets/img/LOGO.png') }}" alt="Logo" class="footer-logo">
+            <img src="{{ asset('public/assets/img/LOGO.png') }}" alt="Logo" class="footer-logo">
             <p class="footer-desc">
                 Buana Berlian Travel siap menjadi partner perjalanan Anda dengan layanan terbaik, aman dan nyaman.<br>
                 <strong>Percayakan perjalanan Anda kepada kami – Let’s Travel With Us!</strong>

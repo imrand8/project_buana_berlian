@@ -114,7 +114,7 @@
     <div class="account-layout">
         
         <aside class="sidebar-card animate-up">
-            <img src="{{ asset('assets/img/developer 2.jpg') }}" alt="Profile" class="profile-avatar">
+            <img src="{{ asset('public/assets/img/developer 2.jpg') }}" alt="Profile" class="profile-avatar">
             <h3 class="profile-name">Imran Darajati</h3>
             <div class="status-badge"><i class="bi bi-check-circle-fill"></i> Mahasiswa Terverifikasi</div>
 

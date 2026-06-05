@@ -458,7 +458,7 @@
     <div id="print-travel" class="ticket-card" style="display: none;">
         <div class="ticket-header header-travel">
             <div><p style="margin:0; font-size:0.8rem; font-weight:700;"><i class="bi bi-bus-front"></i> TRAVEL REGULER</p><h4 id="t_kode" style="margin:0; font-size:1.5rem; font-weight:700;">-</h4></div>
-            <div style="text-align: right;"><img src="{{ asset('assets/img/LOGO.png') }}" style="height: 45px; filter: brightness(0) invert(1); object-fit: contain;" alt="Logo"></div>
+            <div style="text-align: right;"><img src="{{ asset('public/assets/img/LOGO.png') }}" style="height: 45px; filter: brightness(0) invert(1); object-fit: contain;" alt="Logo"></div>
         </div>
         <div class="ticket-body">
             <div>
@@ -490,7 +490,7 @@
     <div id="print-kargo" class="ticket-card" style="display: none;">
         <div class="ticket-header header-cargo">
             <div><p style="margin:0; font-size:0.8rem; font-weight:700;"><i class="bi bi-box-seam-fill"></i> KARGO EKSPRES</p><h4 id="k_kode" style="margin:0; font-size:1.5rem; font-weight:700;">-</h4></div>
-            <div style="text-align: right;"><img src="{{ asset('assets/img/LOGO.png') }}" style="height: 45px; filter: brightness(0) invert(1); object-fit: contain;" alt="Logo"></div>
+            <div style="text-align: right;"><img src="{{ asset('public/assets/img/LOGO.png') }}" style="height: 45px; filter: brightness(0) invert(1); object-fit: contain;" alt="Logo"></div>
         </div>
         <div class="ticket-body">
             <div>
