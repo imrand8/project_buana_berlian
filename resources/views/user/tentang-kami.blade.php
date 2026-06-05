@@ -361,7 +361,7 @@
 
                 <div class="team-slide">
                     <div class="team-card card-dev">
-                        <img src="{{ asset('assets/img/imran.png') }}" class="card-img" alt="Imran Darajati" onerror="this.src='https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=400&auto=format&fit=crop'">
+                        <img src="{{ asset('assets/img/imran2.png') }}" class="card-img" alt="Imran Darajati" onerror="this.src='https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=400&auto=format&fit=crop'">
                         <div class="team-info">
                             <div class="team-siluet">
                                 <i class="bi bi-code-slash"></i>
