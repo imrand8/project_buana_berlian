@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login & Daftar - Buana Berlian</title>
-    <link rel="icon" href="{{ asset('assets/img/LOGO.png') }}" type="image/png">
+    <link rel="icon" href="{{ asset('public/assets/img/LOGO.png') }}" type="image/png">
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -40,7 +40,7 @@
             min-height: 100vh;
             display: flex;
             align-items: center; justify-content: center;
-            background: url('{{ asset("assets/img/jalanx2.jpg") }}') no-repeat center center fixed;
+            background: url('{{ asset("public/assets/img/jalanx2.jpg") }}') no-repeat center center fixed;
             background-size: cover;
             position: relative;
             overflow-x: hidden;
@@ -85,7 +85,7 @@
         .auth-banner {
             flex: 1; /* Setengah Lebar */
             position: relative; border-radius: 30px;
-            background: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.7)), url('{{ asset("assets/img/jalanx2.jpg") }}');
+            background: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.7)), url('{{ asset("public/assets/img/jalanx2.jpg") }}');
             background-size: cover; background-position: center;
             color: white; padding: 40px;
             display: flex; flex-direction: column; justify-content: space-between;

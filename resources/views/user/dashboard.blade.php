@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Buana Berlian Tour & Travel - Beranda</title>
-    <link rel="icon" href="{{ asset('assets/img/LOGO.png') }}" type="image/png">
+    <link rel="icon" href="{{ asset('public/assets/img/LOGO.png') }}" type="image/png">
     
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
@@ -146,19 +146,19 @@
     <main>
         <header class="swiper hero">
             <div class="swiper-wrapper">
-                <div class="swiper-slide hero-slide" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('{{ asset('assets/img/jalanx2.jpg') }}');">
+                <div class="swiper-slide hero-slide" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('{{ asset('public/assets/img/jalanx2.jpg') }}');">
                     <div class="hero-content animate-up">
                         <h1>Perjalanan Nyaman, Hati Tenang</h1>
                         <p>Layanan travel reguler terbaik rute Pacitan - Malang dengan armada eksekutif.</p>
                     </div>
                 </div>
-                <div class="swiper-slide hero-slide" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('{{ asset('assets/img/interior.jpg') }}');">
+                <div class="swiper-slide hero-slide" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('{{ asset('public/assets/img/interior.jpg') }}');">
                     <div class="hero-content">
                         <h1>Antar Jemput Depan Rumah</h1>
                         <p>Nikmati kemudahan layanan door-to-door. Kami jemput dan antar sampai tujuan.</p>
                     </div>
                 </div>
-                <div class="swiper-slide hero-slide" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('{{ asset('assets/img/kota 5.jpg') }}');">
+                <div class="swiper-slide hero-slide" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('{{ asset('public/assets/img/kota 5.jpg') }}');">
                     <div class="hero-content">
                         <h1>Tiba di Tujuan Tepat Waktu</h1>
                         <p>Menghubungkan Pacitan, Malang, Blitar, dan Tulungagung setiap hari.</p>

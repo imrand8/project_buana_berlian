@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Keamanan & Password - Buana Berlian</title>
-    <link rel="icon" href="{{ asset('assets/img/LOGO.png') }}" type="image/png">
+    <link rel="icon" href="{{ asset('public/assets/img/LOGO.png') }}" type="image/png">
     
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     @vite(['resources/css/app.css', 'resources/js/app.js'])

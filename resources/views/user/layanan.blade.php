@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pesan Layanan - Buana Berlian</title>
-    <link rel="icon" href="{{ asset('assets/img/LOGO.png') }}" type="image/png">
+    <link rel="icon" href="{{ asset('public/assets/img/LOGO.png') }}" type="image/png">
     
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
@@ -257,7 +257,7 @@
                             
                             <div id="fleet-image-wrapper">
                                 <div style="margin-bottom: 20px; padding: 15px; background: var(--bg-color); border-radius: 16px; border: 1px dashed var(--border-color);">
-                                    <img id="fleet-image" src="{{ asset('assets/img/innova hitam.png') }}" alt="Armada" style="width: 100%; height: auto; object-fit: contain; filter: drop-shadow(0 5px 5px rgba(0,0,0,0.1)); transition: 0.3s;"> 
+                                    <img id="fleet-image" src="{{ asset('public/assets/img/innova hitam.png') }}" alt="Armada" style="width: 100%; height: auto; object-fit: contain; filter: drop-shadow(0 5px 5px rgba(0,0,0,0.1)); transition: 0.3s;"> 
                                 </div>
                             </div>
 
@@ -422,7 +422,7 @@
         const dbBookedTravels = @json($travels ?? []);
         const dbRutes = @json($rutes ?? []);
         const dbTarifKargo = @json($tarifKargo ?? null);
-        const baseImgUrl = "{{ asset('assets/img') }}";
+        const baseImgUrl = "{{ asset('public/assets/img') }}";
         
         let maxSeats = {{ $passParam }};
         let selectedSeats = [];
