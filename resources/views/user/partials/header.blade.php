@@ -7,7 +7,7 @@
 <header class="main-header">
     <div class="header-container">
         <a href="{{ url('/') }}" class="logo-link">
-            <img src="{{ asset('assets/img/LOGO.png') }}" alt="Buana Berlian" class="logo-img">
+            <img src="{{ asset('public/assets/img/LOGO.png') }}" alt="Buana Berlian" class="logo-img">
         </a>
 
         <nav class="nav-menu" id="nav-menu">
