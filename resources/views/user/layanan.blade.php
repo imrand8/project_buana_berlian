@@ -454,7 +454,7 @@
                             </div>
                             <div class="input-group-custom" style="text-align: left;">
                                 <label style="margin-bottom: 8px;">Upload Bukti Transfer BSI <span style="color:red">*</span></label>
-                                <input type="file" id="proof-bsi" name="bukti_transfer" class="form-control-custom" style="padding: 10px; height: auto;">
+                                <input type="file" id="proof-bsi" name="bukti_transfer" class="form-control-custom" accept="image/jpeg, image/png, image/jpg, image/webp" style="padding: 10px; height: auto;">
                             </div>
                             <div style="margin-top: 20px;">
                                 <button type="button" class="btn-confirm" style="background: linear-gradient(135deg, #00a39d, #007c77);" onclick="finishOrder('BSI')"><i class="bi bi-send-fill"></i> Selesaikan Pesanan</button>
@@ -471,7 +471,7 @@
                             </div>
                             <div class="input-group-custom" style="text-align: left;">
                                 <label style="margin-bottom: 8px;">Upload Bukti Transfer DANA <span style="color:red">*</span></label>
-                                <input type="file" id="proof-dana" name="bukti_transfer" class="form-control-custom" disabled style="padding: 10px; height: auto;">
+                                <input type="file" id="proof-dana" name="bukti_transfer" class="form-control-custom" accept="image/jpeg, image/png, image/jpg, image/webp" disabled style="padding: 10px; height: auto;">
                             </div>
                             <div style="margin-top: 20px;">
                                 <button type="button" class="btn-confirm" style="background: linear-gradient(135deg, #118EEA, #0a65a8);" onclick="finishOrder('DANA')"><i class="bi bi-send-fill"></i> Selesaikan Pesanan</button>
@@ -792,20 +792,43 @@
         }
 
         function finishOrder(methodName) {
-            // Validasi Wajib Upload Foto
+            let fileInput;
+            
+            // Tentukan input mana yang dipakai
             if (methodName === 'BSI') {
-                if (document.getElementById('proof-bsi').files.length === 0) { 
-                    Swal.fire({ icon: 'warning', title: 'Bukti Kosong', text: 'Silakan pilih foto bukti transfer BSI Anda terlebih dahulu.' }); 
+                fileInput = document.getElementById('proof-bsi');
+            } else if (methodName === 'DANA') {
+                fileInput = document.getElementById('proof-dana');
+            }
+
+            // Validasi Khusus Transfer (BSI / DANA)
+            if (methodName === 'BSI' || methodName === 'DANA') {
+                // 1. Cek apakah kosong
+                if (fileInput.files.length === 0) { 
+                    Swal.fire({ icon: 'warning', title: 'Bukti Kosong', text: `Silakan pilih foto bukti transfer ${methodName} Anda terlebih dahulu.` }); 
                     return; 
                 }
-            } else if (methodName === 'DANA') {
-                if (document.getElementById('proof-dana').files.length === 0) { 
-                    Swal.fire({ icon: 'warning', title: 'Bukti Kosong', text: 'Silakan pilih foto bukti transfer DANA Anda terlebih dahulu.' }); 
-                    return; 
+
+                const file = fileInput.files[0];
+
+                // 2. Cek Format File (Hanya izinkan gambar)
+                const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+                if (!allowedTypes.includes(file.type)) {
+                    Swal.fire({ icon: 'error', title: 'Format Salah', text: 'Hanya boleh mengunggah foto dengan format JPG, JPEG, PNG, atau WEBP.' });
+                    fileInput.value = ''; // Reset input
+                    return;
+                }
+
+                // 3. Cek Ukuran File (Maksimal 1 MB)
+                const fileSizeMB = file.size / 1024 / 1024; 
+                if (fileSizeMB > 1) {
+                    Swal.fire({ icon: 'error', title: 'File Terlalu Besar', text: 'Ukuran foto maksimal adalah 1 MB. Silakan kompres atau pilih foto lain.' }); 
+                    fileInput.value = ''; // Reset input
+                    return;
                 }
             }
 
-            // Munculkan loading biar user nggak klik tombol 2 kali
+            // Munculkan loading...
             Swal.fire({
                 title: 'Memproses Pesanan...',
                 text: 'Mohon tunggu, sedang mengupload bukti transfer.',
@@ -817,6 +840,7 @@
             document.getElementById('input_metode_bayar').value = methodName;
             document.getElementById('formTransaksi').submit();
         }
+        
         function salinTeks(text) { navigator.clipboard.writeText(text); Swal.fire({toast:true, position:'top-end', icon:'success', title:'Disalin!', showConfirmButton:false, timer:1500}); }
     </script>
 </body>
