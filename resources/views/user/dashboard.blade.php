@@ -146,19 +146,19 @@
     <main>
         <header class="swiper hero">
             <div class="swiper-wrapper">
-                <div class="swiper-slide hero-slide" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('{{ asset('public/assets/img/jalanx2.jpg') }}');">
+                <div class="swiper-slide hero-slide" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('{{ asset('public/assets/img/perjalanan.jpg') }}');">
                     <div class="hero-content animate-up">
                         <h1>Perjalanan Nyaman, Hati Tenang</h1>
                         <p>Layanan travel reguler terbaik rute Pacitan - Malang dengan armada eksekutif.</p>
                     </div>
                 </div>
-                <div class="swiper-slide hero-slide" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('{{ asset('public/assets/img/interior.jpg') }}');">
+                <div class="swiper-slide hero-slide" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('{{ asset('public/assets/img/antar.webp') }}');">
                     <div class="hero-content">
                         <h1>Antar Jemput Depan Rumah</h1>
                         <p>Nikmati kemudahan layanan door-to-door. Kami jemput dan antar sampai tujuan.</p>
                     </div>
                 </div>
-                <div class="swiper-slide hero-slide" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('{{ asset('public/assets/img/kota 5.jpg') }}');">
+                <div class="swiper-slide hero-slide" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('{{ asset('public/assets/img/tujuan.jpg') }}');">
                     <div class="hero-content">
                         <h1>Tiba di Tujuan Tepat Waktu</h1>
                         <p>Menghubungkan Pacitan, Malang, Blitar, dan Tulungagung setiap hari.</p>

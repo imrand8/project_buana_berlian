@@ -40,7 +40,7 @@
             min-height: 100vh;
             display: flex;
             align-items: center; justify-content: center;
-            background: url('{{ asset("public/assets/img/jalanx2.jpg") }}') no-repeat center center fixed;
+            background: url('{{ asset("public/assets/img/login.jpg") }}') no-repeat center center fixed;
             background-size: cover;
             position: relative;
             overflow-x: hidden;
@@ -85,7 +85,7 @@
         .auth-banner {
             flex: 1; /* Setengah Lebar */
             position: relative; border-radius: 30px;
-            background: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.7)), url('{{ asset("public/assets/img/jalanx2.jpg") }}');
+            background: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.7)), url('{{ asset("public/assets/img/login.jpg") }}');
             background-size: cover; background-position: center;
             color: white; padding: 40px;
             display: flex; flex-direction: column; justify-content: space-between;
