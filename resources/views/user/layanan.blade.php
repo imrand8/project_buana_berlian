@@ -501,7 +501,7 @@
                     let opt = document.createElement('option');
                     opt.value = j.id; 
                     opt.text = `${j.armada.nama_armada} (${j.armada.plat_nomor})`;
-                    if(j.armada.nama_armada.toLowerCase().includes('hiace')) opt.setAttribute('data-img', 'hiace.png');
+                    if(j.armada.nama_armada.toLowerCase().includes('innova')) opt.setAttribute('data-img', 'innova putih.png');
                     else if(j.armada.nama_armada.toLowerCase().includes('luxio')) opt.setAttribute('data-img', 'luxio.png');
                     else opt.setAttribute('data-img', 'innova hitam.png'); 
                     
