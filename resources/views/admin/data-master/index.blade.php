@@ -233,7 +233,13 @@
                         $color = $colors[$loop->index % count($colors)];
                     @endphp
                     
-                    <div class="armada-icon bg-{{ $color }} bg-opacity-10 text-{{ $color }} mx-auto mb-3"><i class="bi bi-car-front-fill"></i></div>
+                    @if($armada->image)
+                        <div class="mx-auto mb-3" style="height: 80px; width: 100%; display: flex; justify-content: center; align-items: center;">
+                            <img src="{{ asset('storage/' . $armada->image) }}" alt="{{ $armada->nama_armada }}" style="max-height: 100%; max-width: 100%; object-fit: contain;">
+                        </div>
+                    @else
+                        <div class="armada-icon bg-{{ $color }} bg-opacity-10 text-{{ $color }} mx-auto mb-3"><i class="bi bi-car-front-fill"></i></div>
+                    @endif
                     <h5 class="fw-bold mb-1">{{ $armada->nama_armada }}</h5>
                     <p class="text-muted small mb-3">Kapasitas: {{ $armada->kapasitas_kursi }} Seat</p>
                     <div class="p-2 rounded-3 mb-4" style="background: var(--bg-body); border: 1px solid var(--border-color);">
@@ -347,7 +353,7 @@
 
 <div class="modal fade" id="modalEditArmada" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-sm">
-        <form id="formEditArmada" method="POST" class="modal-content shadow-lg" style="border-radius: 16px;">
+        <form id="formEditArmada" method="POST" enctype="multipart/form-data" class="modal-content shadow-lg" style="border-radius: 16px;">
             @csrf @method('PUT')
             <div class="modal-header border-0 pb-0">
                 <h6 class="fw-bold m-0 text-success"><i class="bi bi-car-front me-2"></i>Edit Armada</h6>
@@ -358,9 +364,14 @@
                     <label class="small fw-bold mb-1 text-muted">Nama Mobil</label>
                     <input type="text" class="form-control custom-input" name="nama_armada" id="inputEditArmadaName" required>
                 </div>
-                <div class="mb-4">
+                <div class="mb-3">
                     <label class="small fw-bold mb-1 text-muted">Plat Nomor</label>
                     <input type="text" class="form-control custom-input text-uppercase fw-bold" name="plat_nomor" id="inputEditArmadaPlat" required>
+                </div>
+                <div class="mb-4">
+                    <label class="small fw-bold mb-1 text-muted">Ganti Foto Armada (Opsional)</label>
+                    <input type="file" name="image" accept="image/*" class="form-control custom-input" style="padding: 8px;">
+                    <small class="text-muted" style="font-size: 0.7rem;">*Kosongkan jika tidak ingin mengganti foto.</small>
                 </div>
                 <div class="d-flex gap-2">
                     <button type="button" class="btn btn-cancel-custom w-50 fw-bold rounded-3" data-bs-dismiss="modal">Batal</button>
@@ -403,7 +414,7 @@
 
 <div class="modal fade" id="modalAddArmada" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-sm">
-        <form action="{{ route('admin.armada.store') }}" method="POST" class="modal-content shadow-lg" style="border-radius: 16px;">
+        <form action="{{ route('admin.armada.store') }}" method="POST" enctype="multipart/form-data" class="modal-content shadow-lg" style="border-radius: 16px;">
             @csrf
             <div class="modal-header border-0 pb-0">
                 <h6 class="fw-bold m-0 text-primary"><i class="bi bi-plus-circle me-2"></i>Tambah Armada Baru</h6>
@@ -417,6 +428,17 @@
                 <div class="mb-3">
                     <label class="small fw-bold mb-1 text-muted">Plat Nomor</label>
                     <input type="text" class="form-control custom-input text-uppercase fw-bold" name="plat_nomor" placeholder="Contoh: AE 1234 BB" required>
+                </div>
+                <div class="mt-4">
+                    <label class="block text-sm font-medium text-gray-300">Foto Armada</label>
+                    <input type="file" name="image" accept="image/*" 
+                        class="mt-1 block w-full text-sm text-gray-400
+                                file:mr-4 file:py-2 file:px-4
+                                file:rounded-md file:border-0
+                                file:text-sm file:font-semibold
+                                file:bg-blue-600 file:text-white
+                                hover:file:bg-blue-700
+                                cursor-pointer">
                 </div>
                 <div class="mb-4">
                     <label class="small fw-bold mb-1 text-muted">Kapasitas Kursi</label>

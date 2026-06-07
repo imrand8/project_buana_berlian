@@ -501,9 +501,9 @@
                     let opt = document.createElement('option');
                     opt.value = j.id; 
                     opt.text = `${j.armada.nama_armada} (${j.armada.plat_nomor})`;
-                    if(j.armada.nama_armada.toLowerCase().includes('innova')) opt.setAttribute('data-img', 'innova putih.png');
-                    else if(j.armada.nama_armada.toLowerCase().includes('luxio')) opt.setAttribute('data-img', 'luxio.png');
-                    else opt.setAttribute('data-img', 'innova hitam.png'); 
+                    // Cek apakah armada punya gambar di database. Jika ya, ambil dari folder storage. Jika tidak, pakai gambar default.
+                    let imageUrl = j.armada.image ? `{{ asset('storage') }}/${j.armada.image}` : `{{ asset('public/assets/img/innova hitam.png') }}`;
+                    opt.setAttribute('data-img', imageUrl);
                     
                     // Set harga yang sudah difilter
                     opt.setAttribute('data-price', hargaDb);
@@ -562,9 +562,9 @@
             const fleetSelect = document.getElementById('fleet-pick');
             if(!fleetSelect.value) return;
 
-            const imgFile = fleetSelect.options[fleetSelect.selectedIndex].getAttribute('data-img');
+            const imgUrlLengkap = fleetSelect.options[fleetSelect.selectedIndex].getAttribute('data-img');
             const imgElement = document.getElementById('fleet-image');
-            if(imgElement) imgElement.src = baseImgUrl + '/' + imgFile;
+            if(imgElement) imgElement.src = imgUrlLengkap;
 
             document.getElementById('input_jadwal_id').value = fleetSelect.value;
             

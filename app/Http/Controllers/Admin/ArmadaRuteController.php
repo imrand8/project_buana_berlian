@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Armada;
 use App\Models\Rute;
 use App\Models\Driver;
@@ -88,29 +89,32 @@ class ArmadaRuteController extends Controller
         return redirect()->back()->with('success', 'Tarif Kargo Global berhasil diperbarui!');
     }
 
+    
     // --- KELOLA ARMADA ---
     public function storeArmada(Request $request)
     {
-        // (Validasi bawaanmu tetap biarkan di sini)
         $request->validate([
             'nama_armada' => 'required|string', 
-            'plat_nomor' => 'required|string'
-            // ... (kapasitas kursi kalau ada)
+            'plat_nomor' => 'required|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048' // Validasi file gambar
         ]);
 
         $plat = strtoupper($request->plat_nomor);
 
-        // --- TAMBAHAN: CEK DUPLIKAT PLAT NOMOR ---
         if (Armada::where('plat_nomor', $plat)->exists()) {
             return redirect()->back()->withErrors("Gagal! Mobil dengan Plat Nomor $plat sudah terdaftar.");
         }
-        // -----------------------------------------
 
-        // (Lanjut simpan ke database seperti biasa)
+        // Proses Upload Gambar
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('armada-images', 'public');
+        }
+
         Armada::create([
             'nama_armada' => $request->nama_armada, 
-            'plat_nomor' => $plat
-            // ... (kapasitas kursi kalau ada)
+            'plat_nomor' => $plat,
+            'image' => $imagePath // Simpan ke database
         ]);
 
         return redirect()->back()->with('success', 'Data armada berhasil ditambahkan!');
@@ -118,8 +122,29 @@ class ArmadaRuteController extends Controller
 
     public function updateArmada(Request $request, $id)
     {
-        $request->validate(['nama_armada' => 'required|string', 'plat_nomor' => 'required|string']);
-        Armada::findOrFail($id)->update(['nama_armada' => $request->nama_armada, 'plat_nomor' => strtoupper($request->plat_nomor)]);
+        $request->validate([
+            'nama_armada' => 'required|string', 
+            'plat_nomor' => 'required|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048'
+        ]);
+
+        $armada = Armada::findOrFail($id);
+        
+        $dataUpdate = [
+            'nama_armada' => $request->nama_armada, 
+            'plat_nomor' => strtoupper($request->plat_nomor)
+        ];
+
+        // Proses Update Gambar (Hapus yang lama, simpan yang baru)
+        if ($request->hasFile('image')) {
+            if ($armada->image && Storage::disk('public')->exists($armada->image)) {
+                Storage::disk('public')->delete($armada->image);
+            }
+            $dataUpdate['image'] = $request->file('image')->store('armada-images', 'public');
+        }
+
+        $armada->update($dataUpdate);
+        
         return redirect()->back()->with('success', 'Data armada berhasil diperbarui!');
     }
 

@@ -13,6 +13,7 @@ class Armada extends Model
     protected $fillable = [
         'nama_armada', 
         'plat_nomor', 
+        'image',
         'kapasitas_kursi', 
         'status_operasional'
     ];
