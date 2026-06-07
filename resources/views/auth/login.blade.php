@@ -365,12 +365,12 @@
                             <span class="badge bg-warning text-dark" style="font-size: 0.6rem;">OPSIONAL UNTUK DISKON</span>
                         </div>
                         
-                        <input type="file" name="ktm" id="ktmInput" class="d-none" accept="image/jpeg, image/png, image/jpg" onchange="updateFileName(this)">
-                        
+                        <input type="file" name="ktm" id="ktmInput" class="d-none" accept="image/jpeg, image/png, image/jpg, image/webp" onchange="updateFileName(this)">
+
                         <label for="ktmInput" class="ktm-upload w-100 m-0 py-3" id="ktmLabel">
                             <i class="bi bi-cloud-arrow-up fs-4 mb-1"></i>
                             <span id="ktmText" class="d-block fw-bold" style="font-size: 0.8rem;">Klik untuk unggah foto KTM</span>
-                            <small class="text-muted" style="font-size: 0.65rem;">Format .JPG atau .PNG (Maks 2MB)</small>
+                            <small class="text-muted" style="font-size: 0.65rem;">Format .JPG, .PNG, .WEBP (Maks 1MB)</small>
                         </label>
                     </div>
 
@@ -384,7 +384,8 @@
 
         </div>
     </div>
-
+    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         // Toggle Antara Login dan Register
         function toggleAuth(view) {
@@ -404,20 +405,58 @@
             }
         }
 
-        // Script Baru untuk efek UI Upload File KTM
+        // Script Baru untuk efek UI Upload File KTM + Validasi 1MB
         function updateFileName(input) {
             const labelText = document.getElementById('ktmText');
             const labelBox = document.getElementById('ktmLabel');
             
             if (input.files && input.files[0]) {
-                labelText.innerHTML = `<span class="text-success"><i class="bi bi-check-circle-fill me-1"></i> ${input.files[0].name}</span>`;
+                const file = input.files[0];
+                const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+                const bgAlert = isDark ? '#1e1e1e' : '#fff';
+                const textAlert = isDark ? '#fff' : '#000';
+
+                // 1. Validasi Format File
+                const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+                if (!allowedTypes.includes(file.type)) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Format Salah',
+                        text: 'Hanya boleh mengunggah foto KTM dengan format JPG, PNG, atau WEBP.',
+                        background: bgAlert, color: textAlert
+                    });
+                    resetKtmUI(input, labelText, labelBox);
+                    return;
+                }
+
+                // 2. Validasi Ukuran File (Maksimal 1 MB)
+                const fileSizeMB = file.size / 1024 / 1024;
+                if (fileSizeMB > 1) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Ukuran Terlalu Besar',
+                        text: 'Maksimal ukuran foto KTM adalah 1 MB. Silakan kompres foto Anda.',
+                        background: bgAlert, color: textAlert
+                    });
+                    resetKtmUI(input, labelText, labelBox);
+                    return;
+                }
+
+                // 3. Jika Lolos Validasi, Ubah UI Jadi Hijau
+                labelText.innerHTML = `<span class="text-success"><i class="bi bi-check-circle-fill me-1"></i> ${file.name}</span>`;
                 labelBox.style.borderColor = '#22c55e';
                 labelBox.style.background = 'rgba(34, 197, 94, 0.05)';
             } else {
-                labelText.innerHTML = 'Klik untuk unggah foto KTM';
-                labelBox.style.borderColor = '#ccc';
-                labelBox.style.background = 'var(--input-bg)';
+                resetKtmUI(input, labelText, labelBox);
             }
+        }
+
+        // Fungsi Bantuan untuk mereset UI jika batal/gagal upload
+        function resetKtmUI(input, labelText, labelBox) {
+            input.value = ''; // Kosongkan input file
+            labelText.innerHTML = 'Klik untuk unggah foto KTM';
+            labelBox.style.borderColor = '#ccc';
+            labelBox.style.background = 'var(--input-bg)';
         }
 
         // Toggle Dark Mode

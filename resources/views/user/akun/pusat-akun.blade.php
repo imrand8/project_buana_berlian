@@ -201,12 +201,7 @@
                         @csrf
                         <div class="grid-2">
                             
-                            <!-- INPUT FOTO DIPINDAH KE SINI AGAR TERKIRIM KE DATABASE -->
-                        <input id="avatar-upload" type="file" name="avatar" style="display: none;" accept="image/*" onchange="
-                            document.getElementById('preview-avatar').src = window.URL.createObjectURL(this.files[0]);
-                            document.getElementById('preview-avatar').style.display = 'block';
-                            if(document.getElementById('preview-avatar-initial')) { document.getElementById('preview-avatar-initial').style.display = 'none'; }
-                        ">
+                        <input id="avatar-upload" type="file" name="avatar" style="display: none;" accept="image/jpeg, image/png, image/jpg, image/webp" onchange="validateAvatar(this)">
 
                             <div class="form-group">
                                 <label><i class="bi bi-person-lines-fill"></i> Nama Lengkap (Sesuai KTP)</label>
@@ -260,7 +255,7 @@
                             @endif
 
                             <div class="ktm-box" id="ktm-upload-form" style="display: {{ Auth::user()->status_mahasiswa != 'terverifikasi' ? 'block' : 'none' }}">
-                                <input type="file" name="ktm" id="ktm-upload" accept="image/*" style="position: absolute; inset:0; width: 100%; height: 100%; opacity: 0; cursor: pointer;">
+                                <input type="file" name="ktm" id="ktm-upload" accept="image/jpeg, image/png, image/jpg, image/webp" style="position: absolute; inset:0; width: 100%; height: 100%; opacity: 0; cursor: pointer;">
                                 <div id="upload-state">
                                     <i class="bi bi-cloud-arrow-up" style="font-size: 3rem; color: var(--p-color); margin-bottom: 10px; display: block;"></i>
                                     <h4 style="color: var(--text-main); font-weight: 700; margin: 0 0 5px;">Klik untuk unggah file KTM Anda</h4>
@@ -404,7 +399,33 @@
             }
         });
 
-        // --- Upload Preview KTM ---
+        // --- VALIDASI & PREVIEW FOTO PROFIL (AVATAR) ---
+        function validateAvatar(input) {
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+                const theme = getSwalTheme();
+
+                // 1. Validasi Format
+                const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+                if (!allowedTypes.includes(file.type)) {
+                    Swal.fire({ icon: 'error', title: 'Format Salah', text: 'Hanya format JPG, PNG, atau WEBP.', background: theme.background, color: theme.color, confirmButtonColor: theme.btnColor });
+                    input.value = ''; return;
+                }
+
+                // 2. Validasi Ukuran 1MB
+                if (file.size / 1024 / 1024 > 1) {
+                    Swal.fire({ icon: 'error', title: 'File Terlalu Besar', text: 'Maksimal foto profil 1 MB.', background: theme.background, color: theme.color, confirmButtonColor: theme.btnColor });
+                    input.value = ''; return;
+                }
+
+                // 3. Tampilkan Preview
+                document.getElementById('preview-avatar').src = window.URL.createObjectURL(file);
+                document.getElementById('preview-avatar').style.display = 'block';
+                if(document.getElementById('preview-avatar-initial')) { document.getElementById('preview-avatar-initial').style.display = 'none'; }
+            }
+        }
+
+        // --- VALIDASI & PREVIEW KTM ---
         function showUploadForm() {
             document.getElementById('ktm-info-verified').style.display = 'none';
             document.getElementById('ktm-upload-form').style.display = 'block';
@@ -418,6 +439,22 @@
             ktmInput.addEventListener('change', function(e) {
                 const file = this.files[0];
                 if (file) {
+                    const theme = getSwalTheme();
+
+                    // 1. Validasi Format
+                    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+                    if (!allowedTypes.includes(file.type)) {
+                        Swal.fire({ icon: 'error', title: 'Format Salah', text: 'Hanya format JPG, PNG, atau WEBP.', background: theme.background, color: theme.color, confirmButtonColor: theme.btnColor });
+                        this.value = ''; return;
+                    }
+
+                    // 2. Validasi Ukuran 1MB
+                    if (file.size / 1024 / 1024 > 1) {
+                        Swal.fire({ icon: 'error', title: 'File Terlalu Besar', text: 'Maksimal foto KTM 1 MB.', background: theme.background, color: theme.color, confirmButtonColor: theme.btnColor });
+                        this.value = ''; return;
+                    }
+
+                    // 3. Tampilkan Preview
                     const reader = new FileReader();
                     reader.onload = function(event) {
                         uploadState.style.display = 'none'; 

@@ -77,11 +77,7 @@
                 <label for="file-upload" class="upload-btn" title="Ganti Foto">
                     <i class="bi bi-camera-fill"></i>
                 </label>
-                <input id="file-upload" type="file" name="avatar" style="display: none;" accept="image/*" form="form-profil" onchange="
-                    document.getElementById('preview-image').src = window.URL.createObjectURL(this.files[0]);
-                    document.getElementById('preview-image').style.display = 'block';
-                    if(document.getElementById('preview-avatar-initial')) { document.getElementById('preview-avatar-initial').style.display = 'none'; }
-                ">
+                <input id="file-upload" type="file" name="avatar" style="display: none;" accept="image/jpeg, image/png, image/jpg, image/webp" form="form-profil" onchange="validateAdminAvatar(this)">
             </div>
 
             <h5 class="fw-bold mb-1">{{ Auth::user()->name }}</h5>
@@ -177,6 +173,49 @@
             input.type = "password";
             iconEl.classList.replace("bi-eye", "bi-eye-slash");
             iconEl.style.color = "var(--text-muted)";
+        }
+    }
+
+    // --- FUNGSI VALIDASI FOTO PROFIL ADMIN (MAX 1MB) ---
+    function validateAdminAvatar(input) {
+        if (input.files && input.files[0]) {
+            const file = input.files[0];
+            
+            // Cek apakah admin sedang pakai Dark Mode (sesuaikan warna SweetAlert)
+            const isDark = document.body.getAttribute('data-theme') === 'dark';
+            const bgAlert = isDark ? '#1a1d24' : '#fff';
+            const textAlert = isDark ? '#fff' : '#000';
+
+            // 1. Validasi Tipe Format
+            const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+            if (!allowedTypes.includes(file.type)) {
+                Swal.fire({ 
+                    icon: 'error', title: 'Format Tidak Sesuai', 
+                    text: 'Hanya diperbolehkan format JPG, PNG, atau WEBP.',
+                    background: bgAlert, color: textAlert
+                });
+                input.value = ''; // Reset input
+                return;
+            }
+
+            // 2. Validasi Ukuran (Maksimal 1 MB)
+            const fileSizeMB = file.size / 1024 / 1024;
+            if (fileSizeMB > 1) {
+                Swal.fire({ 
+                    icon: 'error', title: 'Ukuran Terlalu Besar', 
+                    text: 'Maksimal ukuran foto profil adalah 1 MB. Silakan kompres foto Anda.',
+                    background: bgAlert, color: textAlert
+                });
+                input.value = ''; // Reset input
+                return;
+            }
+
+            // 3. Tampilkan Preview Gambar Jika Valid
+            document.getElementById('preview-image').src = window.URL.createObjectURL(file);
+            document.getElementById('preview-image').style.display = 'block';
+            if(document.getElementById('preview-avatar-initial')) { 
+                document.getElementById('preview-avatar-initial').style.display = 'none'; 
+            }
         }
     }
 </script>
