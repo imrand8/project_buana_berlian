@@ -442,7 +442,8 @@
                 </div>
                 <div class="mb-4">
                     <label class="small fw-bold mb-1 text-muted">Kapasitas Kursi</label>
-                    <input type="number" class="form-control custom-input fw-bold" name="kapasitas_kursi" value="7" min="1" required>
+                    <input type="number" class="form-control custom-input fw-bold" name="kapasitas_kursi" value="7" min="1" max="7" required>
+                    <small class="text-warning" style="font-size: 0.7rem;"><i class="bi bi-info-circle me-1"></i>Maksimal 7 kursi menyesuaikan layout denah mobil di sistem.</small>
                 </div>
                 <div class="d-flex gap-2">
                     <button type="button" class="btn btn-cancel-custom w-50 fw-bold rounded-3" data-bs-dismiss="modal">Batal</button>
