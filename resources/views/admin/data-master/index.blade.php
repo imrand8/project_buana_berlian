@@ -58,6 +58,23 @@
     .btn-cancel-custom:hover { background: var(--border-color); color: var(--text-main); }
     .btn-edit-action { background: #ffffff; color: var(--p-color); border: 1px solid #e2e8f0; transition: 0.2s; }
     .btn-edit-action:hover { background: var(--bg-body); border-color: var(--p-color); }
+
+    input[type="file"].custom-input::file-selector-button { 
+    margin-right: 15px; 
+    border: none; 
+    background: var(--p-color); 
+    padding: 6px 12px; 
+    border-radius: 6px; 
+    color: #fff; 
+    cursor: pointer; 
+    font-weight: 600; 
+    transition: 0.2s; 
+    font-size: 0.8rem; 
+}
+[data-theme="dark"] input[type="file"].custom-input::file-selector-button { 
+    background: var(--accent-gold); 
+    color: black; 
+}
 </style>
 
 <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
@@ -370,7 +387,7 @@
                 </div>
                 <div class="mb-4">
                     <label class="small fw-bold mb-1 text-muted">Ganti Foto Armada (Opsional)</label>
-                    <input type="file" name="image" accept="image/*" class="form-control custom-input" style="padding: 8px;">
+                    <input type="file" class="form-control custom-input" name="image" accept="image/*" style="padding: 8px;">
                     <small class="text-muted" style="font-size: 0.7rem;">*Kosongkan jika tidak ingin mengganti foto.</small>
                 </div>
                 <div class="d-flex gap-2">
@@ -429,16 +446,9 @@
                     <label class="small fw-bold mb-1 text-muted">Plat Nomor</label>
                     <input type="text" class="form-control custom-input text-uppercase fw-bold" name="plat_nomor" placeholder="Contoh: AE 1234 BB" required>
                 </div>
-                <div class="mt-4">
-                    <label class="block text-sm font-medium text-gray-300">Foto Armada</label>
-                    <input type="file" name="image" accept="image/*" 
-                        class="mt-1 block w-full text-sm text-gray-400
-                                file:mr-4 file:py-2 file:px-4
-                                file:rounded-md file:border-0
-                                file:text-sm file:font-semibold
-                                file:bg-blue-600 file:text-white
-                                hover:file:bg-blue-700
-                                cursor-pointer">
+                <div class="mb-3">
+                    <label class="small fw-bold mb-1 text-muted">Foto Armada</label>
+                    <input type="file" class="form-control custom-input" name="image" accept="image/*" style="padding: 8px;" required>
                 </div>
                 <div class="mb-4">
                     <label class="small fw-bold mb-1 text-muted">Kapasitas Kursi</label>
