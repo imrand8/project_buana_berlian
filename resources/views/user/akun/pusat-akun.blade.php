@@ -152,7 +152,7 @@
                     @endphp
 
                     @if(Auth::user()->avatar)
-                        <img src="{{ asset('public/storage/app/public/' . Auth::user()->avatar) }}" alt="Profile" id="preview-avatar">
+                        <img src="{{ asset('storage/app/public/' . Auth::user()->avatar) }}" alt="Profile" id="preview-avatar">
                     @else
                         <div class="{{ $avatarColor }}" id="preview-avatar-initial" style="width: 100%; height: 100%; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; font-weight: 800; color: white; border: 4px solid var(--bg-color); box-shadow: 0 10px 20px rgba(0,0,0,0.1);">{{ $initials }}</div>
                         <img src="" alt="Profile" id="preview-avatar" style="display: none;">
