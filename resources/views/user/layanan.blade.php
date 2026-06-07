@@ -63,89 +63,90 @@
         .driver-box { background: #333 !important; color: #fff !important; border: none; cursor: default; font-size: 0.7rem; }
         [data-theme="dark"] .driver-box { background: #2a2a2a !important; color: #aaaaaa !important; border: 1px dashed #555 !important; } */
 
-        /* --- DESAIN KURSI MODERN (TOP-DOWN VIEW) --- */
-        .seat-box { 
-            position: relative;
-            height: 55px; 
-            border-radius: 6px 6px 12px 12px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            font-weight: 800; 
-            font-size: 1.1rem;
-            cursor: pointer; 
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
-            background: var(--card-bg); 
-            border: 2px solid var(--border-color); 
-            border-top-width: 10px; 
-            color: var(--text-main); 
-            text-decoration: none; 
-            box-shadow: 0 4px 6px rgba(0,0,0,0.03);
+        /* --- DESAIN KURSI DENGAN IKON --- */
+        .seat-box {
+            height: 65px; /* Lebih tinggi untuk muat ikon + angka */
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column; /* Ikon di atas, angka di bawah */
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+            background: var(--bg-body); /* Background yang lebih soft */
+            border: 2px solid var(--border-color);
+            color: var(--text-main);
+            text-decoration: none;
         }
-        .seat-box:hover { color: var(--text-main); }
-
-        .seat-box:not(.occupied):not(.driver-box):hover { 
-            background: var(--p-color); 
-            color: white; 
-            border-color: var(--p-color); 
-            border-top-color: #2a2355; 
-            transform: translateY(-4px); 
-            box-shadow: 0 8px 15px rgba(72, 61, 139, 0.2); 
+        .seat-box i {
+            color: var(--text-muted); /* Warna ikon awal */
+            transition: 0.2s;
         }
-        [data-theme="dark"] .seat-box:not(.occupied):not(.driver-box):hover { 
-            background: var(--accent-gold); 
-            color: black; 
-            border-color: var(--accent-gold); 
-            border-top-color: #a67c00; 
+        
+        /* Efek Hover Kursi Kosong */
+        .seat-box:not(.occupied):not(.driver-box):hover {
+            background: rgba(72, 61, 139, 0.05); /* Tint ungu tipis */
+            border-color: var(--p-color);
+            transform: translateY(-3px);
+        }
+        .seat-box:not(.occupied):not(.driver-box):hover i {
+            color: var(--p-color);
         }
 
-        .seat-box.selected { 
-            background: var(--p-color) !important; 
-            color: white !important; 
-            border-color: var(--p-color) !important; 
-            border-top-color: #2a2355 !important; 
-            box-shadow: 0 5px 15px rgba(72, 61, 139, 0.3); 
+        /* Saat Kursi Dipilih */
+        .seat-box.selected {
+            background: var(--p-color) !important;
+            border-color: var(--p-color) !important;
+            color: white !important;
+            box-shadow: 0 5px 15px rgba(72, 61, 139, 0.3);
             transform: scale(1.05);
         }
-        [data-theme="dark"] .seat-box.selected { 
-            background: var(--accent-gold) !important; 
-            color: black !important; 
-            border-color: var(--accent-gold) !important; 
-            border-top-color: #a67c00 !important; 
-            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3); 
+        .seat-box.selected i, .seat-box.selected span {
+            color: white !important;
+        }
+        [data-theme="dark"] .seat-box.selected {
+            background: var(--accent-gold) !important;
+            border-color: var(--accent-gold) !important;
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+            color: black !important;
+        }
+        [data-theme="dark"] .seat-box.selected i, [data-theme="dark"] .seat-box.selected span {
+            color: black !important;
         }
 
-        .seat-box.occupied { 
-            background: #e0e0e0 !important; 
-            border-color: #cccccc !important; 
-            border-top-color: #b0b0b0 !important; 
-            color: #999 !important; 
-            cursor: not-allowed; 
-            opacity: 0.8;
+        /* Saat Kursi Sudah Terisi (Dipesan Orang) */
+        .seat-box.occupied {
+            background: #f1f5f9 !important;
+            border-color: #e2e8f0 !important;
+            color: #94a3b8 !important;
+            cursor: not-allowed;
+            box-shadow: none;
         }
-        [data-theme="dark"] .seat-box.occupied { 
-            background: #2a2a2a !important; 
-            border-color: #333 !important; 
-            border-top-color: #1a1a1a !important; 
-            color: #555 !important; 
+        .seat-box.occupied i { color: #cbd5e1 !important; }
+        
+        [data-theme="dark"] .seat-box.occupied {
+            background: #1e293b !important;
+            border-color: #334155 !important;
+            color: #64748b !important;
         }
+        [data-theme="dark"] .seat-box.occupied i { color: #475569 !important; }
 
-        .driver-box { 
-            background: #333 !important; 
-            color: #fff !important; 
-            border: 2px solid #222 !important; 
-            border-top-width: 10px !important;
-            border-top-color: #000 !important; 
-            cursor: default; 
-            font-size: 0.75rem; 
-            letter-spacing: 1px;
+        /* Khusus Kursi Supir */
+        .driver-box {
+            background: #f8fafc !important;
+            color: #64748b !important;
+            border: 2px dashed #cbd5e1 !important;
+            cursor: default;
         }
-        [data-theme="dark"] .driver-box { 
-            background: #1a1a1a !important; 
-            color: #888 !important; 
-            border-color: #222 !important; 
-            border-top-color: #000 !important; 
+        .driver-box i { color: #94a3b8; }
+        
+        [data-theme="dark"] .driver-box {
+            background: #0f172a !important;
+            border-color: #1e293b !important;
+            color: #475569 !important;
         }
+        [data-theme="dark"] .driver-box i { color: #334155 !important; }
 
         .btn-confirm { display: block; width: 100%; padding: 15px; border-radius: 12px; background: linear-gradient(135deg, var(--p-color), #2a2355); color: white; font-weight: 700; font-size: 1rem; border: none; cursor: pointer; margin-top: 20px; transition: 0.3s; box-shadow: 0 10px 20px rgba(72, 61, 139, 0.2); }
         .btn-confirm:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(72, 61, 139, 0.4); }
@@ -357,7 +358,10 @@
                                 <div class="seat-map-container">
                                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px;">
                                         <a href="javascript:void(0)" class="seat-box" id="seat-1" onclick="pick(this, 1)">1</a>
-                                        <div class="seat-box driver-box">SUPIR</div>
+                                        <div class="seat-box driver-box">
+                                            <i class="bi bi-car-front-fill" style="font-size: 1.3rem; line-height: 1;"></i>
+                                            <span style="font-size: 0.65rem; margin-top: 4px; font-weight: 800;">SUPIR</span>
+                                        </div>
                                     </div>
                                     <div style="font-size: 0.6rem; color: var(--text-muted); text-align: left; margin-bottom: 5px;">BARIS TENGAH</div>
                                     <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px;">
@@ -668,7 +672,9 @@
             for (let i = 1; i <= 7; i++) {
                 const seatEl = document.getElementById(`seat-${i}`);
                 if (!seatEl) continue;
-                seatEl.className = 'seat-box'; seatEl.innerHTML = i;
+                seatEl.className = 'seat-box'; 
+                // Suntikkan ikon 'person' di atas angka kursi
+                seatEl.innerHTML = `<i class="bi bi-person-fill" style="font-size: 1.3rem; line-height: 1;"></i><span style="font-size: 0.9rem; margin-top: 2px;">${i}</span>`;
                 seatEl.onclick = function() { pick(this, i); };
                 if (occupiedSeats.includes(i)) { seatEl.classList.add('occupied'); seatEl.onclick = null; }
             }
