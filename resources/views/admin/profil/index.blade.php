@@ -29,6 +29,13 @@
     .upload-btn:hover { transform: scale(1.1); }
     [data-theme="dark"] .upload-btn { background: #d4af37; color: black; }
 
+    .delete-avatar-btn {
+        position: absolute; bottom: 5px; left: 5px; width: 40px; height: 40px; border-radius: 50%;
+        background: #dc3545; color: white; border: 3px solid var(--card-bg);
+        display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s;
+    }
+    .delete-avatar-btn:hover { transform: scale(1.1); background: #b02a37; }
+
     /* Buttons */
     .btn-save { background: var(--p-color); color: white; border: none; padding: 12px 25px; border-radius: 12px; font-weight: 700; transition: 0.3s; display: inline-flex; align-items: center; gap: 8px; }
     .btn-save:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(72, 61, 139, 0.2); color: white; }
@@ -77,6 +84,13 @@
                 <label for="file-upload" class="upload-btn" title="Ganti Foto">
                     <i class="bi bi-camera-fill"></i>
                 </label>
+
+                @if(Auth::user()->avatar)
+                    <button type="button" class="delete-avatar-btn" title="Hapus Foto" onclick="hapusFotoProfil()">
+                        <i class="bi bi-trash-fill"></i>
+                    </button>
+                @endif
+
                 <input id="file-upload" type="file" name="avatar" style="display: none;" accept="image/jpeg, image/png, image/jpg, image/webp" form="form-profil" onchange="validateAdminAvatar(this)">
             </div>
 
@@ -102,6 +116,7 @@
             <h5 class="fw-bold mb-4">Informasi Pribadi</h5>
             <form id="form-profil" action="{{ route('admin.profil.update') }}" method="POST" enctype="multipart/form-data">
                 @csrf
+                <input type="hidden" name="remove_avatar" id="input-remove-avatar" value="0">
                 <div class="row g-3 mb-4">
                     <div class="col-md-6">
                         <label class="form-label-custom">Nama Lengkap</label>
@@ -217,6 +232,30 @@
                 document.getElementById('preview-avatar-initial').style.display = 'none'; 
             }
         }
+    }
+
+    function hapusFotoProfil() {
+        const isDark = document.body.getAttribute('data-theme') === 'dark';
+        const bgAlert = isDark ? '#1a1d24' : '#fff';
+        const textAlert = isDark ? '#fff' : '#000';
+        const btnCancel = isDark ? '#d4af37' : '#352877';
+
+        Swal.fire({
+            title: 'Hapus Foto Profil?',
+            text: "Foto akan dihapus permanen.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#dc3545',
+            cancelButtonColor: btnCancel,
+            confirmButtonText: 'Ya, Hapus!',
+            cancelButtonText: 'Batal',
+            background: bgAlert, color: textAlert
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('input-remove-avatar').value = '1';
+                document.getElementById('form-profil').submit();
+            }
+        });
     }
 </script>
 @endpush

@@ -17,12 +17,21 @@ class ProfileController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'phone' => 'required|string|max:20|unique:users,phone,' . $user->id,
-            'ktm' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'avatar' => 'nullable|image|mimes:jpeg,png,jpg|max:2048', // Validasi foto profil
+            // SINKRONISASI: Tambah webp dan ubah max jadi 1024 (1MB)
+            'ktm' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:1024',
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:1024', 
         ]);
 
         $user->name = $request->name;
         $user->phone = $request->phone;
+
+        // LOGIKA HAPUS FOTO DEFAULT (Sudah benar)
+        if ($request->input('remove_avatar') == '1') {
+            if ($user->avatar && Storage::disk('public')->exists($user->avatar)) {
+                Storage::disk('public')->delete($user->avatar); 
+            }
+            $user->avatar = null; 
+        }
 
         // Jika Pelanggan ganti foto profil
         if ($request->hasFile('avatar')) {
@@ -50,11 +59,20 @@ class ProfileController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'phone' => 'required|string|max:20|unique:users,phone,' . $user->id,
-            'avatar' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            // SINKRONISASI: Tambah webp dan ubah max jadi 1024 (1MB)
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:1024',
         ]);
 
         $user->name = $request->name;
         $user->phone = $request->phone;
+
+        // --- TAMBAHAN: LOGIKA HAPUS FOTO DEFAULT UNTUK ADMIN ---
+        if ($request->input('remove_avatar') == '1') {
+            if ($user->avatar && Storage::disk('public')->exists($user->avatar)) {
+                Storage::disk('public')->delete($user->avatar); 
+            }
+            $user->avatar = null; 
+        }
 
         // Jika admin ganti foto profil
         if ($request->hasFile('avatar')) {

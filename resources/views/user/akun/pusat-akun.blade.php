@@ -54,6 +54,13 @@
         .upload-btn:hover { transform: scale(1.1); }
         [data-theme="dark"] .upload-btn { background: var(--accent-gold); color: black; }
 
+        .delete-avatar-btn {
+            position: absolute; bottom: 0px; left: 0px; width: 35px; height: 35px; border-radius: 50%;
+            background: #dc3545; color: white; border: 3px solid var(--card-bg);
+            display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s;
+        }
+        .delete-avatar-btn:hover { transform: scale(1.1); background: #b02a37; }
+
         .profile-name { font-size: 1.2rem; font-weight: 800; color: var(--text-main); margin-bottom: 5px; }
         .status-badge { background: rgba(40, 167, 69, 0.1); color: #28a745; border: 1px solid rgba(40, 167, 69, 0.3); padding: 5px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 800; display: inline-block; margin-bottom: 25px; transition: 0.3s;}
         [data-theme="dark"] .status-badge { background: rgba(40, 167, 69, 0.15); }
@@ -161,6 +168,12 @@
                     <button type="button" class="upload-btn border-0" title="Ganti Foto" onclick="document.getElementById('avatar-upload').click()">
                         <i class="bi bi-camera-fill"></i>
                     </button>
+
+                    @if(Auth::user()->avatar)
+                        <button type="button" class="delete-avatar-btn" title="Hapus Foto" onclick="hapusFotoProfil()">
+                            <i class="bi bi-trash-fill"></i>
+                        </button>
+                    @endif
                 </div>
 
                 <h3 class="profile-name">{{ Auth::user()->name }}</h3>
@@ -199,6 +212,8 @@
 
                     <form id="form-profil" action="{{ route('user.profil.update') }}" method="POST" enctype="multipart/form-data">
                         @csrf
+                        <input type="hidden" name="remove_avatar" id="input-remove-avatar" value="0">
+
                         <div class="grid-2">
                             
                         <input id="avatar-upload" type="file" name="avatar" style="display: none;" accept="image/jpeg, image/png, image/jpg, image/webp" onchange="validateAvatar(this)">
@@ -480,6 +495,27 @@
                 iconEl.classList.add("bi-eye-slash");
                 iconEl.style.color = "var(--text-muted)";
             }
+        }
+
+        function hapusFotoProfil() {
+            const theme = getSwalTheme();
+            Swal.fire({
+                title: 'Hapus Foto Profil?',
+                text: "Foto akan dihapus permanen dan kembali ke inisial nama Anda.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#dc3545',
+                cancelButtonColor: theme.btnColor,
+                confirmButtonText: 'Ya, Hapus!',
+                cancelButtonText: 'Batal',
+                background: theme.background,
+                color: theme.color
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('input-remove-avatar').value = '1';
+                    document.getElementById('form-profil').submit(); // Otomatis simpan
+                }
+            });
         }
     </script>
 </body>
