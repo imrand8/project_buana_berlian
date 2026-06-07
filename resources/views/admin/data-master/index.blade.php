@@ -370,7 +370,7 @@
                 </div>
                 <div class="mb-4">
                     <label class="small fw-bold mb-1 text-muted">Ganti Foto Armada (Opsional)</label>
-                    <input type="file" class="form-control custom-input" name="image" accept="image/*">
+                    <input type="file" class="form-control custom-input" name="image" accept="image/jpeg, image/png, image/jpg, image/webp" onchange="validateImageUpload(this)">
                     <small class="text-muted" style="font-size: 0.7rem;">*Kosongkan jika tidak ingin mengganti foto.</small>
                 </div>
                 <div class="d-flex gap-2">
@@ -431,7 +431,7 @@
                 </div>
                 <div class="mb-3">
                     <label class="small fw-bold mb-1 text-muted">Foto Armada</label>
-                    <input type="file" class="form-control custom-input" name="image" accept="image/*" required>
+                    <input type="file" class="form-control custom-input" name="image" accept="image/jpeg, image/png, image/jpg, image/webp" onchange="validateImageUpload(this)" required>
                 </div>
                 <div class="mb-4">
                     <label class="small fw-bold mb-1 text-muted">Kapasitas Kursi</label>
@@ -588,6 +588,42 @@
         const isDark = document.body.getAttribute('data-theme') === 'dark';
         Swal.fire({ title: 'Hapus Supir?', text: `Data supir atas nama ${nama} akan dihapus.`, icon: 'warning', showCancelButton: true, confirmButtonColor: '#ef4444', cancelButtonColor: '#6c757d', confirmButtonText: 'Ya, Hapus', cancelButtonText: 'Batal', background: isDark ? '#16191f' : '#fff', color: isDark ? '#fff' : '#000'
         }).then((result) => { if (result.isConfirmed) document.getElementById('form-delete-supir-' + id).submit(); });
+    }
+
+    // --- FUNGSI VALIDASI UPLOAD FOTO ARMADA (MAX 1MB) ---
+    function validateImageUpload(input) {
+        if (input.files && input.files.length > 0) {
+            const file = input.files[0];
+            const isDark = document.body.getAttribute('data-theme') === 'dark';
+            const bgAlert = isDark ? '#16191f' : '#fff';
+            const textAlert = isDark ? '#fff' : '#000';
+
+            // 1. Validasi Tipe File
+            const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+            if (!allowedTypes.includes(file.type)) {
+                Swal.fire({ 
+                    icon: 'error', 
+                    title: 'Format Tidak Sesuai', 
+                    text: 'Hanya diperbolehkan format JPG, JPEG, PNG, atau WEBP.',
+                    background: bgAlert, color: textAlert
+                });
+                input.value = ''; // Reset input
+                return;
+            }
+
+            // 2. Validasi Ukuran Maksimal 1 MB
+            const fileSizeMB = file.size / 1024 / 1024;
+            if (fileSizeMB > 1) {
+                Swal.fire({ 
+                    icon: 'error', 
+                    title: 'Ukuran Terlalu Besar', 
+                    text: 'Maksimal ukuran foto armada adalah 1 MB. Silakan kompres foto Anda.',
+                    background: bgAlert, color: textAlert
+                });
+                input.value = ''; // Reset input
+                return;
+            }
+        }
     }
 </script>
 @endpush
