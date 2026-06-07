@@ -240,7 +240,7 @@
                 <div class="unified-card animate-up delay-2">
                     <div class="card-image-box">
                         <span class="card-badge">POPULER</span>
-                        <img src="{{ asset('public/assets/img/malang.jpg') }}" alt="Rute Malang">
+                        <img src="{{ asset('public/assets/img/kargo3.jpg') }}" alt="Rute Malang">
                     </div>
                     <h3 style="font-size:1.3rem; font-weight:800; color:var(--text-main); margin-bottom:5px; text-align: left;">Travel Malang</h3>
                     <div style="text-align: left; margin-bottom: 15px;">
@@ -256,7 +256,7 @@
                 <div class="unified-card animate-up delay-2">
                     <div class="card-image-box">
                         <span class="card-badge" style="background:#483d8b; color:white;">PEMANDANGAN</span>
-                        <img src="{{ asset('public/assets/img/blitar.png') }}" alt="Rute Blitar">
+                        <img src="{{ asset('public/assets/img/kargo2.jpg') }}" alt="Rute Blitar">
                     </div>
                     <h3 style="font-size:1.3rem; font-weight:800; color:var(--text-main); margin-bottom:5px; text-align: left;">Via JLS (Blitar)</h3>
                     <div style="text-align: left; margin-bottom: 15px;">
