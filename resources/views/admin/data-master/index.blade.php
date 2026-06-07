@@ -235,7 +235,7 @@
                     
                     @if($armada->image)
                         <div class="mx-auto mb-3" style="height: 80px; width: 100%; display: flex; justify-content: center; align-items: center;">
-                            <img src="{{ asset('storage/' . $armada->image) }}" alt="{{ $armada->nama_armada }}" style="max-height: 100%; max-width: 100%; object-fit: contain;">
+                            <img src="{{ asset('storage/app/public/' . $armada->image) }}" alt="{{ $armada->nama_armada }}" style="max-height: 100%; max-width: 100%; object-fit: contain;">
                         </div>
                     @else
                         <div class="armada-icon bg-{{ $color }} bg-opacity-10 text-{{ $color }} mx-auto mb-3"><i class="bi bi-car-front-fill"></i></div>

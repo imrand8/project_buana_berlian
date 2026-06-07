@@ -501,9 +501,10 @@
                     let opt = document.createElement('option');
                     opt.value = j.id; 
                     opt.text = `${j.armada.nama_armada} (${j.armada.plat_nomor})`;
-                    // Cek apakah armada punya gambar di database. Jika ya, ambil dari folder storage. Jika tidak, pakai gambar default.
-                    let imageUrl = j.armada.image ? `{{ asset('storage') }}/${j.armada.image}` : `{{ asset('public/assets/img/innova hitam.png') }}`;
-                    opt.setAttribute('data-img', imageUrl);
+                    
+                // MENGGUNAKAN TRIK ASSET STORAGE APP PUBLIC
+                let imageUrl = j.armada.image ? `{{ asset('storage/app/public') }}/${j.armada.image}` : `{{ asset('public/assets/img/innova hitam.png') }}`;
+                opt.setAttribute('data-img', imageUrl);
                     
                     // Set harga yang sudah difilter
                     opt.setAttribute('data-price', hargaDb);
