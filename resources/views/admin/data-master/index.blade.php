@@ -387,7 +387,7 @@
                 </div>
                 <div class="mb-4">
                     <label class="small fw-bold mb-1 text-muted">Ganti Foto Armada (Opsional)</label>
-                    <input type="file" class="form-control custom-input" name="image" accept="image/*" style="padding: 8px;">
+                    <input type="file" class="form-control custom-input" name="image" accept="image/*">
                     <small class="text-muted" style="font-size: 0.7rem;">*Kosongkan jika tidak ingin mengganti foto.</small>
                 </div>
                 <div class="d-flex gap-2">
@@ -448,7 +448,7 @@
                 </div>
                 <div class="mb-3">
                     <label class="small fw-bold mb-1 text-muted">Foto Armada</label>
-                    <input type="file" class="form-control custom-input" name="image" accept="image/*" style="padding: 8px;" required>
+                    <input type="file" class="form-control custom-input" name="image" accept="image/*" required>
                 </div>
                 <div class="mb-4">
                     <label class="small fw-bold mb-1 text-muted">Kapasitas Kursi</label>
