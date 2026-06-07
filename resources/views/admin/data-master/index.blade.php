@@ -58,23 +58,6 @@
     .btn-cancel-custom:hover { background: var(--border-color); color: var(--text-main); }
     .btn-edit-action { background: #ffffff; color: var(--p-color); border: 1px solid #e2e8f0; transition: 0.2s; }
     .btn-edit-action:hover { background: var(--bg-body); border-color: var(--p-color); }
-
-    input[type="file"].custom-input::file-selector-button { 
-    margin-right: 15px; 
-    border: none; 
-    background: var(--p-color); 
-    padding: 6px 12px; 
-    border-radius: 6px; 
-    color: #fff; 
-    cursor: pointer; 
-    font-weight: 600; 
-    transition: 0.2s; 
-    font-size: 0.8rem; 
-}
-[data-theme="dark"] input[type="file"].custom-input::file-selector-button { 
-    background: var(--accent-gold); 
-    color: black; 
-}
 </style>
 
 <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
