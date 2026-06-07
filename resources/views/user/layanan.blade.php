@@ -51,7 +51,7 @@
         .sidebar-card { position: sticky; top: 100px; text-align: center; }
         .seat-map-container { background: var(--bg-color); padding: 20px; border-radius: 16px; border: 1px solid var(--border-color); margin-bottom: 20px; }
         
-        .seat-box { height: 45px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 700; cursor: pointer; transition: 0.2s; background: var(--card-bg); border: 2px solid var(--border-color); color: var(--text-main); text-decoration: none; }
+        /* .seat-box { height: 45px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 700; cursor: pointer; transition: 0.2s; background: var(--card-bg); border: 2px solid var(--border-color); color: var(--text-main); text-decoration: none; }
         .seat-box:hover { color: var(--text-main); }
         .seat-box:not(.occupied):not(.driver-box):hover { background: var(--p-color); color: white; border-color: var(--p-color); transform: scale(1.05); }
         [data-theme="dark"] .seat-box:not(.occupied):not(.driver-box):hover { background: var(--accent-gold); color: black; border-color: var(--accent-gold); }
@@ -61,7 +61,91 @@
         [data-theme="dark"] .seat-box.occupied { background: #333 !important; color: #666 !important; }
         
         .driver-box { background: #333 !important; color: #fff !important; border: none; cursor: default; font-size: 0.7rem; }
-        [data-theme="dark"] .driver-box { background: #2a2a2a !important; color: #aaaaaa !important; border: 1px dashed #555 !important; }
+        [data-theme="dark"] .driver-box { background: #2a2a2a !important; color: #aaaaaa !important; border: 1px dashed #555 !important; } */
+
+        /* --- DESAIN KURSI MODERN (TOP-DOWN VIEW) --- */
+        .seat-box { 
+            position: relative;
+            height: 55px; 
+            border-radius: 6px 6px 12px 12px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-weight: 800; 
+            font-size: 1.1rem;
+            cursor: pointer; 
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+            background: var(--card-bg); 
+            border: 2px solid var(--border-color); 
+            border-top-width: 10px; 
+            color: var(--text-main); 
+            text-decoration: none; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.03);
+        }
+        .seat-box:hover { color: var(--text-main); }
+
+        .seat-box:not(.occupied):not(.driver-box):hover { 
+            background: var(--p-color); 
+            color: white; 
+            border-color: var(--p-color); 
+            border-top-color: #2a2355; 
+            transform: translateY(-4px); 
+            box-shadow: 0 8px 15px rgba(72, 61, 139, 0.2); 
+        }
+        [data-theme="dark"] .seat-box:not(.occupied):not(.driver-box):hover { 
+            background: var(--accent-gold); 
+            color: black; 
+            border-color: var(--accent-gold); 
+            border-top-color: #a67c00; 
+        }
+
+        .seat-box.selected { 
+            background: var(--p-color) !important; 
+            color: white !important; 
+            border-color: var(--p-color) !important; 
+            border-top-color: #2a2355 !important; 
+            box-shadow: 0 5px 15px rgba(72, 61, 139, 0.3); 
+            transform: scale(1.05);
+        }
+        [data-theme="dark"] .seat-box.selected { 
+            background: var(--accent-gold) !important; 
+            color: black !important; 
+            border-color: var(--accent-gold) !important; 
+            border-top-color: #a67c00 !important; 
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3); 
+        }
+
+        .seat-box.occupied { 
+            background: #e0e0e0 !important; 
+            border-color: #cccccc !important; 
+            border-top-color: #b0b0b0 !important; 
+            color: #999 !important; 
+            cursor: not-allowed; 
+            opacity: 0.8;
+        }
+        [data-theme="dark"] .seat-box.occupied { 
+            background: #2a2a2a !important; 
+            border-color: #333 !important; 
+            border-top-color: #1a1a1a !important; 
+            color: #555 !important; 
+        }
+
+        .driver-box { 
+            background: #333 !important; 
+            color: #fff !important; 
+            border: 2px solid #222 !important; 
+            border-top-width: 10px !important;
+            border-top-color: #000 !important; 
+            cursor: default; 
+            font-size: 0.75rem; 
+            letter-spacing: 1px;
+        }
+        [data-theme="dark"] .driver-box { 
+            background: #1a1a1a !important; 
+            color: #888 !important; 
+            border-color: #222 !important; 
+            border-top-color: #000 !important; 
+        }
 
         .btn-confirm { display: block; width: 100%; padding: 15px; border-radius: 12px; background: linear-gradient(135deg, var(--p-color), #2a2355); color: white; font-weight: 700; font-size: 1rem; border: none; cursor: pointer; margin-top: 20px; transition: 0.3s; box-shadow: 0 10px 20px rgba(72, 61, 139, 0.2); }
         .btn-confirm:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(72, 61, 139, 0.4); }
