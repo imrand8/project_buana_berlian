@@ -119,18 +119,29 @@
 
         /* --- STYLING UNTUK KOTAK LOGIN PROMPT (CEK TIKET) --- */
         .empty-state-wrapper { display: flex; justify-content: center; align-items: center; min-height: 50vh; padding: 20px; }
-        .locked-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 24px; padding: 50px 40px; text-align: center; max-width: 480px; width: 100%; box-shadow: 0 20px 40px rgba(0,0,0,0.05); position: relative; overflow: hidden; transition: 0.3s; margin: 0 auto; }
+        .locked-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 24px; padding: 50px 40px; text-align: center; max-width: 650px; width: 100%; box-shadow: 0 20px 40px rgba(0,0,0,0.05); position: relative; overflow: hidden; transition: 0.3s; margin: 0 auto; }
         [data-theme="dark"] .locked-card { box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
         .locked-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 6px; background: linear-gradient(90deg, var(--p-color), var(--accent-gold)); }
-        .icon-glow-wrapper { width: 110px; height: 110px; margin: 0 auto 25px; background: rgba(212, 175, 55, 0.1); border: 2px dashed rgba(212, 175, 55, 0.4); border-radius: 50%; display: flex; justify-content: center; align-items: center; position: relative; }
-        .icon-glow-wrapper i.main-icon { font-size: 3.5rem; color: var(--accent-gold); animation: floatIcon 3s ease-in-out infinite; }
+        
+        /* Ikon & Glow - DEFAULT LIGHT MODE (UNGU) */
+        .icon-glow-wrapper { width: 110px; height: 110px; margin: 0 auto 25px; background: rgba(53, 40, 119, 0.1); border: 2px dashed rgba(53, 40, 119, 0.4); border-radius: 50%; display: flex; justify-content: center; align-items: center; position: relative; transition: 0.3s; }
+        .icon-glow-wrapper i.main-icon { font-size: 3.5rem; color: var(--p-color); animation: floatIcon 3s ease-in-out infinite; transition: 0.3s; }
         @keyframes floatIcon { 0% { transform: translateY(0px); } 50% { transform: translateY(-5px); } 100% { transform: translateY(0px); } }
-        .icon-badge { position: absolute; bottom: 0px; right: 0px; background: var(--card-bg); border-radius: 50%; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .icon-badge { position: absolute; bottom: 0px; right: 0px; background: var(--card-bg); border-radius: 50%; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: 0.3s; }
         .icon-badge i { font-size: 1.2rem; color: #dc3545; }
+        
         .locked-title { font-size: 1.4rem; font-weight: 800; margin-bottom: 12px; color: var(--text-main); }
         .locked-desc { color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 35px; }
-        .btn-login-cta { background: var(--accent-gold); color: #000; border: none; padding: 15px 40px; border-radius: 50px; font-weight: 800; font-size: 1.05rem; transition: all 0.3s; display: inline-flex; align-items: center; gap: 10px; text-decoration: none; box-shadow: 0 10px 20px rgba(212, 175, 55, 0.2); }
-        .btn-login-cta:hover { transform: translateY(-3px); box-shadow: 0 15px 25px rgba(212, 175, 55, 0.4); color: #000; }
+        
+        /* Tombol - DEFAULT LIGHT MODE (UNGU) */
+        .btn-login-cta { background: var(--p-color); color: #ffffff; border: none; padding: 15px 40px; border-radius: 50px; font-weight: 800; font-size: 1.05rem; transition: all 0.3s; display: inline-flex; align-items: center; gap: 10px; text-decoration: none; box-shadow: 0 10px 20px rgba(53, 40, 119, 0.2); }
+        .btn-login-cta:hover { transform: translateY(-3px); box-shadow: 0 15px 25px rgba(53, 40, 119, 0.4); color: #ffffff; }
+
+        /* --- DARK MODE OVERRIDES (KUNING EMAS) --- */
+        [data-theme="dark"] .icon-glow-wrapper { background: rgba(212, 175, 55, 0.1); border-color: rgba(212, 175, 55, 0.4); }
+        [data-theme="dark"] .icon-glow-wrapper i.main-icon { color: var(--accent-gold); }
+        [data-theme="dark"] .btn-login-cta { background: var(--accent-gold); color: #000000; box-shadow: 0 10px 20px rgba(212, 175, 55, 0.2); }
+        [data-theme="dark"] .btn-login-cta:hover { box-shadow: 0 15px 25px rgba(212, 175, 55, 0.4); color: #000000; }
 
         /* --- FIX SWEETALERT DARK MODE --- */
         [data-theme="dark"] div:where(.swal2-container) div:where(.swal2-popup) {
