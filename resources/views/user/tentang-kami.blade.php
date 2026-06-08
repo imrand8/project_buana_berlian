@@ -369,7 +369,7 @@
                             </div>
                             <div class="team-info-text">
                                 <h5>Imran</h5>
-                                <p class="role">System Developer</p>
+                                <p class="role">Full-Stack Web Developer</p>
                             </div>
                         </div>
                     </div>
