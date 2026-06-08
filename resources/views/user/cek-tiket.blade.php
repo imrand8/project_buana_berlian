@@ -435,8 +435,8 @@
                         <i class="bi bi-ticket-perforated-fill main-icon"></i>
                         <div class="icon-badge"><i class="bi bi-lock-fill"></i></div>
                     </div>
-                    <h3 class="locked-title">Tiket Anda Tersimpan Aman</h3>
-                    <p class="locked-desc">Silakan masuk ke akun Anda terlebih dahulu untuk melihat daftar riwayat pesanan dan tiket aktif Anda.</p>
+                    <h3 class="locked-title">Akses Tiket & Pesanan Anda</h3>
+                    <p class="locked-desc">Silakan masuk ke akun Anda untuk mengecek e-ticket, melacak kargo, atau mulai merencanakan perjalanan baru bersama Buana Berlian.</p>
                     <a href="{{ route('login') }}" class="btn-login-cta">
                         Masuk ke Akun <i class="bi bi-box-arrow-in-right"></i>
                     </a>
