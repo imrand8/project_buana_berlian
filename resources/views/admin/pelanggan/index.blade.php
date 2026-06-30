@@ -297,17 +297,17 @@
                     <img id="detail-avatar-image" src="" class="user-avatar w-100 h-100" style="display: none; object-fit: cover;">
                 </div>
                 
-<h5 class="fw-bold mb-1 text-main" id="detail-name">Nama</h5>
+                <h5 class="fw-bold mb-1 text-main" id="detail-name">Nama</h5>
                 
-                <div class="mb-3">
+                <div class="mb-3 d-flex justify-content-center align-items-center gap-2">
                     <span id="detail-badge" class="badge">Status</span>
-                </div>
-                
-                <div id="container-btn-lihat-ktm" style="display: none; margin-top: -10px; margin-bottom: 20px;">
-                    <button class="btn btn-sm btn-primary fw-bold px-3 rounded-pill shadow-sm" onclick="lihatKTMDetail()">
-                        <i class="bi bi-image me-1"></i> Lihat Dokumen KTM
-                    </button>
-                    <input type="hidden" id="detail-ktm-url">
+                    
+                    <div id="container-btn-lihat-ktm" style="display: none;">
+                        <button class="btn btn-sm btn-light border fw-bold text-primary rounded-pill px-3" style="font-size: 0.75rem;" onclick="lihatKTMDetail()">
+                             <i class="bi bi-search"></i> Cek KTM
+                        </button>
+                        <input type="hidden" id="detail-ktm-url">
+                    </div>
                 </div>
                 
                 <div class="info-box d-flex justify-content-between text-center mb-4 px-3 py-3" style="border-radius: 16px;">
