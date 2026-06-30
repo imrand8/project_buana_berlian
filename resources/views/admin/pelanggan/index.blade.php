@@ -170,7 +170,7 @@
                             @if($p->status_mahasiswa == 'menunggu_verifikasi')
                                 <button class="btn btn-sm btn-primary fw-bold px-3 rounded-3" onclick="bukaModalKTM({{ $p->id }}, '{{ $p->name }}', '{{ asset('storage/app/public/' . $p->ktm_path) }}')">Verifikasi</button>
                             @else
-                                <button class="btn btn-sm btn-outline-secondary fw-bold px-3 rounded-3" onclick="bukaDetail({{ $p->id }}, '{{ $p->name }}', '{{ $p->email }}', '{{ $p->phone }}', '{{ $p->status_mahasiswa }}', '{{ $p->created_at->format('d M Y') }}', '{{ $initials }}', '{{ $avatarColor }}', {{ $totalOrder }}, '{{ $p->avatar ? asset('storage/app/public/' . $p->avatar) : '' }}')"><i class="bi bi-eye"></i> Detail</button>
+                                <button class="btn btn-sm btn-outline-secondary fw-bold px-3 rounded-3" onclick="bukaDetail({{ $p->id }}, '{{ $p->name }}', '{{ $p->email }}', '{{ $p->phone }}', '{{ $p->status_mahasiswa }}', '{{ $p->created_at->format('d M Y') }}', '{{ $initials }}', '{{ $avatarColor }}', {{ $totalOrder }}, '{{ $p->avatar ? asset('storage/app/public/' . $p->avatar) : '' }}', '{{ $p->ktm_path ? asset('storage/app/public/' . $p->ktm_path) : '' }}')"><i class="bi bi-eye"></i> Detail</button>
                             @endif
                         </td>
                     </tr>
@@ -297,10 +297,20 @@
                     <img id="detail-avatar-image" src="" class="user-avatar w-100 h-100" style="display: none; object-fit: cover;">
                 </div>
                 
-                <h5 class="fw-bold mb-1 text-main" id="detail-name">Nama</h5>
-                <span id="detail-badge" class="badge mb-3">Status</span>
+<h5 class="fw-bold mb-1 text-main" id="detail-name">Nama</h5>
                 
-                <div class="info-box d-flex justify-content-between text-center mb-4 mt-2 px-3 py-3" style="border-radius: 16px;">
+                <div class="mb-3">
+                    <span id="detail-badge" class="badge">Status</span>
+                </div>
+                
+                <div id="container-btn-lihat-ktm" style="display: none; margin-top: -10px; margin-bottom: 20px;">
+                    <button class="btn btn-sm btn-primary fw-bold px-3 rounded-pill shadow-sm" onclick="lihatKTMDetail()">
+                        <i class="bi bi-image me-1"></i> Lihat Dokumen KTM
+                    </button>
+                    <input type="hidden" id="detail-ktm-url">
+                </div>
+                
+                <div class="info-box d-flex justify-content-between text-center mb-4 px-3 py-3" style="border-radius: 16px;">
                     <div class="w-100 border-end-custom">
                         <div class="info-label" style="font-size: 0.65rem;">ID Pelanggan</div>
                         <div class="info-value text-main fs-6" id="detail-id">#CUST-0000</div>
@@ -324,7 +334,9 @@
                 <input type="hidden" id="detail-user-id">
                 
                 <div id="container-btn-reguler" style="display: none;">
-                     <button class="btn btn-outline-secondary w-100 fw-bold py-2 rounded-3 mb-2" onclick="paksaReguler()"><i class="bi bi-person-down"></i> Ubah Status ke Reguler</button>
+                     <button class="btn w-100 fw-bold py-2 rounded-3 mb-2" style="background: rgba(255, 193, 7, 0.1); color: #d39e00; border: 1px solid rgba(255, 193, 7, 0.5); transition: 0.3s;" onmouseover="this.style.background='#ffc107'; this.style.color='#000';" onmouseout="this.style.background='rgba(255, 193, 7, 0.1)'; this.style.color='#d39e00';" onclick="paksaReguler()">
+                         <i class="bi bi-person-down me-1"></i> Cabut Status Mahasiswa
+                     </button>
                 </div>
 
                 <div class="row g-2 mt-2 mb-2">
@@ -422,6 +434,20 @@
 
         var myModal = new bootstrap.Modal(document.getElementById('detailModal'));
         myModal.show();
+    }
+
+    // --- FUNGSI ADMIN: LIHAT KTM DARI DALAM DETAIL ---
+    function lihatKTMDetail() {
+        let ktmUrl = document.getElementById('detail-ktm-url').value;
+        if(ktmUrl) {
+            // Gunakan fungsi zoom KTM yang sudah ada di HTML
+            document.getElementById('zoom-ktm-image-preview').src = ktmUrl;
+            let zoomModal = new bootstrap.Modal(document.getElementById('zoomKtmModal'));
+            zoomModal.show();
+        } else {
+            const theme = getSwalTheme();
+            Swal.fire({icon: 'error', title: 'Data Hilang', text: 'File KTM tidak ditemukan di server.', background: theme.background, color: theme.color});
+        }
     }
 
     // --- FUNGSI ADMIN: PAKSA JADI REGULER ---
