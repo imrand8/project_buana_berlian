@@ -40,6 +40,14 @@
         border: 1px solid var(--border-color);
     }
 
+    .hover-shadow { transition: all 0.3s ease; border: 1px solid var(--border-color); }
+    .hover-shadow:hover { 
+        transform: translateY(-5px); 
+        box-shadow: 0 15px 35px rgba(0,0,0,0.1) !important; 
+        border-color: var(--p-color);
+    }
+    .border-dashed { border-style: dashed !important; }
+
     [data-theme="dark"] .custom-card { background: var(--card-bg); border-color: #2d333b; }
     [data-theme="dark"] .custom-input { background: #181a20; border-color: #444; }
     [data-theme="dark"] .custom-input:focus { border-color: var(--accent-gold); box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.15); background: #222; }
@@ -128,26 +136,33 @@
                             <th class="text-center" style="width: 100px; border-bottom: none;">Aksi</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        @foreach($rutes as $index => $rute)
-                        <tr>
-                            <td class="fw-bold text-muted">{{ $index + 1 }}</td>
-                            <td class="fw-bold">{{ $rute->kota_asal }}</td>
-                            <td class="fw-bold">{{ $rute->kota_tujuan }}</td>
-                            <td><span class="fw-bold fs-6">Rp {{ number_format($rute->harga_reguler, 0, ',', '.') }}</span></td>
-                            <td class="text-center">
-                                <div class="d-flex justify-content-center gap-1">
-                                    <button class="btn btn-sm btn-edit-action rounded-2 px-2" onclick="openEditRute({{ $rute->id }}, '{{ $rute->kota_asal }}', '{{ $rute->kota_tujuan }}', {{ $rute->harga_reguler }})" title="Edit Harga"><i class="bi bi-pencil-square"></i></button>
+                        <div class="row g-3">
+                            @foreach($rutes as $rute)
+                            <div class="col-md-4 col-lg-3">
+                                <div class="custom-card d-flex flex-column h-100 position-relative hover-shadow">
+                                    <div class="d-flex justify-content-between align-items-start mb-3">
+                                        <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2 rounded-pill"><i class="bi bi-geo-alt-fill me-1"></i> Rute</span>
+                                        <div class="d-flex gap-1">
+                                            <button class="btn btn-sm btn-edit-action rounded-2 px-2" onclick="openEditRute({{ $rute->id }}, '{{ $rute->kota_asal }}', '{{ $rute->kota_tujuan }}', {{ $rute->harga_reguler }})"><i class="bi bi-pencil-square"></i></button>
+                                            <form action="{{ route('admin.rute.destroy', $rute->id) }}" method="POST" id="form-delete-rute-{{ $rute->id }}">
+                                                @csrf @method('DELETE')
+                                                <button type="button" class="btn btn-sm btn-outline-danger rounded-2 px-2 border-0" onclick="confirmDeleteRute({{ $rute->id }}, '{{ $rute->kota_asal }}', '{{ $rute->kota_tujuan }}')"><i class="bi bi-trash-fill"></i></button>
+                                            </form>
+                                        </div>
+                                    </div>
                                     
-                                    <form action="{{ route('admin.rute.destroy', $rute->id) }}" method="POST" id="form-delete-rute-{{ $rute->id }}">
-                                        @csrf @method('DELETE')
-                                        <button type="button" class="btn btn-sm btn-outline-danger rounded-2 px-2 border-0" onclick="confirmDeleteRute({{ $rute->id }}, '{{ $rute->kota_asal }}', '{{ $rute->kota_tujuan }}')" title="Hapus Rute"><i class="bi bi-trash-fill"></i></button>
-                                    </form>
+                                    <h6 class="fw-bold text-main mb-1">{{ $rute->kota_asal }}</h6>
+                                    <i class="bi bi-arrow-down-up text-muted my-1 ms-2"></i>
+                                    <h6 class="fw-bold text-main mb-3">{{ $rute->kota_tujuan }}</h6>
+                                    
+                                    <div class="mt-auto pt-3 border-top border-dashed">
+                                        <div class="small text-muted mb-1">Harga per Seat</div>
+                                        <div class="fs-5 fw-bold text-primary">Rp {{ number_format($rute->harga_reguler, 0, ',', '.') }}</div>
+                                    </div>
                                 </div>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
+                            </div>
+                            @endforeach
+                        </div>
                 </table>
             </div>
         </div>
