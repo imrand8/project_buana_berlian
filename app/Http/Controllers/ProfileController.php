@@ -17,13 +17,24 @@ class ProfileController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'phone' => 'required|string|max:20|unique:users,phone,' . $user->id,
-            // SINKRONISASI: Tambah webp dan ubah max jadi 1024 (1MB)
+            'pekerjaan' => 'nullable|string|in:umum,mahasiswa', // Tambahkan validasi ini
             'ktm' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:1024',
             'avatar' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:1024', 
         ]);
 
         $user->name = $request->name;
         $user->phone = $request->phone;
+
+        // --- LOGIKA PERUBAHAN PEKERJAAN ---
+        if ($request->input('pekerjaan') === 'umum') {
+            // Jika beralih ke umum, hapus KTM lama (jika ada) dan reset status
+            if ($user->ktm_path && Storage::disk('public')->exists($user->ktm_path)) {
+                Storage::disk('public')->delete($user->ktm_path);
+            }
+            $user->ktm_path = null;
+            $user->status_mahasiswa = 'reguler';
+            $user->alasan_tolak_ktm = null;
+        }
 
         // LOGIKA HAPUS FOTO DEFAULT (Sudah benar)
         if ($request->input('remove_avatar') == '1') {
@@ -39,8 +50,8 @@ class ProfileController extends Controller
             $user->avatar = $request->file('avatar')->store('avatars', 'public');
         }
 
-        // Jika Pelanggan upload KTM baru
-        if ($request->hasFile('ktm')) {
+        // Jika Pelanggan upload KTM baru (Hanya diproses jika pekerjaan masih "mahasiswa")
+        if ($request->hasFile('ktm') && $request->input('pekerjaan') !== 'umum') {
             if ($user->ktm_path) Storage::disk('public')->delete($user->ktm_path);
             $user->ktm_path = $request->file('ktm')->store('ktm_uploads', 'public');
             $user->status_mahasiswa = 'menunggu_verifikasi';

@@ -232,7 +232,7 @@
                             </div>
                             <div class="form-group" style="margin-bottom: 30px;">
                                 <label><i class="bi bi-briefcase-fill"></i> Pekerjaan</label>
-                                <select class="form-control-custom" id="select-pekerjaan">
+                                <select name="pekerjaan" class="form-control-custom" id="select-pekerjaan">
                                     <option value="umum" {{ Auth::user()->status_mahasiswa == 'reguler' && empty(Auth::user()->alasan_tolak_ktm) ? 'selected' : '' }}>Umum (Pekerja / Lainnya)</option>
                                     <option value="mahasiswa" {{ Auth::user()->status_mahasiswa != 'reguler' || !empty(Auth::user()->alasan_tolak_ktm) ? 'selected' : '' }}>Mahasiswa (S1/D3/D4)</option>
                                 </select>

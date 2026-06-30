@@ -170,7 +170,7 @@
                             @if($p->status_mahasiswa == 'menunggu_verifikasi')
                                 <button class="btn btn-sm btn-primary fw-bold px-3 rounded-3" onclick="bukaModalKTM({{ $p->id }}, '{{ $p->name }}', '{{ asset('storage/app/public/' . $p->ktm_path) }}')">Verifikasi</button>
                             @else
-                                <button class="btn btn-sm btn-outline-secondary fw-bold px-3 rounded-3" onclick="bukaDetail({{ $p->id }}, '{{ $p->name }}', '{{ $p->email }}', '{{ $p->phone }}', '{{ $p->status_mahasiswa }}', '{{ $p->created_at->format('d M Y') }}', '{{ $initials }}', '{{ $avatarColor }}', {{ $totalOrder }})"><i class="bi bi-eye"></i> Detail</button>
+                                <button class="btn btn-sm btn-outline-secondary fw-bold px-3 rounded-3" onclick="bukaDetail({{ $p->id }}, '{{ $p->name }}', '{{ $p->email }}', '{{ $p->phone }}', '{{ $p->status_mahasiswa }}', '{{ $p->created_at->format('d M Y') }}', '{{ $initials }}', '{{ $avatarColor }}', {{ $totalOrder }}, '{{ $p->avatar ? asset('storage/app/public/' . $p->avatar) : '' }}')"><i class="bi bi-eye"></i> Detail</button>
                             @endif
                         </td>
                     </tr>
@@ -292,7 +292,11 @@
             </div>
             <div class="modal-body p-4 text-center">
                 
-                <div id="detail-avatar" class="user-avatar mx-auto mb-3" style="width: 70px; height: 70px; font-size: 1.5rem;">XX</div>
+                <div id="detail-avatar-container" class="position-relative mx-auto mb-3" style="width: 70px; height: 70px;">
+                    <div id="detail-avatar-initial" class="user-avatar w-100 h-100 fs-3">XX</div>
+                    <img id="detail-avatar-image" src="" class="user-avatar w-100 h-100" style="display: none; object-fit: cover;">
+                </div>
+                
                 <h5 class="fw-bold mb-1 text-main" id="detail-name">Nama</h5>
                 <span id="detail-badge" class="badge mb-3">Status</span>
                 
@@ -317,10 +321,12 @@
                     <div class="d-flex align-items-center mb-2 text-main"><i class="bi bi-whatsapp fs-5 text-success me-3"></i> <span id="detail-phone">phone</span></div>
                 </div>
 
-                <!-- Hidden Input untuk nyimpen ID User yang lagi dibuka -->
                 <input type="hidden" id="detail-user-id">
+                
+                <div id="container-btn-reguler" style="display: none;">
+                     <button class="btn btn-outline-secondary w-100 fw-bold py-2 rounded-3 mb-2" onclick="paksaReguler()"><i class="bi bi-person-down"></i> Ubah Status ke Reguler</button>
+                </div>
 
-                <!-- Tombol Aksi Bahaya -->
                 <div class="row g-2 mt-2 mb-2">
                     <div class="col-6">
                         <button class="btn btn-warning w-100 fw-bold py-2 rounded-3 text-dark" onclick="resetPasswordUser()"><i class="bi bi-key-fill"></i> Reset PW</button>
@@ -375,31 +381,78 @@
         });
     }
 
-    // --- BUKA MODAL DETAIL UPDATE (Tambah argumen totalOrder) ---
-    function bukaDetail(id, name, email, phone, status, date, initials, colorClass, totalOrder) {
+    // --- BUKA MODAL DETAIL UPDATE ---
+    function bukaDetail(id, name, email, phone, status, date, initials, colorClass, totalOrder, avatarUrl) {
         document.getElementById('detail-name').innerText = name;
         document.getElementById('detail-email').innerText = email;
         document.getElementById('detail-phone').innerText = phone;
         document.getElementById('detail-date').innerText = date;
         document.getElementById('detail-id').innerText = '#CUST-' + String(id).padStart(4, '0');
-        document.getElementById('detail-order').innerText = totalOrder + 'x'; // Inject Total Order
+        document.getElementById('detail-order').innerText = totalOrder + 'x'; 
         document.getElementById('detail-user-id').value = id;
         
-        let avatar = document.getElementById('detail-avatar');
-        avatar.className = 'user-avatar mx-auto mb-3 ' + colorClass;
-        avatar.innerText = initials;
+        let initialContainer = document.getElementById('detail-avatar-initial');
+        let imageContainer = document.getElementById('detail-avatar-image');
+        
+        // Logika Tampil Foto Profil / Inisial
+        if (avatarUrl) {
+            imageContainer.src = avatarUrl;
+            imageContainer.style.display = 'block';
+            initialContainer.style.display = 'none';
+        } else {
+            imageContainer.style.display = 'none';
+            initialContainer.className = 'user-avatar w-100 h-100 fs-3 ' + colorClass;
+            initialContainer.innerText = initials;
+            initialContainer.style.display = 'flex';
+        }
 
         let badge = document.getElementById('detail-badge');
+        let btnReguler = document.getElementById('container-btn-reguler');
+
+        // Logika Badge & Tampil Tombol Jadikan Reguler
         if(status === 'terverifikasi') {
             badge.className = 'badge bg-success bg-opacity-10 text-success border border-success mb-3';
             badge.innerHTML = '<i class="bi bi-check-circle-fill me-1"></i>Mahasiswa Aktif';
+            btnReguler.style.display = 'block'; // Tampilkan tombol paksa reguler
         } else {
             badge.className = 'badge bg-secondary bg-opacity-10 text-secondary border border-secondary mb-3';
             badge.innerHTML = '<i class="bi bi-person-fill me-1"></i>Reguler';
+            btnReguler.style.display = 'none'; // Sembunyikan
         }
 
         var myModal = new bootstrap.Modal(document.getElementById('detailModal'));
         myModal.show();
+    }
+
+    // --- FUNGSI ADMIN: PAKSA JADI REGULER ---
+    function paksaReguler() {
+        let id = document.getElementById('detail-user-id').value;
+        const theme = getSwalTheme();
+
+        Swal.fire({
+            title: 'Ubah ke Reguler?',
+            text: "Status mahasiswa akan dicabut dan data KTM pelanggan ini akan dihapus dari server.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#483d8b',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Ya, Ubah Status!',
+            background: theme.background, color: theme.color
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({ title: 'Memproses...', allowOutsideClick: false, didOpen: () => { Swal.showLoading() }, background: theme.background, color: theme.color });
+                fetch(`/admin/pelanggan/${id}/paksa-reguler`, {
+                    method: 'POST',
+                    headers: { 'X-CSRF-TOKEN': csrfToken, 'Content-Type': 'application/json', 'Accept': 'application/json' }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    Swal.fire({ title: "Berhasil!", text: data.message, icon: "success", background: theme.background, color: theme.color }).then(() => {
+                        location.reload(); 
+                    });
+                });
+            }
+        });
     }
 
     // --- FUNGSI RESET PASSWORD ---

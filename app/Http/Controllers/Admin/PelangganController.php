@@ -60,6 +60,24 @@ class PelangganController extends Controller
         return response()->json(['success' => true, 'message' => 'Password berhasil direset menjadi: 12345678']);
     }
 
+    // FUNGSI BARU: Paksa Ubah Status Mahasiswa ke Reguler (Admin Override)
+    public function paksaReguler($id)
+    {
+        $user = User::findOrFail($id);
+        
+        // Hapus file KTM dari server jika masih ada
+        if ($user->ktm_path) {
+            Storage::disk('public')->delete($user->ktm_path);
+        }
+
+        $user->status_mahasiswa = 'reguler';
+        $user->ktm_path = null; 
+        $user->alasan_tolak_ktm = null; // Hapus pesan tolakan jika ada
+        $user->save();
+
+        return response()->json(['success' => true, 'message' => 'Status pelanggan berhasil dikembalikan ke Reguler.']);
+    }
+
     // 5. FUNGSI BARU: Hapus Akun Pelanggan Permanen
     public function destroy($id)
     {

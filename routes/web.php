@@ -89,6 +89,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::get('/pelanggan', [PelangganController::class, 'index'])->name('admin.pelanggan');
     Route::post('/pelanggan/{id}/terima', [PelangganController::class, 'terimaKtm'])->name('admin.pelanggan.terima');
     Route::post('/pelanggan/{id}/tolak', [PelangganController::class, 'tolakKtm'])->name('admin.pelanggan.tolak');
+    Route::post('/pelanggan/{id}/paksa-reguler', [PelangganController::class, 'paksaReguler'])->name('admin.pelanggan.paksa_reguler');
 
     // --- TAMBAHAN UNTUK RESET & HAPUS AKUN ---
     Route::put('/pelanggan/{id}/reset-password', [PelangganController::class, 'resetPassword'])->name('admin.pelanggan.reset');
