@@ -8,35 +8,64 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <style>
-    /* --- TABS --- */
-    .nav-pills-custom { background: #e2e8f0; padding: 6px; border-radius: 16px; display: inline-flex; gap: 4px; }
-    [data-theme="dark"] .nav-pills-custom { background: #16191f; }
+    /* --- TABS SINKRONISASI --- */
+    .nav-pills-custom { background: #e2e8f0; padding: 6px; border-radius: 16px; display: inline-flex; gap: 4px; border: 1px solid rgba(0,0,0,0.05); overflow-x: auto; max-width: 100%; white-space: nowrap;}
+    .nav-pills-custom::-webkit-scrollbar { display: none; }
+    [data-theme="dark"] .nav-pills-custom { background: #16191f; border-color: rgba(255,255,255,0.05); }
     .nav-pills-custom .nav-link { border-radius: 12px; padding: 10px 22px; font-weight: 700; color: var(--text-muted); border: none; font-size: 0.85rem; transition: 0.3s; cursor: pointer; }
     .nav-pills-custom .nav-link.active { background: var(--card-bg) !important; color: var(--p-color) !important; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+    [data-theme="dark"] .nav-pills-custom .nav-link.active { background: var(--p-color) !important; color: white !important; }
 
-    /* --- CARDS & GRID --- */
-    .custom-card { background: var(--card-bg); border-radius: 20px; padding: 22px; border: 1px solid var(--border-color); box-shadow: 0 10px 30px rgba(0,0,0,0.02); }
-    .hover-shadow { transition: all 0.3s ease; }
-    .hover-shadow:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(0,0,0,0.1) !important; border-color: var(--p-color); }
+    /* --- CARDS & TABLES --- */
+    .custom-card { background: var(--card-bg); border-radius: var(--radius); padding: 22px; border: 1px solid var(--border-color); box-shadow: 0 10px 30px rgba(0,0,0,0.02); color: var(--text-main); }
+    .armada-icon { width: 60px; height: 60px; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; }
+    .modal-content { background-color: var(--card-bg); color: var(--text-main); border: 1px solid var(--border-color); }
+    .custom-input { background: var(--bg-body); color: var(--text-main) !important; border: 1px solid var(--border-color); transition: 0.3s; }
+    .custom-input:focus { background: var(--bg-body); color: var(--text-main); border-color: var(--p-color); box-shadow: 0 0 0 3px rgba(72, 61, 139, 0.1); outline: none; }
     
-    /* --- ROUTE CARDS --- */
-    .route-card { border: 1px solid var(--border-color); }
-    .route-city { margin: 10px 0 20px; }
-    .city-item { display:flex; align-items:center; gap:10px; font-weight:600; font-size:15px; }
-    .route-arrow { padding-left:5px; color:#94a3b8; margin:6px 0; }
-    .route-price-box { margin-top:auto; background:var(--bg-body); border-radius:14px; padding:12px; }
+/* FIX SWEETALERT SUCCESS BG DI DARK MODE */
+    [data-theme="dark"] .swal2-success-circular-line-left, 
+    [data-theme="dark"] .swal2-success-circular-line-right, 
+    [data-theme="dark"] .swal2-success-fix { 
+        background-color: var(--card-bg) !important; 
+    }
     
-    /* --- ACTION BUTTONS --- */
-    .btn-edit-action, .btn-outline-danger { width:36px; height:36px; display:flex; justify-content:center; align-items:center; border-radius:50% !important; border:none; background:rgba(0,0,0,0.05); }
-    .btn-edit-action:hover { background: #e0e7ff; color: var(--p-color); }
-    .btn-outline-danger:hover { background: #fee2e2; color: #dc3545; }
+    [data-theme="dark"] .swal2-success-ring {
+        background-color: transparent !important;
+    }
+    
+    /* Memastikan modal sweetalert benar-benar gelap */
+    [data-theme="dark"] div:where(.swal2-container) div:where(.swal2-popup) {
+        background-color: var(--card-bg) !important;
+        border: 1px solid var(--border-color);
+    }
 
-    /* --- DRIVER TABLE --- */
-    .driver-table { border-collapse: separate; border-spacing: 0 12px; }
-    .driver-table tbody tr { background: var(--card-bg); box-shadow: 0 3px 12px rgba(0,0,0,.03); border-radius: 16px; }
+    .hover-shadow { transition: all 0.3s ease; border: 1px solid var(--border-color); }
+    .hover-shadow:hover { 
+        transform: translateY(-5px); 
+        box-shadow: 0 15px 35px rgba(0,0,0,0.1) !important; 
+        border-color: var(--p-color);
+    }
+    .border-dashed { border-style: dashed !important; }
+
+    [data-theme="dark"] .custom-card { background: var(--card-bg); border-color: #2d333b; }
+    [data-theme="dark"] .custom-input { background: #181a20; border-color: #444; }
+    [data-theme="dark"] .custom-input:focus { border-color: var(--accent-gold); box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.15); background: #222; }
+    [data-theme="dark"] .btn-close { filter: invert(1) grayscale(100%) brightness(200%); }
+    [data-theme="dark"] .table { color: #f8fafc; }
+    [data-theme="dark"] .table th, [data-theme="dark"] .table td { border-color: #2d333b; color: #f8fafc; }
+    [data-theme="dark"] .text-muted { color: #94a3b8 !important; }
     
-    [data-theme="dark"] .custom-card { border-color: #2d333b; }
-    [data-theme="dark"] .route-price-box { background: #1b2330; }
+    .badge-info-custom { background: rgba(0,0,0,0.05); color: var(--text-main); border: 1px solid var(--border-color); }
+    [data-theme="dark"] .badge-info-custom { background: rgba(255,255,255,0.05); color: #f8fafc; border-color: #2d333b; }
+    [data-theme="dark"] .input-group-text.bg-light { background-color: #1e293b !important; color: #cbd5e1 !important; border-color: #444 !important; }
+    [data-theme="dark"] .swal2-popup { background-color: var(--card-bg) !important; color: var(--text-main) !important; border: 1px solid var(--border-color); }
+    [data-theme="dark"] .swal2-title, [data-theme="dark"] .swal2-html-container { color: var(--text-main) !important; }
+    
+    .btn-cancel-custom { background: transparent; color: var(--text-main); border: 1px solid var(--text-muted); transition: 0.3s; }
+    .btn-cancel-custom:hover { background: var(--border-color); color: var(--text-main); }
+    .btn-edit-action { background: #ffffff; color: var(--p-color); border: 1px solid #e2e8f0; transition: 0.2s; }
+    .btn-edit-action:hover { background: var(--bg-body); border-color: var(--p-color); }
 </style>
 
 <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
@@ -92,7 +121,7 @@
     
     <div class="tab-pane fade show active" id="tab-rute">
     <!-- Header tetap di luar card grid -->
-    <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
+    <div class="d-flex justify-content-between align-items-center mb-4">
         <h5 class="fw-bold m-0"><i class="bi bi-journal-bookmark text-primary me-2"></i>Tarif Rute Travel (PP)</h5>
         <span class="badge badge-info-custom py-2 px-3"><i class="bi bi-info-circle me-1"></i>Berlaku untuk rute sebaliknya</span>
     </div>
@@ -101,7 +130,7 @@
     <div class="row g-3">
         @foreach($rutes as $rute)
         <div class="col-md-4 col-lg-3">
-            <div class="custom-card route-card d-flex flex-column h-100 position-relative">
+            <div class="custom-card d-flex flex-column h-100 position-relative hover-shadow">
                 <div class="d-flex justify-content-between align-items-start mb-3">
                     <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2 rounded-pill"><i class="bi bi-geo-alt-fill me-1"></i> Rute</span>
                     <div class="d-flex gap-1">
@@ -113,25 +142,13 @@
                     </div>
                 </div>
                 
-                <div class="route-city">
-                    <div class="city-item">
-                        <i class="bi bi-geo-alt-fill text-primary"></i>
-                        <span>{{ $rute->kota_asal }}</span>
-                    </div>
-                    <div class="route-arrow">
-                        <i class="bi bi-arrow-down"></i>
-                    </div>
-                    <div class="city-item">
-                        <i class="bi bi-geo-alt-fill text-danger"></i>
-                        <span>{{ $rute->kota_tujuan }}</span>
-                    </div>
-                </div>
+                <h6 class="fw-bold text-main mb-1">{{ $rute->kota_asal }}</h6>
+                <i class="bi bi-arrow-down-up text-muted my-1 ms-2"></i>
+                <h6 class="fw-bold text-main mb-3">{{ $rute->kota_tujuan }}</h6>
                 
-                <div class="route-price-box">
-                    <small>Harga per Seat</small>
-                    <h4>
-                        Rp {{ number_format($rute->harga_reguler,0,',','.') }}
-                    </h4>
+                <div class="mt-auto pt-3 border-top border-dashed">
+                    <div class="small text-muted mb-1">Harga per Seat</div>
+                    <div class="fs-5 fw-bold text-primary">Rp {{ number_format($rute->harga_reguler, 0, ',', '.') }}</div>
                 </div>
             </div>
         </div>
@@ -251,7 +268,7 @@
                 <h5 class="fw-bold m-0"><i class="bi bi-person-badge text-success me-2"></i>Daftar Supir Aktif</h5>
             </div>
             <div class="table-responsive">
-                <table class="table driver-table align-middle">
+                <table class="table align-middle border-0">
                     <thead class="text-uppercase small fw-bold text-muted border-0">
                         <tr>
                             <th style="width: 60px; border-bottom: none;">No</th>
@@ -266,7 +283,7 @@
                             <td class="fw-bold text-muted">{{ $index + 1 }}</td>
                             <td class="fw-bold">{{ $driver->nama_supir }}</td>
                             <td>
-                                <span class="driver-wa">
+                                <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-2 py-1"><i class="bi bi-whatsapp me-1"></i>{{ $driver->no_hp }}</span>
                             </td>
                             <td class="text-center">
                                 <div class="d-flex justify-content-center gap-1">
