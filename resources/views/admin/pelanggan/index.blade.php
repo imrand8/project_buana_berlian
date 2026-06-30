@@ -303,7 +303,7 @@
                     <span id="detail-badge" class="badge">Status</span>
                     
                     <div id="container-btn-lihat-ktm" style="display: none;">
-                        <button class="btn btn-sm btn-light border fw-bold text-primary rounded-pill px-3" style="font-size: 0.75rem;" onclick="lihatKTMDetail()">
+                        <button class="btn btn-sm fw-bold rounded-pill px-3" style="background: rgba(13, 110, 253, 0.1); color: #3b82f6; border: 1px solid rgba(13, 110, 253, 0.4); font-size: 0.75rem; transition: 0.3s;" onmouseover="this.style.background='#0d6efd'; this.style.color='#fff';" onmouseout="this.style.background='rgba(13, 110, 253, 0.1)'; this.style.color='#3b82f6';" onclick="lihatKTMDetail()">
                              <i class="bi bi-search"></i> Cek KTM
                         </button>
                         <input type="hidden" id="detail-ktm-url">
@@ -341,10 +341,14 @@
 
                 <div class="row g-2 mt-2 mb-2">
                     <div class="col-6">
-                        <button class="btn btn-warning w-100 fw-bold py-2 rounded-3 text-dark" onclick="resetPasswordUser()"><i class="bi bi-key-fill"></i> Reset PW</button>
+                        <button class="btn w-100 fw-bold py-2 rounded-3" style="background: rgba(255, 193, 7, 0.1); color: #eab308; border: 1px solid rgba(255, 193, 7, 0.4); transition: 0.3s;" onmouseover="this.style.background='#ffc107'; this.style.color='#000';" onmouseout="this.style.background='rgba(255, 193, 7, 0.1)'; this.style.color='#eab308';" onclick="resetPasswordUser()">
+                            <i class="bi bi-key-fill"></i> Reset PW
+                        </button>
                     </div>
                     <div class="col-6">
-                        <button class="btn btn-danger w-100 fw-bold py-2 rounded-3" onclick="hapusAkunUser()"><i class="bi bi-trash3-fill"></i> Hapus Akun</button>
+                        <button class="btn w-100 fw-bold py-2 rounded-3" style="background: rgba(220, 53, 69, 0.1); color: #dc3545; border: 1px solid rgba(220, 53, 69, 0.4); transition: 0.3s;" onmouseover="this.style.background='#dc3545'; this.style.color='#fff';" onmouseout="this.style.background='rgba(220, 53, 69, 0.1)'; this.style.color='#dc3545';" onclick="hapusAkunUser()">
+                            <i class="bi bi-trash3-fill"></i> Hapus Akun
+                        </button>
                     </div>
                 </div>
 
