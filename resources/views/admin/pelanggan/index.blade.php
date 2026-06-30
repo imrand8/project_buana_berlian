@@ -334,7 +334,7 @@
                 <input type="hidden" id="detail-user-id">
                 
                 <div id="container-btn-reguler" style="display: none;">
-                     <button class="btn w-100 fw-bold py-2 rounded-3 mb-2" style="background: rgba(255, 193, 7, 0.1); color: #d39e00; border: 1px solid rgba(255, 193, 7, 0.5); transition: 0.3s;" onmouseover="this.style.background='#ffc107'; this.style.color='#000';" onmouseout="this.style.background='rgba(255, 193, 7, 0.1)'; this.style.color='#d39e00';" onclick="paksaReguler()">
+                     <button class="btn w-100 fw-bold py-2 rounded-3 mb-2" style="background: rgba(253, 126, 20, 0.1); color: #e85d04; border: 1px solid rgba(253, 126, 20, 0.4); transition: 0.3s;" onmouseover="this.style.background='#e85d04'; this.style.color='#fff';" onmouseout="this.style.background='rgba(253, 126, 20, 0.1)'; this.style.color='#e85d04';" onclick="paksaReguler()">
                          <i class="bi bi-person-down me-1"></i> Cabut Status Mahasiswa
                      </button>
                 </div>
@@ -394,7 +394,7 @@
     }
 
     // --- BUKA MODAL DETAIL UPDATE ---
-    function bukaDetail(id, name, email, phone, status, date, initials, colorClass, totalOrder, avatarUrl) {
+    function bukaDetail(id, name, email, phone, status, date, initials, colorClass, totalOrder, avatarUrl, ktmUrl) {
         document.getElementById('detail-name').innerText = name;
         document.getElementById('detail-email').innerText = email;
         document.getElementById('detail-phone').innerText = phone;
@@ -406,30 +406,40 @@
         let initialContainer = document.getElementById('detail-avatar-initial');
         let imageContainer = document.getElementById('detail-avatar-image');
         
-        // Logika Tampil Foto Profil / Inisial
         if (avatarUrl) {
             imageContainer.src = avatarUrl;
             imageContainer.style.display = 'block';
             initialContainer.style.display = 'none';
         } else {
             imageContainer.style.display = 'none';
-            initialContainer.className = 'user-avatar w-100 h-100 fs-3 ' + colorClass;
+            initialContainer.className = 'user-avatar mx-auto w-100 h-100 fs-3 ' + colorClass;
             initialContainer.innerText = initials;
             initialContainer.style.display = 'flex';
         }
 
         let badge = document.getElementById('detail-badge');
         let btnReguler = document.getElementById('container-btn-reguler');
+        
+        // Panggil elemen tombol lihat KTM
+        let btnLihatKtm = document.getElementById('container-btn-lihat-ktm');
+        let inputKtmUrl = document.getElementById('detail-ktm-url');
 
-        // Logika Badge & Tampil Tombol Jadikan Reguler
         if(status === 'terverifikasi') {
-            badge.className = 'badge bg-success bg-opacity-10 text-success border border-success mb-3';
+            badge.className = 'badge bg-success bg-opacity-10 text-success border border-success';
             badge.innerHTML = '<i class="bi bi-check-circle-fill me-1"></i>Mahasiswa Aktif';
-            btnReguler.style.display = 'block'; // Tampilkan tombol paksa reguler
+            
+            // Tampilkan fitur khusus mahasiswa (termasuk tombol lihat KTM)
+            btnReguler.style.display = 'block'; 
+            btnLihatKtm.style.display = 'block';
+            inputKtmUrl.value = ktmUrl;
         } else {
-            badge.className = 'badge bg-secondary bg-opacity-10 text-secondary border border-secondary mb-3';
+            badge.className = 'badge bg-secondary bg-opacity-10 text-secondary border border-secondary';
             badge.innerHTML = '<i class="bi bi-person-fill me-1"></i>Reguler';
-            btnReguler.style.display = 'none'; // Sembunyikan
+            
+            // Sembunyikan fitur mahasiswa
+            btnReguler.style.display = 'none'; 
+            btnLihatKtm.style.display = 'none';
+            inputKtmUrl.value = '';
         }
 
         var myModal = new bootstrap.Modal(document.getElementById('detailModal'));
