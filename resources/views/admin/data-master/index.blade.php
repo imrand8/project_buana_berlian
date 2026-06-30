@@ -120,53 +120,41 @@
 <div class="tab-content" id="pills-tabContent">
     
     <div class="tab-pane fade show active" id="tab-rute">
-        <div class="custom-card">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h5 class="fw-bold m-0"><i class="bi bi-journal-bookmark text-primary me-2"></i>Tarif Rute Travel (PP)</h5>
-                <span class="badge badge-info-custom py-2 px-3"><i class="bi bi-info-circle me-1"></i>Berlaku untuk rute sebaliknya</span>
-            </div>
-            <div class="table-responsive">
-                <table class="table align-middle border-0">
-                    <thead class="text-uppercase small fw-bold text-muted border-0">
-                        <tr>
-                            <th style="width: 60px; border-bottom: none;">No</th>
-                            <th style="border-bottom: none;">Kota Asal</th>
-                            <th style="border-bottom: none;">Kota Tujuan</th>
-                            <th style="border-bottom: none;">Harga per Seat</th>
-                            <th class="text-center" style="width: 100px; border-bottom: none;">Aksi</th>
-                        </tr>
-                    </thead>
-                        <div class="row g-3">
-                            @foreach($rutes as $rute)
-                            <div class="col-md-4 col-lg-3">
-                                <div class="custom-card d-flex flex-column h-100 position-relative hover-shadow">
-                                    <div class="d-flex justify-content-between align-items-start mb-3">
-                                        <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2 rounded-pill"><i class="bi bi-geo-alt-fill me-1"></i> Rute</span>
-                                        <div class="d-flex gap-1">
-                                            <button class="btn btn-sm btn-edit-action rounded-2 px-2" onclick="openEditRute({{ $rute->id }}, '{{ $rute->kota_asal }}', '{{ $rute->kota_tujuan }}', {{ $rute->harga_reguler }})"><i class="bi bi-pencil-square"></i></button>
-                                            <form action="{{ route('admin.rute.destroy', $rute->id) }}" method="POST" id="form-delete-rute-{{ $rute->id }}">
-                                                @csrf @method('DELETE')
-                                                <button type="button" class="btn btn-sm btn-outline-danger rounded-2 px-2 border-0" onclick="confirmDeleteRute({{ $rute->id }}, '{{ $rute->kota_asal }}', '{{ $rute->kota_tujuan }}')"><i class="bi bi-trash-fill"></i></button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                    
-                                    <h6 class="fw-bold text-main mb-1">{{ $rute->kota_asal }}</h6>
-                                    <i class="bi bi-arrow-down-up text-muted my-1 ms-2"></i>
-                                    <h6 class="fw-bold text-main mb-3">{{ $rute->kota_tujuan }}</h6>
-                                    
-                                    <div class="mt-auto pt-3 border-top border-dashed">
-                                        <div class="small text-muted mb-1">Harga per Seat</div>
-                                        <div class="fs-5 fw-bold text-primary">Rp {{ number_format($rute->harga_reguler, 0, ',', '.') }}</div>
-                                    </div>
-                                </div>
-                            </div>
-                            @endforeach
-                        </div>
-                </table>
+    <!-- Header tetap di luar card grid -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h5 class="fw-bold m-0"><i class="bi bi-journal-bookmark text-primary me-2"></i>Tarif Rute Travel (PP)</h5>
+        <span class="badge badge-info-custom py-2 px-3"><i class="bi bi-info-circle me-1"></i>Berlaku untuk rute sebaliknya</span>
+    </div>
+
+    <!-- GRID BARU (Rectangle) -->
+    <div class="row g-3">
+        @foreach($rutes as $rute)
+        <div class="col-md-4 col-lg-3">
+            <div class="custom-card d-flex flex-column h-100 position-relative hover-shadow">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2 rounded-pill"><i class="bi bi-geo-alt-fill me-1"></i> Rute</span>
+                    <div class="d-flex gap-1">
+                        <button class="btn btn-sm btn-edit-action rounded-2 px-2" onclick="openEditRute({{ $rute->id }}, '{{ $rute->kota_asal }}', '{{ $rute->kota_tujuan }}', {{ $rute->harga_reguler }})"><i class="bi bi-pencil-square"></i></button>
+                        <form action="{{ route('admin.rute.destroy', $rute->id) }}" method="POST" id="form-delete-rute-{{ $rute->id }}">
+                            @csrf @method('DELETE')
+                            <button type="button" class="btn btn-sm btn-outline-danger rounded-2 px-2 border-0" onclick="confirmDeleteRute({{ $rute->id }}, '{{ $rute->kota_asal }}', '{{ $rute->kota_tujuan }}')"><i class="bi bi-trash-fill"></i></button>
+                        </form>
+                    </div>
+                </div>
+                
+                <h6 class="fw-bold text-main mb-1">{{ $rute->kota_asal }}</h6>
+                <i class="bi bi-arrow-down-up text-muted my-1 ms-2"></i>
+                <h6 class="fw-bold text-main mb-3">{{ $rute->kota_tujuan }}</h6>
+                
+                <div class="mt-auto pt-3 border-top border-dashed">
+                    <div class="small text-muted mb-1">Harga per Seat</div>
+                    <div class="fs-5 fw-bold text-primary">Rp {{ number_format($rute->harga_reguler, 0, ',', '.') }}</div>
+                </div>
             </div>
         </div>
+        @endforeach
     </div>
+</div>
 
     <div class="tab-pane fade" id="tab-kargo">
         <div class="row g-4">
