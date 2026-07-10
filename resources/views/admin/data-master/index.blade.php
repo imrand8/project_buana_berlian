@@ -17,92 +17,135 @@
     [data-theme="dark"] .nav-pills-custom .nav-link.active { background: var(--p-color) !important; color: white !important; }
 
     /* --- CARDS & TABLES --- */
-    .custom-card { background: var(--card-bg); border-radius: var(--radius); padding: 22px; border: 1px solid var(--border-color); box-shadow: 0 10px 30px rgba(0,0,0,0.02); color: var(--text-main); }
-    .armada-icon { width: 60px; height: 60px; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; }
-    .modal-content { background-color: var(--card-bg); color: var(--text-main); border: 1px solid var(--border-color); }
-    .custom-input { background: var(--bg-body); color: var(--text-main) !important; border: 1px solid var(--border-color); transition: 0.3s; }
-    .custom-input:focus { background: var(--bg-body); color: var(--text-main); border-color: var(--p-color); box-shadow: 0 0 0 3px rgba(72, 61, 139, 0.1); outline: none; }
-    
-/* FIX SWEETALERT SUCCESS BG DI DARK MODE */
-    [data-theme="dark"] .swal2-success-circular-line-left, 
-    [data-theme="dark"] .swal2-success-circular-line-right, 
-    [data-theme="dark"] .swal2-success-fix { 
-        background-color: var(--card-bg) !important; 
+    .custom-card { 
+        background: var(--card-bg); 
+        border-radius: 16px; 
+        padding: 16px; 
+        border: 1px solid var(--border-color); 
+        box-shadow: 0 4px 15px rgba(0,0,0,0.02); 
+        color: var(--text-main); 
+        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     }
     
-    [data-theme="dark"] .swal2-success-ring {
-        background-color: transparent !important;
+    .hover-shadow { transition: all 0.3s ease; border: 1px solid var(--border-color); }
+    .hover-shadow:hover { 
+        transform: translateY(-4px); 
+        box-shadow: 0 12px 24px rgba(0,0,0,0.08) !important; 
+        border-color: var(--p-color);
     }
     
-    /* Memastikan modal sweetalert benar-benar gelap */
-    [data-theme="dark"] div:where(.swal2-container) div:where(.swal2-popup) {
-        background-color: var(--card-bg) !important;
+    .price-box {
+        background: rgba(72, 61, 139, 0.05); 
+        border-radius: 10px;
+        border: 1px solid rgba(72, 61, 139, 0.1);
+    }
+
+    [data-theme="dark"] .price-box {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .action-buttons-wrapper {
+        background: var(--bg-body);
+        border-radius: 8px;
         border: 1px solid var(--border-color);
     }
 
-    .hover-shadow { transition: all 0.3s ease; border: 1px solid var(--border-color); }
-    .hover-shadow:hover { 
-        transform: translateY(-5px); 
-        box-shadow: 0 15px 35px rgba(0,0,0,0.1) !important; 
-        border-color: var(--p-color);
-    }
-    .border-dashed { border-style: dashed !important; }
-
+    /* --- THEME FIXES --- */
     [data-theme="dark"] .custom-card { background: var(--card-bg); border-color: #2d333b; }
-    [data-theme="dark"] .custom-input { background: #181a20; border-color: #444; }
-    [data-theme="dark"] .custom-input:focus { border-color: var(--accent-gold); box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.15); background: #222; }
     [data-theme="dark"] .btn-close { filter: invert(1) grayscale(100%) brightness(200%); }
     [data-theme="dark"] .table { color: #f8fafc; }
     [data-theme="dark"] .table th, [data-theme="dark"] .table td { border-color: #2d333b; color: #f8fafc; }
     [data-theme="dark"] .text-muted { color: #94a3b8 !important; }
+    [data-theme="dark"] .input-group-text.bg-light { background-color: #1e293b !important; color: #cbd5e1 !important; border-color: #444 !important; }
     
     .badge-info-custom { background: rgba(0,0,0,0.05); color: var(--text-main); border: 1px solid var(--border-color); }
     [data-theme="dark"] .badge-info-custom { background: rgba(255,255,255,0.05); color: #f8fafc; border-color: #2d333b; }
-    [data-theme="dark"] .input-group-text.bg-light { background-color: #1e293b !important; color: #cbd5e1 !important; border-color: #444 !important; }
+
+    /* FIX SWEETALERT SUCCESS BG DI DARK MODE */
+    [data-theme="dark"] .swal2-success-circular-line-left, 
+    [data-theme="dark"] .swal2-success-circular-line-right, 
+    [data-theme="dark"] .swal2-success-fix { background-color: var(--card-bg) !important; }
+    [data-theme="dark"] .swal2-success-ring { background-color: transparent !important; }
+    [data-theme="dark"] div:where(.swal2-container) div:where(.swal2-popup) { background-color: var(--card-bg) !important; border: 1px solid var(--border-color); }
     [data-theme="dark"] .swal2-popup { background-color: var(--card-bg) !important; color: var(--text-main) !important; border: 1px solid var(--border-color); }
     [data-theme="dark"] .swal2-title, [data-theme="dark"] .swal2-html-container { color: var(--text-main) !important; }
     
-    .btn-cancel-custom { background: transparent; color: var(--text-main); border: 1px solid var(--text-muted); transition: 0.3s; }
-    .btn-cancel-custom:hover { background: var(--border-color); color: var(--text-main); }
-    .btn-edit-action { background: #ffffff; color: var(--p-color); border: 1px solid #e2e8f0; transition: 0.2s; }
-    .btn-edit-action:hover { background: var(--bg-body); border-color: var(--p-color); }
+    /* --- UPGRADE MODAL & INPUT UI --- */
+    .modal-content { 
+        background-color: var(--card-bg) !important; 
+        color: var(--text-main); 
+        border: 1px solid rgba(255, 255, 255, 0.08) !important; 
+        border-radius: 20px !important; 
+        box-shadow: 0 25px 50px rgba(0,0,0,0.3) !important;
+    }
+    
+    .modal-header {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+        padding: 20px 24px 16px !important;
+    }
+    
+    .modal-body {
+        padding: 20px 24px 24px !important;
+    }
 
-    /* --- ENHANCED CARDS & TABLES --- */
-.custom-card { 
-    background: var(--card-bg); 
-    border-radius: 16px; /* Sedikit dikecilkan radiusnya */
-    padding: 16px; /* SEBELUMNYA 24px, kita buat lebih padat */
-    border: 1px solid var(--border-color); 
-    box-shadow: 0 4px 15px rgba(0,0,0,0.02); 
-    color: var(--text-main); 
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
+    .custom-input { 
+        background: rgba(0, 0, 0, 0.15) !important; 
+        color: var(--text-main) !important; 
+        border: 1px solid rgba(255, 255, 255, 0.1) !important; 
+        border-radius: 12px !important;
+        padding: 12px 16px !important;
+        font-size: 0.95rem !important;
+        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important; 
+    }
+    
+    [data-theme="dark"] .custom-input { 
+        background: rgba(0, 0, 0, 0.3) !important; 
+        border-color: rgba(255, 255, 255, 0.08) !important; 
+    }
+    
+    .custom-input:focus { 
+        background: var(--bg-body) !important; 
+        border-color: var(--p-color) !important; 
+        box-shadow: 0 0 0 4px rgba(72, 61, 139, 0.25) !important; 
+        outline: none;
+    }
 
-.hover-shadow:hover { 
-    transform: translateY(-4px); 
-    box-shadow: 0 12px 24px rgba(0,0,0,0.08) !important; 
-    border-color: var(--p-color);
-}
+    .custom-input::file-selector-button {
+        background: rgba(255, 255, 255, 0.05);
+        color: var(--text-main);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        padding: 6px 14px;
+        margin-right: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+    }
+    
+    .custom-input::file-selector-button:hover {
+        background: var(--p-color);
+        color: #fff;
+        border-color: var(--p-color);
+    }
 
-/* Modifikasi kotak harga agar lebih rapi (menggantikan border-dashed) */
-.price-box {
-    background: rgba(72, 61, 139, 0.05); 
-    border-radius: 10px;
-    padding: 8px 12px; /* SEBELUMNYA 12px 16px, dibuat lebih tipis */
-    border: 1px solid rgba(72, 61, 139, 0.1);
-}
-
-[data-theme="dark"] .price-box {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.action-buttons-wrapper {
-    background: var(--bg-body);
-    padding: 2px; /* Dibuat lebih tipis */
-    border-radius: 8px;
-    border: 1px solid var(--border-color);
-}
+    .modal-body .btn {
+        padding: 12px !important;
+        border-radius: 12px !important;
+        font-weight: 700 !important;
+        letter-spacing: 0.5px;
+    }
+    
+    .btn-cancel-custom { 
+        background: rgba(255, 255, 255, 0.05) !important; 
+        color: var(--text-main) !important; 
+        border: 1px solid rgba(255, 255, 255, 0.1) !important; 
+        transition: 0.3s;
+    }
+    
+    .btn-cancel-custom:hover { 
+        background: rgba(255, 255, 255, 0.1) !important; 
+    }
 </style>
 
 <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
