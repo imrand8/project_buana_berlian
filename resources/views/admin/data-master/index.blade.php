@@ -220,70 +220,79 @@
 </div>
 
     <div class="tab-pane fade" id="tab-kargo">
-        <div class="row g-4">
+        <div class="row g-4 align-items-stretch">
+            
             <div class="col-md-7">
-                <div class="custom-card h-100">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h5 class="fw-bold m-0"><i class="bi bi-box-seam text-warning me-2"></i>Pengaturan Tarif Kargo</h5>
-                        <span class="badge bg-success text-white border border-success"><i class="bi bi-check-circle me-1"></i>Tersambung Database</span>
+                <div class="custom-card h-100 p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
+                        <div>
+                            <h5 class="fw-bold m-0"><i class="bi bi-box-seam text-warning me-2"></i>Tarif Kargo Global</h5>
+                            <small class="text-muted">Basis perhitungan kargo untuk pelanggan</small>
+                        </div>
+                        <button type="button" class="btn btn-primary fw-bold px-3 rounded-3 shadow-sm" onclick="openEditKargo()">
+                            <i class="bi bi-pencil-square me-2"></i>Edit Tarif
+                        </button>
                     </div>
                     
-                    <div class="mb-4">
-                        <label class="small text-muted fw-bold mb-2">Harga 1 Kg Pertama (Tarif Dasar)</label>
-                        <div class="input-group">
-                            <span class="input-group-text bg-light text-muted fw-bold border-end-0">Rp</span>
-                            <input type="text" id="dispBasePrice" class="form-control custom-input fw-bold fs-5" value="{{ number_format($tarif->harga_dasar ?? 50000, 0, ',', '.') }}" readonly>
-                            <button type="button" class="btn btn-outline-secondary" onclick="openEditKargo()"><i class="bi bi-pencil"></i></button>
+                    <div class="row g-4 mb-4">
+                        <div class="col-sm-6">
+                            <div class="p-3 rounded-3" style="background: var(--bg-body); border: 1px solid var(--border-color);">
+                                <div class="text-muted small fw-bold mb-1">1 Kg Pertama (Tarif Dasar)</div>
+                                <div class="fs-4 fw-bolder text-main" id="dispBasePrice">Rp {{ number_format($tarif->harga_dasar ?? 50000, 0, ',', '.') }}</div>
+                            </div>
                         </div>
-                    </div>
-
-                    <div class="mb-4">
-                        <label class="small text-muted fw-bold mb-2">Harga Kg Selanjutnya (Per Kg)</label>
-                        <div class="input-group">
-                            <span class="input-group-text bg-light text-muted fw-bold border-end-0">Rp</span>
-                            <input type="text" id="dispNextPrice" class="form-control custom-input fw-bold fs-5" value="{{ number_format($tarif->harga_selanjutnya ?? 25000, 0, ',', '.') }}" readonly>
-                            <button type="button" class="btn btn-outline-secondary" onclick="openEditKargo()"><i class="bi bi-pencil"></i></button>
+                        <div class="col-sm-6">
+                            <div class="p-3 rounded-3" style="background: var(--bg-body); border: 1px solid var(--border-color);">
+                                <div class="text-muted small fw-bold mb-1">Kg Selanjutnya (Per Kg)</div>
+                                <div class="fs-4 fw-bolder text-main" id="dispNextPrice">Rp {{ number_format($tarif->harga_selanjutnya ?? 25000, 0, ',', '.') }}</div>
+                            </div>
                         </div>
                     </div>
                     
-                    <div class="alert border-0 bg-primary bg-opacity-10 d-flex align-items-center mt-4">
-                        <i class="bi bi-info-circle-fill text-primary fs-4 me-3"></i>
+                    <div class="alert border-0 bg-primary bg-opacity-10 d-flex align-items-center m-0 rounded-3">
+                        <i class="bi bi-info-circle-fill text-primary fs-3 me-3"></i>
                         <div class="small text-main">
                             <strong>Rumus Kargo:</strong> Tarif Dasar (1 Kg) + (Sisa Berat x Harga Kg Selanjutnya). 
-                            <br><small class="text-muted">*Harga ini digunakan oleh sistem kalkulasi di halaman pelanggan.</small>
+                            <br><span class="text-muted opacity-75">Sistem akan otomatis menghitung berdasarkan tarif di atas.</span>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="col-md-5">
-                <div class="custom-card h-100" style="background: var(--bg-body); border: 1px dashed var(--p-color);">
-                    <h6 class="fw-bold mb-3 text-center text-primary"><i class="bi bi-calculator me-2"></i>Simulasi Hitung Kargo</h6>
-                    
-                    <div class="mb-3">
-                        <label class="small fw-bold mb-2 text-muted">Masukkan Berat Barang (Kg):</label>
-                        <div class="input-group input-group-lg">
-                            <input type="number" id="kargoWeight" class="form-control custom-input text-center fw-bold" value="5" min="1">
-                            <span class="input-group-text bg-light text-muted fw-bold border-start-0">Kg</span>
-                        </div>
+                <div class="custom-card h-100 p-0 overflow-hidden" style="border: none; box-shadow: 0 10px 30px rgba(72, 61, 139, 0.08);">
+                    <div class="bg-primary bg-opacity-10 p-4 text-center border-bottom border-primary border-opacity-10">
+                        <h6 class="fw-bold m-0 text-primary"><i class="bi bi-calculator me-2"></i>Kalkulator Simulasi</h6>
                     </div>
+                    
+                    <div class="p-4">
+                        <div class="mb-4">
+                            <label class="small fw-bold mb-2 text-muted text-center w-100">Masukkan Berat Barang</label>
+                            <div class="input-group input-group-lg" style="max-width: 200px; margin: 0 auto;">
+                                <input type="number" id="kargoWeight" class="form-control text-center fw-bold bg-light border-primary border-opacity-25" value="5" min="1" style="font-size: 1.5rem; color: var(--p-color) !important;">
+                                <span class="input-group-text bg-primary text-white border-primary fw-bold">Kg</span>
+                            </div>
+                        </div>
 
-                    <div class="p-3 rounded-3 mt-4" style="background: var(--card-bg); border: 1px solid var(--border-color);">
-                        <div class="d-flex justify-content-between small text-muted mb-2">
-                            <span>1 Kg Pertama:</span>
-                            <span class="fw-bold text-main" id="simBasePrice">Rp {{ number_format($tarif->harga_dasar ?? 50000, 0, ',', '.') }}</span>
+                        <div class="p-3 rounded-3 mb-2" style="background: var(--bg-body); border: 1px dashed var(--border-color);">
+                            <div class="d-flex justify-content-between small mb-2">
+                                <span class="text-muted">1 Kg Pertama:</span>
+                                <span class="fw-bold text-main" id="simBasePrice">Rp {{ number_format($tarif->harga_dasar ?? 50000, 0, ',', '.') }}</span>
+                            </div>
+                            <div class="d-flex justify-content-between small">
+                                <span class="text-muted">Tambahan (<span id="extraWeight">4</span> Kg x <span id="simNextPriceText">{{ number_format(($tarif->harga_selanjutnya ?? 25000), 0, ',', '.') }}</span>):</span>
+                                <span class="fw-bold text-main" id="extraPrice">Rp 100.000</span>
+                            </div>
                         </div>
-                        <div class="d-flex justify-content-between small text-muted mb-3 border-bottom pb-3">
-                            <span>Tambahan (<span id="extraWeight">4</span> Kg x <span id="simNextPriceText">{{ ($tarif->harga_selanjutnya ?? 25000) / 1000 }}rb</span>):</span>
-                            <span class="fw-bold text-main" id="extraPrice">Rp 0</span>
-                        </div>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span class="fw-bold text-main">Total Harga:</span>
-                            <span class="fs-4 fw-bold text-primary" id="totalPrice">Rp 0</span>
+                        
+                        <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top">
+                            <span class="fw-bold text-muted">Total Tagihan:</span>
+                            <span class="fs-3 fw-black text-primary" id="totalPrice" style="font-weight: 900;">Rp 150.000</span>
                         </div>
                     </div>
                 </div>
             </div>
+            
         </div>
     </div>
 
