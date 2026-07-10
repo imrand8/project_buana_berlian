@@ -299,34 +299,44 @@
     <div class="tab-pane fade" id="tab-armada">
         <div class="row g-4">
             @foreach($armadas as $armada)
-            <div class="col-md-4">
-                <div class="custom-card text-center position-relative pb-3">
-                    <span class="position-absolute top-0 end-0 m-3 badge bg-success">Aktif</span>
+            <div class="col-md-6 col-lg-4">
+                <div class="custom-card h-100 p-0 overflow-hidden hover-shadow border-0" style="box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
                     
-                    @php
-                        $colors = ['primary', 'success', 'info', 'warning', 'danger'];
-                        $color = $colors[$loop->index % count($colors)];
-                    @endphp
-                    
-                    @if($armada->image)
-                        <div class="mx-auto mb-3" style="height: 80px; width: 100%; display: flex; justify-content: center; align-items: center;">
-                            <img src="{{ asset('storage/app/public/' . $armada->image) }}" alt="{{ $armada->nama_armada }}" style="max-height: 100%; max-width: 100%; object-fit: contain;">
-                        </div>
-                    @else
-                        <div class="armada-icon bg-{{ $color }} bg-opacity-10 text-{{ $color }} mx-auto mb-3"><i class="bi bi-car-front-fill"></i></div>
-                    @endif
-                    <h5 class="fw-bold mb-1">{{ $armada->nama_armada }}</h5>
-                    <p class="text-muted small mb-3">Kapasitas: {{ $armada->kapasitas_kursi }} Seat</p>
-                    <div class="p-2 rounded-3 mb-4" style="background: var(--bg-body); border: 1px solid var(--border-color);">
-                        <h4 class="fw-bold text-dark m-0 bg-warning rounded-2 py-1 border border-dark mx-4">{{ $armada->plat_nomor }}</h4>
+                    <div class="position-relative d-flex justify-content-center align-items-center" style="height: 160px; background: var(--bg-body); border-bottom: 1px solid var(--border-color);">
+                        <span class="position-absolute top-0 end-0 m-3 badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-3 py-2 rounded-pill fw-bold">
+                            <i class="bi bi-check-circle-fill me-1"></i> Aktif
+                        </span>
+                        
+                        @if($armada->image)
+                            <img src="{{ asset('storage/app/public/' . $armada->image) }}" alt="{{ $armada->nama_armada }}" 
+                                 style="max-height: 120px; max-width: 80%; object-fit: contain; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.15));"
+                                 onerror="this.onerror=null; this.outerHTML='<i class=\'bi bi-car-front-fill text-primary opacity-25\' style=\'font-size: 5rem;\'></i>';">
+                        @else
+                            <i class="bi bi-car-front-fill text-primary opacity-25" style="font-size: 5rem;"></i>
+                        @endif
                     </div>
-                    
-                    <div class="d-flex gap-2 justify-content-center">
-                        <button class="btn btn-sm btn-outline-primary fw-bold w-50" onclick="openEditArmada({{ $armada->id }}, '{{ $armada->nama_armada }}', '{{ $armada->plat_nomor }}')"><i class="bi bi-pencil-square me-1"></i> Edit</button>
-                        <form action="{{ route('admin.armada.destroy', $armada->id) }}" method="POST" class="w-50" id="form-delete-armada-{{ $armada->id }}">
-                            @csrf @method('DELETE')
-                            <button type="button" class="btn btn-sm btn-outline-danger fw-bold w-100" onclick="confirmDeleteArmada({{ $armada->id }}, '{{ $armada->nama_armada }}')"><i class="bi bi-trash-fill me-1"></i> Hapus</button>
-                        </form>
+
+                    <div class="p-4 text-center">
+                        <h5 class="fw-bold mb-1 text-main">{{ $armada->nama_armada }}</h5>
+                        <p class="text-muted small mb-3"><i class="bi bi-people-fill me-1"></i>Kapasitas: {{ $armada->kapasitas_kursi }} Seat</p>
+                        
+                        <div class="d-inline-block px-4 py-2 mb-4 rounded-2" style="background: #ffcc00; border: 2px solid #222; box-shadow: inset 0 0 5px rgba(0,0,0,0.2);">
+                            <h5 class="fw-bolder m-0 text-dark" style="font-family: monospace; letter-spacing: 2px;">{{ $armada->plat_nomor }}</h5>
+                        </div>
+                        
+                        <div class="d-flex gap-2 justify-content-center">
+                            <button class="btn btn-light text-primary fw-bold w-50" style="background: rgba(72, 61, 139, 0.05);" 
+                                    onclick="openEditArmada({{ $armada->id }}, '{{ $armada->nama_armada }}', '{{ $armada->plat_nomor }}')">
+                                <i class="bi bi-pencil-square me-1"></i> Edit
+                            </button>
+                            <form action="{{ route('admin.armada.destroy', $armada->id) }}" method="POST" class="w-50" id="form-delete-armada-{{ $armada->id }}">
+                                @csrf @method('DELETE')
+                                <button type="button" class="btn btn-light text-danger fw-bold w-100" style="background: rgba(220, 53, 69, 0.05);" 
+                                        onclick="confirmDeleteArmada({{ $armada->id }}, '{{ $armada->nama_armada }}')">
+                                    <i class="bi bi-trash-fill me-1"></i> Hapus
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -335,35 +345,56 @@
     </div>
 
     <div class="tab-pane fade" id="tab-supir">
-        <div class="custom-card">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h5 class="fw-bold m-0"><i class="bi bi-person-badge text-success me-2"></i>Daftar Supir Aktif</h5>
+        <div class="custom-card border-0 shadow-sm p-0 overflow-hidden">
+            <div class="p-4 border-bottom">
+                <h5 class="fw-bold m-0"><i class="bi bi-person-vcard text-success me-2"></i>Daftar Supir Aktif</h5>
             </div>
+            
             <div class="table-responsive">
-                <table class="table align-middle border-0">
-                    <thead class="text-uppercase small fw-bold text-muted border-0">
+                <table class="table table-hover align-middle mb-0" style="color: var(--text-main);">
+                    <thead class="bg-primary bg-opacity-10 text-uppercase small fw-bold text-muted">
                         <tr>
-                            <th style="width: 60px; border-bottom: none;">No</th>
-                            <th style="border-bottom: none;">Nama Supir</th>
-                            <th style="border-bottom: none;">Nomor WhatsApp</th>
-                            <th class="text-center" style="width: 100px; border-bottom: none;">Aksi</th>
+                            <th class="ps-4 py-3 border-0" style="width: 60px;">No</th>
+                            <th class="py-3 border-0">Profil Supir</th>
+                            <th class="py-3 border-0">Kontak WhatsApp</th>
+                            <th class="text-end pe-4 py-3 border-0" style="width: 120px;">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($drivers as $index => $driver)
-                        <tr>
-                            <td class="fw-bold text-muted">{{ $index + 1 }}</td>
-                            <td class="fw-bold">{{ $driver->nama_supir }}</td>
+                        <tr style="border-bottom: 1px solid var(--border-color); transition: 0.2s;">
+                            <td class="ps-4 fw-bold text-muted">{{ $index + 1 }}</td>
                             <td>
-                                <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-2 py-1"><i class="bi bi-whatsapp me-1"></i>{{ $driver->no_hp }}</span>
+                                <div class="d-flex align-items-center gap-3 py-2">
+                                    <div class="rounded-circle bg-success bg-opacity-10 text-success d-flex align-items-center justify-content-center flex-shrink-0" style="width: 45px; height: 45px;">
+                                        <i class="bi bi-person-fill fs-5"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="fw-bold m-0 text-main">{{ $driver->nama_supir }}</h6>
+                                        <small class="text-muted">Mitra Driver</small>
+                                    </div>
+                                </div>
                             </td>
-                            <td class="text-center">
-                                <div class="d-flex justify-content-center gap-1">
-                                    <button class="btn btn-sm btn-edit-action rounded-2 px-2" onclick="openEditSupir({{ $driver->id }}, '{{ $driver->nama_supir }}', '{{ $driver->no_hp }}')" title="Edit Supir"><i class="bi bi-pencil-square"></i></button>
+                            <td>
+                                <a href="https://wa.me/{{ preg_replace('/^0/', '62', $driver->no_hp) }}" target="_blank" class="text-decoration-none">
+                                    <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-3 py-2 rounded-pill">
+                                        <i class="bi bi-whatsapp me-2"></i>{{ $driver->no_hp }}
+                                    </span>
+                                </a>
+                            </td>
+                            <td class="text-end pe-4">
+                                <div class="d-inline-flex gap-2">
+                                    <button class="btn btn-sm btn-light text-primary rounded-circle" style="width: 35px; height: 35px;" 
+                                            onclick="openEditSupir({{ $driver->id }}, '{{ $driver->nama_supir }}', '{{ $driver->no_hp }}')" title="Edit">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </button>
                                     
-                                    <form action="{{ route('admin.driver.destroy', $driver->id) }}" method="POST" id="form-delete-supir-{{ $driver->id }}">
+                                    <form action="{{ route('admin.driver.destroy', $driver->id) }}" method="POST" id="form-delete-supir-{{ $driver->id }}" class="m-0">
                                         @csrf @method('DELETE')
-                                        <button type="button" class="btn btn-sm btn-outline-danger rounded-2 px-2 border-0" onclick="confirmDeleteSupir({{ $driver->id }}, '{{ $driver->nama_supir }}')" title="Hapus Supir"><i class="bi bi-trash-fill"></i></button>
+                                        <button type="button" class="btn btn-sm btn-light text-danger rounded-circle" style="width: 35px; height: 35px;" 
+                                                onclick="confirmDeleteSupir({{ $driver->id }}, '{{ $driver->nama_supir }}')" title="Hapus">
+                                            <i class="bi bi-trash-fill"></i>
+                                        </button>
                                     </form>
                                 </div>
                             </td>
@@ -374,6 +405,7 @@
             </div>
         </div>
     </div>
+
 
 </div>
 
