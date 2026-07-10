@@ -219,6 +219,8 @@
     @endforeach
 </div>
 
+</div>
+
     <div class="tab-pane fade" id="tab-kargo">
         <div class="row g-4">
             <div class="col-md-7">
