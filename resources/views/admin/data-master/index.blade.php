@@ -70,8 +70,8 @@
     /* --- ENHANCED CARDS & TABLES --- */
 .custom-card { 
     background: var(--card-bg); 
-    border-radius: 20px; /* Radius sedikit lebih membulat untuk kesan modern */
-    padding: 24px; 
+    border-radius: 16px; /* Sedikit dikecilkan radiusnya */
+    padding: 16px; /* SEBELUMNYA 24px, kita buat lebih padat */
     border: 1px solid var(--border-color); 
     box-shadow: 0 4px 15px rgba(0,0,0,0.02); 
     color: var(--text-main); 
@@ -86,9 +86,9 @@
 
 /* Modifikasi kotak harga agar lebih rapi (menggantikan border-dashed) */
 .price-box {
-    background: rgba(72, 61, 139, 0.05); /* Soft primary color */
-    border-radius: 12px;
-    padding: 12px 16px;
+    background: rgba(72, 61, 139, 0.05); 
+    border-radius: 10px;
+    padding: 8px 12px; /* SEBELUMNYA 12px 16px, dibuat lebih tipis */
     border: 1px solid rgba(72, 61, 139, 0.1);
 }
 
@@ -97,11 +97,10 @@
     border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/* Mempercantik tampilan badge rute dan tombol aksi */
 .action-buttons-wrapper {
     background: var(--bg-body);
-    padding: 4px;
-    border-radius: 10px;
+    padding: 2px; /* Dibuat lebih tipis */
+    border-radius: 8px;
     border: 1px solid var(--border-color);
 }
 </style>
@@ -164,24 +163,27 @@
         <span class="badge badge-info-custom py-2 px-3"><i class="bi bi-info-circle me-1"></i>Berlaku untuk rute sebaliknya</span>
     </div>
 
-    <div class="row g-4">
+    <!-- GRID BARU (Compact Ticket Style) -->
+<div class="row g-3"> <!-- Mengubah gap dari g-4 ke g-3 agar lebih rapat -->
     @foreach($rutes as $rute)
-    <div class="col-md-6 col-lg-4">
+    <!-- Tambahan col-xl-3 agar di layar lebar bisa muat 4 card berjejer -->
+    <div class="col-md-6 col-lg-4 col-xl-3">
         <div class="custom-card d-flex flex-column h-100 position-relative hover-shadow">
             
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2 rounded-pill fw-bold" style="font-size: 0.8rem;">
-                    <i class="bi bi-geo-alt-fill me-1"></i> Rute Travel
+            <!-- Header Card -->
+            <div class="d-flex justify-content-between align-items-center mb-3"> <!-- mb-4 jadi mb-3 -->
+                <span class="badge bg-primary bg-opacity-10 text-primary px-2 py-1 rounded-pill fw-bold" style="font-size: 0.75rem;">
+                    <i class="bi bi-geo-alt-fill me-1"></i> Rute
                 </span>
                 
                 <div class="action-buttons-wrapper d-flex gap-1">
-                    <button type="button" class="btn btn-sm btn-light text-primary rounded-2 px-2 border-0" 
+                    <button type="button" class="btn btn-sm btn-light text-primary rounded-2 px-2 py-1 border-0" style="font-size: 0.8rem;"
                             onclick="openEditRute({{ $rute->id }}, '{{ $rute->kota_asal }}', '{{ $rute->kota_tujuan }}', {{ $rute->harga_reguler }})" title="Edit">
                         <i class="bi bi-pencil-square"></i>
                     </button>
                     <form action="{{ route('admin.rute.destroy', $rute->id) }}" method="POST" id="form-delete-rute-{{ $rute->id }}" class="m-0">
                         @csrf @method('DELETE')
-                        <button type="button" class="btn btn-sm btn-light text-danger rounded-2 px-2 border-0" 
+                        <button type="button" class="btn btn-sm btn-light text-danger rounded-2 px-2 py-1 border-0" style="font-size: 0.8rem;"
                                 onclick="confirmDeleteRute({{ $rute->id }}, '{{ $rute->kota_asal }}', '{{ $rute->kota_tujuan }}')" title="Hapus">
                             <i class="bi bi-trash-fill"></i>
                         </button>
@@ -189,25 +191,27 @@
                 </div>
             </div>
             
-            <div class="d-flex align-items-center justify-content-between mb-4 px-2">
-                <div class="text-start" style="width: 40%;">
-                    <div class="small text-muted mb-1">Asal</div>
-                    <h6 class="fw-bold text-main m-0 text-truncate" title="{{ $rute->kota_asal }}">{{ $rute->kota_asal }}</h6>
+            <!-- Content Card -->
+            <div class="d-flex align-items-center justify-content-between mb-3 px-1"> <!-- mb-4 jadi mb-3 -->
+                <div class="text-start" style="width: 42%;">
+                    <div class="text-muted mb-0" style="font-size: 0.7rem;">Asal</div>
+                    <h6 class="fw-bold text-main m-0 text-truncate" style="font-size: 0.95rem;" title="{{ $rute->kota_asal }}">{{ $rute->kota_asal }}</h6>
                 </div>
                 
-                <div class="text-center px-2 text-primary opacity-75">
-                    <i class="bi bi-arrow-left-right fs-4"></i>
+                <div class="text-center px-1 text-primary opacity-75">
+                    <i class="bi bi-arrow-left-right fs-5"></i> <!-- Icon diperkecil dari fs-4 ke fs-5 -->
                 </div>
                 
-                <div class="text-end" style="width: 40%;">
-                    <div class="small text-muted mb-1">Tujuan</div>
-                    <h6 class="fw-bold text-main m-0 text-truncate" title="{{ $rute->kota_tujuan }}">{{ $rute->kota_tujuan }}</h6>
+                <div class="text-end" style="width: 42%;">
+                    <div class="text-muted mb-0" style="font-size: 0.7rem;">Tujuan</div>
+                    <h6 class="fw-bold text-main m-0 text-truncate" style="font-size: 0.95rem;" title="{{ $rute->kota_tujuan }}">{{ $rute->kota_tujuan }}</h6>
                 </div>
             </div>
             
+            <!-- Footer Card -->
             <div class="mt-auto price-box d-flex justify-content-between align-items-center">
-                <div class="small text-muted fw-bold">Harga per Seat</div>
-                <div class="fs-5 fw-bolder text-primary mb-0">Rp {{ number_format($rute->harga_reguler, 0, ',', '.') }}</div>
+                <div class="text-muted fw-bold" style="font-size: 0.75rem;">Harga/Seat</div>
+                <div class="fw-bolder text-primary mb-0" style="font-size: 1rem;">Rp {{ number_format($rute->harga_reguler, 0, ',', '.') }}</div>
             </div>
             
         </div>
