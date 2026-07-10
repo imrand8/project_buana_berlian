@@ -66,6 +66,44 @@
     .btn-cancel-custom:hover { background: var(--border-color); color: var(--text-main); }
     .btn-edit-action { background: #ffffff; color: var(--p-color); border: 1px solid #e2e8f0; transition: 0.2s; }
     .btn-edit-action:hover { background: var(--bg-body); border-color: var(--p-color); }
+
+    /* --- ENHANCED CARDS & TABLES --- */
+.custom-card { 
+    background: var(--card-bg); 
+    border-radius: 20px; /* Radius sedikit lebih membulat untuk kesan modern */
+    padding: 24px; 
+    border: 1px solid var(--border-color); 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.02); 
+    color: var(--text-main); 
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.hover-shadow:hover { 
+    transform: translateY(-4px); 
+    box-shadow: 0 12px 24px rgba(0,0,0,0.08) !important; 
+    border-color: var(--p-color);
+}
+
+/* Modifikasi kotak harga agar lebih rapi (menggantikan border-dashed) */
+.price-box {
+    background: rgba(72, 61, 139, 0.05); /* Soft primary color */
+    border-radius: 12px;
+    padding: 12px 16px;
+    border: 1px solid rgba(72, 61, 139, 0.1);
+}
+
+[data-theme="dark"] .price-box {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Mempercantik tampilan badge rute dan tombol aksi */
+.action-buttons-wrapper {
+    background: var(--bg-body);
+    padding: 4px;
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+}
 </style>
 
 <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
@@ -126,34 +164,55 @@
         <span class="badge badge-info-custom py-2 px-3"><i class="bi bi-info-circle me-1"></i>Berlaku untuk rute sebaliknya</span>
     </div>
 
-    <!-- GRID BARU (Rectangle) -->
-    <div class="row g-3">
-        @foreach($rutes as $rute)
-        <div class="col-md-4 col-lg-3">
-            <div class="custom-card d-flex flex-column h-100 position-relative hover-shadow">
-                <div class="d-flex justify-content-between align-items-start mb-3">
-                    <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2 rounded-pill"><i class="bi bi-geo-alt-fill me-1"></i> Rute</span>
-                    <div class="d-flex gap-1">
-                        <button class="btn btn-sm btn-edit-action rounded-2 px-2" onclick="openEditRute({{ $rute->id }}, '{{ $rute->kota_asal }}', '{{ $rute->kota_tujuan }}', {{ $rute->harga_reguler }})"><i class="bi bi-pencil-square"></i></button>
-                        <form action="{{ route('admin.rute.destroy', $rute->id) }}" method="POST" id="form-delete-rute-{{ $rute->id }}">
-                            @csrf @method('DELETE')
-                            <button type="button" class="btn btn-sm btn-outline-danger rounded-2 px-2 border-0" onclick="confirmDeleteRute({{ $rute->id }}, '{{ $rute->kota_asal }}', '{{ $rute->kota_tujuan }}')"><i class="bi bi-trash-fill"></i></button>
-                        </form>
-                    </div>
-                </div>
+    <div class="row g-4">
+    @foreach($rutes as $rute)
+    <div class="col-md-6 col-lg-4">
+        <div class="custom-card d-flex flex-column h-100 position-relative hover-shadow">
+            
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2 rounded-pill fw-bold" style="font-size: 0.8rem;">
+                    <i class="bi bi-geo-alt-fill me-1"></i> Rute Travel
+                </span>
                 
-                <h6 class="fw-bold text-main mb-1">{{ $rute->kota_asal }}</h6>
-                <i class="bi bi-arrow-down-up text-muted my-1 ms-2"></i>
-                <h6 class="fw-bold text-main mb-3">{{ $rute->kota_tujuan }}</h6>
-                
-                <div class="mt-auto pt-3 border-top border-dashed">
-                    <div class="small text-muted mb-1">Harga per Seat</div>
-                    <div class="fs-5 fw-bold text-primary">Rp {{ number_format($rute->harga_reguler, 0, ',', '.') }}</div>
+                <div class="action-buttons-wrapper d-flex gap-1">
+                    <button type="button" class="btn btn-sm btn-light text-primary rounded-2 px-2 border-0" 
+                            onclick="openEditRute({{ $rute->id }}, '{{ $rute->kota_asal }}', '{{ $rute->kota_tujuan }}', {{ $rute->harga_reguler }})" title="Edit">
+                        <i class="bi bi-pencil-square"></i>
+                    </button>
+                    <form action="{{ route('admin.rute.destroy', $rute->id) }}" method="POST" id="form-delete-rute-{{ $rute->id }}" class="m-0">
+                        @csrf @method('DELETE')
+                        <button type="button" class="btn btn-sm btn-light text-danger rounded-2 px-2 border-0" 
+                                onclick="confirmDeleteRute({{ $rute->id }}, '{{ $rute->kota_asal }}', '{{ $rute->kota_tujuan }}')" title="Hapus">
+                            <i class="bi bi-trash-fill"></i>
+                        </button>
+                    </form>
                 </div>
             </div>
+            
+            <div class="d-flex align-items-center justify-content-between mb-4 px-2">
+                <div class="text-start" style="width: 40%;">
+                    <div class="small text-muted mb-1">Asal</div>
+                    <h6 class="fw-bold text-main m-0 text-truncate" title="{{ $rute->kota_asal }}">{{ $rute->kota_asal }}</h6>
+                </div>
+                
+                <div class="text-center px-2 text-primary opacity-75">
+                    <i class="bi bi-arrow-left-right fs-4"></i>
+                </div>
+                
+                <div class="text-end" style="width: 40%;">
+                    <div class="small text-muted mb-1">Tujuan</div>
+                    <h6 class="fw-bold text-main m-0 text-truncate" title="{{ $rute->kota_tujuan }}">{{ $rute->kota_tujuan }}</h6>
+                </div>
+            </div>
+            
+            <div class="mt-auto price-box d-flex justify-content-between align-items-center">
+                <div class="small text-muted fw-bold">Harga per Seat</div>
+                <div class="fs-5 fw-bolder text-primary mb-0">Rp {{ number_format($rute->harga_reguler, 0, ',', '.') }}</div>
+            </div>
+            
         </div>
-        @endforeach
     </div>
+    @endforeach
 </div>
 
     <div class="tab-pane fade" id="tab-kargo">
