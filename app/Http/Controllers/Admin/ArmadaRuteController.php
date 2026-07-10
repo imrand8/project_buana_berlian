@@ -14,7 +14,26 @@ class ArmadaRuteController extends Controller
 {
     public function index()
     {
-        $rutes = Rute::all();
+        // 1. Ambil semua data rute dari database
+        $allRutes = Rute::all();
+        
+        // 2. Buat wadah (collection) kosong untuk menampung rute yang sudah disaring
+        $rutes = collect();
+
+        // 3. Looping untuk mengecek dan memfilter rute ganda (bolak-balik)
+        foreach ($allRutes as $rute) {
+            // Cek apakah rute kebalikannya sudah masuk ke dalam wadah $rutes
+            $isDuplicate = $rutes->contains(function ($item) use ($rute) {
+                return $item->kota_asal === $rute->kota_tujuan && 
+                       $item->kota_tujuan === $rute->kota_asal;
+            });
+
+            // Jika rute kebalikannya (misal Pacitan-Malang) belum ada, masukkan rute saat ini
+            if (!$isDuplicate) {
+                $rutes->push($rute);
+            }
+        }
+
         $armadas = Armada::all();
         $drivers = Driver::all();
         
