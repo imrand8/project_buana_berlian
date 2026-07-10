@@ -163,62 +163,60 @@
         <span class="badge badge-info-custom py-2 px-3"><i class="bi bi-info-circle me-1"></i>Berlaku untuk rute sebaliknya</span>
     </div>
 
-    <!-- GRID BARU (Compact Ticket Style) -->
-<div class="row g-3"> <!-- Mengubah gap dari g-4 ke g-3 agar lebih rapat -->
-    @foreach($rutes as $rute)
-    <!-- Tambahan col-xl-3 agar di layar lebar bisa muat 4 card berjejer -->
-    <div class="col-md-6 col-lg-4 col-xl-3">
-        <div class="custom-card d-flex flex-column h-100 position-relative hover-shadow">
-            
-            <!-- Header Card -->
-            <div class="d-flex justify-content-between align-items-center mb-3"> <!-- mb-4 jadi mb-3 -->
-                <span class="badge bg-primary bg-opacity-10 text-primary px-2 py-1 rounded-pill fw-bold" style="font-size: 0.75rem;">
-                    <i class="bi bi-geo-alt-fill me-1"></i> Rute
-                </span>
+<div class="row g-3"> 
+        @foreach($rutes as $rute)
+        <div class="col-12">
+            <div class="custom-card hover-shadow p-3 d-flex align-items-center">
                 
-                <div class="action-buttons-wrapper d-flex gap-1">
-                    <button type="button" class="btn btn-sm btn-light text-primary rounded-2 px-2 py-1 border-0" style="font-size: 0.8rem;"
-                            onclick="openEditRute({{ $rute->id }}, '{{ $rute->kota_asal }}', '{{ $rute->kota_tujuan }}', {{ $rute->harga_reguler }})" title="Edit">
-                        <i class="bi bi-pencil-square"></i>
-                    </button>
-                    <form action="{{ route('admin.rute.destroy', $rute->id) }}" method="POST" id="form-delete-rute-{{ $rute->id }}" class="m-0">
-                        @csrf @method('DELETE')
-                        <button type="button" class="btn btn-sm btn-light text-danger rounded-2 px-2 py-1 border-0" style="font-size: 0.8rem;"
-                                onclick="confirmDeleteRute({{ $rute->id }}, '{{ $rute->kota_asal }}', '{{ $rute->kota_tujuan }}')" title="Hapus">
-                            <i class="bi bi-trash-fill"></i>
-                        </button>
-                    </form>
-                </div>
-            </div>
-            
-            <!-- Content Card -->
-            <div class="d-flex align-items-center justify-content-between mb-3 px-1"> <!-- mb-4 jadi mb-3 -->
-                <div class="text-start" style="width: 42%;">
-                    <div class="text-muted mb-0" style="font-size: 0.7rem;">Asal</div>
-                    <h6 class="fw-bold text-main m-0 text-truncate" style="font-size: 0.95rem;" title="{{ $rute->kota_asal }}">{{ $rute->kota_asal }}</h6>
-                </div>
-                
-                <div class="text-center px-1 text-primary opacity-75">
-                    <i class="bi bi-arrow-left-right fs-5"></i> <!-- Icon diperkecil dari fs-4 ke fs-5 -->
-                </div>
-                
-                <div class="text-end" style="width: 42%;">
-                    <div class="text-muted mb-0" style="font-size: 0.7rem;">Tujuan</div>
-                    <h6 class="fw-bold text-main m-0 text-truncate" style="font-size: 0.95rem;" title="{{ $rute->kota_tujuan }}">{{ $rute->kota_tujuan }}</h6>
-                </div>
-            </div>
-            
-            <!-- Footer Card -->
-            <div class="mt-auto price-box d-flex justify-content-between align-items-center">
-                <div class="text-muted fw-bold" style="font-size: 0.75rem;">Harga/Seat</div>
-                <div class="fw-bolder text-primary mb-0" style="font-size: 1rem;">Rp {{ number_format($rute->harga_reguler, 0, ',', '.') }}</div>
-            </div>
-            
-        </div>
-    </div>
-    @endforeach
-</div>
+                <div class="row align-items-center w-100 m-0">
+                    
+                    <div class="col-12 col-md-3 d-flex align-items-center gap-3 mb-2 mb-md-0">
+                        <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width: 48px; height: 48px;">
+                            <i class="bi bi-geo-alt-fill fs-5"></i>
+                        </div>
+                        <div>
+                            <div class="text-muted small fw-bold" style="font-size: 0.75rem;">KOTA ASAL</div>
+                            <h6 class="fw-bold text-main m-0" style="font-size: 1.05rem;">{{ $rute->kota_asal }}</h6>
+                        </div>
+                    </div>
 
+                    <div class="col-12 col-md-1 text-center d-none d-md-block text-primary opacity-75">
+                        <i class="bi bi-arrow-left-right fs-4"></i>
+                    </div>
+
+                    <div class="col-12 col-md-3 text-start mb-3 mb-md-0 pl-md-4">
+                         <div class="text-muted small fw-bold" style="font-size: 0.75rem;">KOTA TUJUAN</div>
+                         <h6 class="fw-bold text-main m-0" style="font-size: 1.05rem;">{{ $rute->kota_tujuan }}</h6>
+                    </div>
+
+                    <div class="col-12 col-md-3 mb-3 mb-md-0">
+                        <div class="price-box py-2 px-3 d-flex flex-column justify-content-center text-center text-md-start">
+                            <span class="text-muted fw-bold mb-1" style="font-size: 0.7rem;">HARGA / SEAT</span>
+                            <span class="fw-bolder text-primary fs-5 m-0" style="line-height: 1;">Rp {{ number_format($rute->harga_reguler, 0, ',', '.') }}</span>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-2 text-md-end text-center">
+                        <div class="action-buttons-wrapper d-inline-flex gap-2 p-1">
+                            <button type="button" class="btn btn-sm btn-light text-primary rounded-2 px-3 py-2 border-0" 
+                                    onclick="openEditRute({{ $rute->id }}, '{{ $rute->kota_asal }}', '{{ $rute->kota_tujuan }}', {{ $rute->harga_reguler }})" title="Edit">
+                                <i class="bi bi-pencil-square fs-5"></i>
+                            </button>
+                            <form action="{{ route('admin.rute.destroy', $rute->id) }}" method="POST" id="form-delete-rute-{{ $rute->id }}" class="m-0">
+                                @csrf @method('DELETE')
+                                <button type="button" class="btn btn-sm btn-light text-danger rounded-2 px-3 py-2 border-0" 
+                                        onclick="confirmDeleteRute({{ $rute->id }}, '{{ $rute->kota_asal }}', '{{ $rute->kota_tujuan }}')" title="Hapus">
+                                    <i class="bi bi-trash-fill fs-5"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        @endforeach
+    </div>
 </div>
 
     <div class="tab-pane fade" id="tab-kargo">
