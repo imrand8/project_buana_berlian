@@ -181,7 +181,7 @@
                                 @csrf @method('DELETE')
                             </form>
                             <button class="btn btn-sm btn-outline-secondary fw-bold px-3" onclick="openViewOnlyManifest({{ $jdwl->id }}, {{ $jdwl->armada_id }}, '{{ $jdwl->jam_berangkat }}', '{{ $jdwl->driver_id ?? '' }}', {{ $jdwl->rute->harga_reguler }})">
-                                <i class="bi bi-eye me-1"></i> Lihat Manifest
+                                Kelola
                             </button>
                         </div>
                     </div>
@@ -689,10 +689,8 @@
     function openKelolaModal(jadwalId, armadaId, jam, driverId, hargaRute) {
     currentJadwalHarga = hargaRute; // Simpan harga rute ke memori
 
-    const currentJadwal = allActiveSchedules.find(j => j.id == jadwalId);
-    currentEditTanggal = currentJadwal ? currentJadwal.tanggal_berangkat : null;
-
-    // ... (sisanya biarkan sama persis dengan kodemu sebelumnya)
+        const currentJadwal = allActiveSchedules.find(j => j.id == jadwalId);
+        currentEditTanggal = currentJadwal ? currentJadwal.tanggal_berangkat : null;
         
         // --- REVISI: Gunakan variabel global dan kurangi waktu 30 menit ---
         isJadwalPast = false; 
@@ -1029,12 +1027,12 @@
         }
     }
 
-    // Update fungsi openViewOnlyManifest
+    // --- FUNGSI OPEN MANIFEST (Hanya Lihat, Tidak Bisa Edit) ---
     function openViewOnlyManifest(jadwalId, armadaId, jam, driverId, hargaRute) {
-    openKelolaModal(jadwalId, armadaId, jam, driverId, hargaRute); // Tambahkan hargaRute
+        // 2. Teruskan parameter hargaRute ke fungsi utama
+        openKelolaModal(jadwalId, armadaId, jam, driverId, hargaRute); 
 
-    // ... (sisanya biarkan sama persis)
-
+        // 3. Matikan semua interaksi user (Timeout agar menunggu modal selesai me-render data)
         setTimeout(() => {
             let submitBtn = document.querySelector('#formUpdateJadwal button[type="submit"]');
             if(submitBtn) submitBtn.style.display = 'none';
@@ -1045,6 +1043,7 @@
             let btnKargoBaru = document.querySelector('button[onclick="siapkanKargoBaru()"]');
             if (btnKargoBaru) btnKargoBaru.style.display = 'none';
 
+            // Kunci semua kursi agar tidak bisa diubah-ubah
             document.querySelectorAll('.seat-interactive').forEach(s => {
                 s.style.pointerEvents = 'none';
             });
