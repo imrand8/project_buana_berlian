@@ -33,18 +33,6 @@
                 <li class="nav-item"><a href="{{ url('/') }}" class="nav-link {{ Request::is('/') ? 'active' : '' }}">Beranda</a></li>
                 <li class="nav-item"><a href="{{ url('/layanan') }}" class="nav-link {{ Request::is('layanan') ? 'active' : '' }}">Pesan Layanan</a></li>
                 
-                {{-- LOGIKA NOTIFIKASI TIKET BUTUH TINDAKAN --}}
-                @php
-                    $pendingCount = 0;
-                    if(Auth::check()) {
-                        $pendingTravel = \App\Models\PesananTravel::where('user_id', Auth::id())
-                                        ->whereIn('status_pesanan', ['menunggu_verifikasi', 'ditolak'])->count();
-                        $pendingKargo = \App\Models\PesananKargo::where('user_id', Auth::id())
-                                        ->whereIn('status_pesanan', ['menunggu_verifikasi', 'ditolak'])->count();
-                        $pendingCount = $pendingTravel + $pendingKargo;
-                    }
-                @endphp
-                
                 <li class="nav-item">
                     <a href="{{ url('/cek-tiket') }}" class="nav-link {{ Request::is('cek-tiket') ? 'active' : '' }}">
                         Cek Tiket
