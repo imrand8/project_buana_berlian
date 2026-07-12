@@ -7,12 +7,14 @@
 @php
     $pendingCount = 0;
     if(Auth::check()) {
-        // HANYA menghitung pesanan yang berstatus 'ditolak' (butuh upload ulang)
+        // Kita hitung yang statusnya HANYA 'ditolak'
         $pendingTravel = \App\Models\PesananTravel::where('user_id', Auth::id())
-                        ->where('status_pesanan', 'ditolak')->count();
+                        ->where('status_pesanan', 'ditolak')
+                        ->count();
                         
         $pendingKargo = \App\Models\PesananKargo::where('user_id', Auth::id())
-                        ->where('status_pesanan', 'ditolak')->count();
+                        ->where('status_pesanan', 'ditolak')
+                        ->count();
                         
         $pendingCount = $pendingTravel + $pendingKargo;
     }
