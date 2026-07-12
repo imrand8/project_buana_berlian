@@ -69,4 +69,16 @@ public function index(Request $request)
         $kargo->update(['jadwal_id' => $request->jadwal_id]);
         return redirect()->back()->with('success', 'Kargo berhasil ditugaskan ke armada tersebut!');
     }
+
+    public function destroyTravel($id)
+    {
+        PesananTravel::findOrFail($id)->delete();
+        return redirect()->back()->with('success', 'Pesanan Travel dibatalkan/dihapus.');
+    }
+
+    public function destroyKargo($id)
+    {
+        PesananKargo::findOrFail($id)->delete();
+        return redirect()->back()->with('success', 'Pesanan Kargo dibatalkan/dihapus.');
+    }
 }
