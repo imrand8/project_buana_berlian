@@ -614,28 +614,32 @@
         let selectArmada = document.getElementById('selectArmada');
         let sekarang = new Date();
 
-        // Samakan format huruf untuk pencocokan
-        kargoAsal = kargoAsal.toLowerCase();
-        kargoTujuan = kargoTujuan.toLowerCase();
+        // FIX: Potong teks di dalam kurung dan bersihkan spasi agar cocok
+        let cleanKargoAsal = kargoAsal.split('(')[0].trim().toLowerCase();
+        let cleanKargoTujuan = kargoTujuan.split('(')[0].trim().toLowerCase();
 
         Array.from(selectArmada.options).forEach(opt => {
             if(opt.value === "") return; 
 
             let tgl = opt.getAttribute('data-tgl');
             let jam = opt.getAttribute('data-jam');
-            let ruteAsal = opt.getAttribute('data-asal');
-            let ruteTujuan = opt.getAttribute('data-tujuan');
+            
+            // Ambil rute armada dan bersihkan juga
+            let rawAsal = opt.getAttribute('data-asal') || '';
+            let rawTujuan = opt.getAttribute('data-tujuan') || '';
+            let ruteAsal = rawAsal.split('(')[0].trim().toLowerCase();
+            let ruteTujuan = rawTujuan.split('(')[0].trim().toLowerCase();
 
             let isDisabled = false;
             let labelTambahan = '';
 
-            // 1. CEK VALIDASI RUTE
-            if (ruteAsal !== kargoAsal || ruteTujuan !== kargoTujuan) {
+            // 1. CEK VALIDASI RUTE (Sekarang sudah kebal dengan embel-embel "(alun)")
+            if (ruteAsal !== cleanKargoAsal || ruteTujuan !== cleanKargoTujuan) {
                 isDisabled = true;
                 labelTambahan = ' 🔴 (Beda Arah/Rute)';
             }
 
-            // 2. CEK VALIDASI WAKTU (Hanya dicek jika rutenya sudah benar)
+            // 2. CEK VALIDASI WAKTU
             if (!isDisabled && tgl && jam) {
                 let waktuBerangkat = new Date(`${tgl}T${jam}`);
                 let batasWaktuAssign = new Date(waktuBerangkat.getTime() - (30 * 60 * 1000));
@@ -646,9 +650,7 @@
                 }
             }
 
-            // Eksekusi Kunci dan Label
             opt.disabled = isDisabled;
-            // Bersihkan teks lama sebelum ditambah yang baru agar teks tidak menumpuk saat modal dibuka berkali-kali
             opt.text = opt.text.replace(' 🔴 (Beda Arah/Rute)', '').replace(' 🔴 (Persiapan Jalan)', '');
             if (isDisabled) opt.text += labelTambahan;
         });
@@ -731,12 +733,16 @@
 
         let statusEl = document.getElementById('k_status');
         let iconEl = document.getElementById('k_icon');
-        let statText = tempKargo.status;
-        statusEl.innerText = statText;
+        
+        // FIX: Pastikan membandingkan dengan huruf kecil (sesuai database)
+        let dbStatus = (tempKargo.status || '').toLowerCase();
+        let displayStatus = dbStatus.replace('_', ' ').toUpperCase();
+        
+        statusEl.innerText = displayStatus;
 
-        if(statText === 'LUNAS') { 
+        if(dbStatus === 'lunas') { 
             statusEl.style.background = '#28a745'; statusEl.style.color = '#fff'; iconEl.innerText = '✅'; 
-        } else if(statText === 'BATAL' || statText === 'DITOLAK') { 
+        } else if(dbStatus === 'batal' || dbStatus === 'ditolak') { 
             statusEl.style.background = '#dc3545'; statusEl.style.color = '#fff'; iconEl.innerText = '❌'; 
         } else { 
             statusEl.style.background = '#ffc107'; statusEl.style.color = '#000'; iconEl.innerText = '⏳'; 
