@@ -7,14 +7,13 @@
 @php
     $pendingCount = 0;
     if(Auth::check()) {
-        // Hapus 'menunggu_verifikasi' dari daftar ini. 
-        // Masukkan 'ditolak' dan status awal saat tiket baru dipesan (misal: 'pending' atau 'belum_bayar')
-        $statusButuhTindakan = ['pending', 'belum_bayar', 'ditolak']; 
-
+        // HANYA menghitung pesanan yang berstatus 'ditolak' (butuh upload ulang)
         $pendingTravel = \App\Models\PesananTravel::where('user_id', Auth::id())
-                        ->whereIn('status_pesanan', $statusButuhTindakan)->count();
+                        ->where('status_pesanan', 'ditolak')->count();
+                        
         $pendingKargo = \App\Models\PesananKargo::where('user_id', Auth::id())
-                        ->whereIn('status_pesanan', $statusButuhTindakan)->count();
+                        ->where('status_pesanan', 'ditolak')->count();
+                        
         $pendingCount = $pendingTravel + $pendingKargo;
     }
 @endphp
