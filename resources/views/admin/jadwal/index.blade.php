@@ -180,7 +180,9 @@
                             <form id="form-delete-jadwal-{{ $jdwl->id }}" action="{{ route('admin.jadwal.destroy', $jdwl->id) }}" method="POST" class="d-none">
                                 @csrf @method('DELETE')
                             </form>
-                            <button class="btn btn-sm btn-outline-primary fw-bold px-3" onclick="openKelolaModal({{ $jdwl->id }}, {{ $jdwl->armada_id }}, '{{ $jdwl->jam_berangkat }}', '{{ $jdwl->driver_id ?? '' }}')">Kelola</button>
+                            <button class="btn btn-sm btn-outline-secondary fw-bold px-3" onclick="openViewOnlyManifest({{ $jdwl->id }}, {{ $jdwl->armada_id }}, '{{ $jdwl->jam_berangkat }}', '{{ $jdwl->driver_id ?? '' }}', {{ $jdwl->rute->harga_reguler }})">
+                                <i class="bi bi-eye me-1"></i> Lihat Manifest
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -457,14 +459,21 @@
                                 </select>
                             </div>
                             <div class="row mb-4 p-3 rounded-3 mx-0" style="background: rgba(72, 61, 139, 0.05); border: 1px dashed var(--p-color);">
-
                                 <div class="col-sm-6 mb-2 mb-sm-0">
                                     <label class="small fw-bold text-muted mb-1">Status Pembayaran</label>
-                                    <input type="text" class="form-control custom-input w-100" id="psgPayStatus" disabled>
+                                    <select class="form-select custom-select w-100 fw-bold text-primary" id="psgPayStatus">
+                                        <option value="Lunas (Manual WA)">Lunas (Titip Supir/WA)</option>
+                                        <option value="Lunas (Transfer)">Lunas (Transfer)</option>
+                                        <option value="Belum Bayar">Belum Bayar</option>
+                                        <option value="Lunas (Via Web)" id="optWeb" style="display:none;">Lunas (Via Web)</option>
+                                    </select>
                                 </div>
                                 <div class="col-sm-6">
                                     <label class="small fw-bold text-muted mb-1">Harga (Rp)</label>
-                                    <input type="number" class="form-control custom-input w-100" id="psgPrice" placeholder="Cth: 150000" disabled>
+                                    <div class="input-group shadow-sm">
+                                        <span class="input-group-text bg-light border-end-0 fw-bold text-muted" style="border-radius: 10px 0 0 10px;">Rp</span>
+                                        <input type="number" class="form-control custom-input border-start-0 ps-0 fw-bold text-main" id="psgPrice" style="border-radius: 0 10px 10px 0;">
+                                    </div>
                                 </div>
                             </div>
                             <div id="webNoticeContainer" class="small text-danger fw-bold p-2 mb-3 rounded-2 mt-2 shadow-sm" style="display: none; background: rgba(220,53,69,0.05); border: 1px dashed #dc3545; font-size: 0.75rem;">
@@ -498,6 +507,7 @@
     let kargoData = {};
     let currentSelectedId = null;
     let currentSelectedType = null; 
+    let currentJadwalHarga = 0; // Untuk menyimpan harga rute saat ini
 
     // --- 1. MUNCULKAN SWEETALERT JIKA ADA ERROR DARI CONTROLLER ---
     @if(session('error'))
@@ -676,9 +686,13 @@
     }
 
     // 3. LOAD DATA SAAT MODAL KELOLA DIBUKA
-    function openKelolaModal(jadwalId, armadaId, jam, driverId) {
-        const currentJadwal = allActiveSchedules.find(j => j.id == jadwalId);
-        currentEditTanggal = currentJadwal ? currentJadwal.tanggal_berangkat : null;
+    function openKelolaModal(jadwalId, armadaId, jam, driverId, hargaRute) {
+    currentJadwalHarga = hargaRute; // Simpan harga rute ke memori
+
+    const currentJadwal = allActiveSchedules.find(j => j.id == jadwalId);
+    currentEditTanggal = currentJadwal ? currentJadwal.tanggal_berangkat : null;
+
+    // ... (sisanya biarkan sama persis dengan kodemu sebelumnya)
         
         // --- REVISI: Gunakan variabel global dan kurangi waktu 30 menit ---
         isJadwalPast = false; 
@@ -903,22 +917,29 @@
             }
         } 
         else {
-            inputName.value = ''; inputHp.value = ''; inputPick.value = ''; inputDrop.value = '';
-            inputNotes.value = ''; inputPay.value = 'Lunas (Manual WA)'; inputPrice.value = '';
-            
-            if(type === 'kargo') { inputPenerima.value = ''; inputHpPenerima.value = ''; }
+                inputName.value = ''; inputHp.value = ''; inputPick.value = ''; inputDrop.value = '';
+                inputNotes.value = ''; 
 
-            statusLabel.className = 'badge bg-success px-3 py-2 rounded-pill'; 
-            statusLabel.innerText = type === 'kargo' ? 'Kargo Baru' : 'Kursi Kosong';
-            
-            btnContainer.style.setProperty('display', 'flex', 'important'); 
-            document.getElementById('btnEmptySeat').style.display = 'block'; 
-            document.getElementById('btnSaveSeat').innerText = 'Kunci Posisi Manual';
-            
-            if(webNotice) webNotice.style.display = 'none';
-            
-            if(isPast) btnContainer.style.setProperty('display', 'none', 'important');
-        }
+                // Pilih opsi default pembayaran
+                inputPay.value = 'Lunas (Manual WA)'; 
+
+                // AUTO FILL HARGA khusus untuk Kursi (Kargo dibiarkan kosong karena beda rumus)
+                inputPrice.value = type === 'seat' ? currentJadwalHarga : ''; 
+
+                if(type === 'kargo') { inputPenerima.value = ''; inputHpPenerima.value = ''; }
+
+                statusLabel.className = 'badge bg-success px-3 py-2 rounded-pill'; 
+                statusLabel.innerText = type === 'kargo' ? 'Kargo Baru' : 'Kursi Kosong';
+
+                btnContainer.style.setProperty('display', 'flex', 'important'); 
+                document.getElementById('btnEmptySeat').style.display = 'block'; 
+                document.getElementById('btnSaveSeat').innerText = 'Kunci Posisi Manual';
+
+                if(webNotice) webNotice.style.display = 'none';
+                if(document.getElementById('optWeb')) document.getElementById('optWeb').style.display = 'none'; // Sembunyikan opsi web untuk input manual
+
+                if(isPast) btnContainer.style.setProperty('display', 'none', 'important');
+            }
     }
 
     function siapkanKargoBaru() {
@@ -1008,8 +1029,11 @@
         }
     }
 
-    function openViewOnlyManifest(jadwalId, armadaId, jam, driverId) {
-        openKelolaModal(jadwalId, armadaId, jam, driverId);
+    // Update fungsi openViewOnlyManifest
+    function openViewOnlyManifest(jadwalId, armadaId, jam, driverId, hargaRute) {
+    openKelolaModal(jadwalId, armadaId, jam, driverId, hargaRute); // Tambahkan hargaRute
+
+    // ... (sisanya biarkan sama persis)
 
         setTimeout(() => {
             let submitBtn = document.querySelector('#formUpdateJadwal button[type="submit"]');
