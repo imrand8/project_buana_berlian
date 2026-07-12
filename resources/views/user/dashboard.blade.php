@@ -11,7 +11,7 @@
 
     <meta property="og:title" content="Buana Berlian - Travel Malang Pacitan">
     <meta property="og:description" content="Pesan tiket travel eksekutif dan kargo rute Malang - Pacitan PP secara online. Cepat, aman, dan nyaman!">
-    <meta property="og:image" content="{{ asset('public/assets/img/LOGO.png') }}">
+    <meta property="og:image" content="{{ asset('public/assets/img/SEO.png') }}">
     <meta property="og:url" content="{{ url('/') }}">
     <meta property="og:type" content="website">
     
