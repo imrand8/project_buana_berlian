@@ -42,21 +42,27 @@ public function index(Request $request)
         $kargo = PesananKargo::findOrFail($id);
 
         if ($kargo->status_pesanan !== 'lunas') {
-            return redirect()->back()->with('error', 'GAGAL: Kargo belum di-ACC/Lunas. Tidak bisa ditugaskan ke mobil!');
+            // Ubah menjadi withErrors agar notifikasi SweetAlert muncul di layar admin
+            return redirect()->back()->withErrors('GAGAL: Kargo belum di-ACC/Lunas. Tidak bisa ditugaskan ke mobil!');
         }
 
-        // Ambil relasi rute juga
+        // Ambil relasi rute
         $jadwalTujuan = Jadwal::with('rute')->findOrFail($request->jadwal_id);
         $waktuBerangkat = \Carbon\Carbon::parse($jadwalTujuan->tanggal_berangkat . ' ' . $jadwalTujuan->jam_berangkat, 'Asia/Jakarta');
         
         if (\Carbon\Carbon::now('Asia/Jakarta')->greaterThanOrEqualTo($waktuBerangkat)) {
-            return redirect()->back()->with('error', 'GAGAL: Mobil tersebut sudah berangkat/melewati jam operasional!');
+            return redirect()->back()->withErrors('GAGAL: Mobil tersebut sudah berangkat/melewati jam operasional!');
         }
 
-        // --- BLOKIR KARGO NYASAR (VALIDASI RUTE) ---
-        if (strtolower($kargo->kota_asal) !== strtolower($jadwalTujuan->rute->kota_asal) ||
-            strtolower($kargo->kota_tujuan) !== strtolower($jadwalTujuan->rute->kota_tujuan)) {
-            return redirect()->back()->with('error', 'GAGAL: Rute kargo (' . $kargo->kota_asal . '-' . $kargo->kota_tujuan . ') beda arah dengan mobil ini!');
+        // --- BLOKIR KARGO NYASAR (VALIDASI RUTE BACKEND) ---
+        // Potong embel-embel seperti "(alun)" agar backend bisa mencocokkan kota utamanya saja
+        $kargoAsalClean = trim(explode('(', strtolower($kargo->kota_asal))[0]);
+        $kargoTujuanClean = trim(explode('(', strtolower($kargo->kota_tujuan))[0]);
+        $ruteAsalClean = trim(explode('(', strtolower($jadwalTujuan->rute->kota_asal))[0]);
+        $ruteTujuanClean = trim(explode('(', strtolower($jadwalTujuan->rute->kota_tujuan))[0]);
+
+        if ($kargoAsalClean !== $ruteAsalClean || $kargoTujuanClean !== $ruteTujuanClean) {
+            return redirect()->back()->withErrors('GAGAL: Rute kargo beda arah dengan mobil ini!');
         }
         // ------------------------------------------
 
