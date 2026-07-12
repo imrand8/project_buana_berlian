@@ -3,15 +3,20 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
+    <!-- 1. FAVICON (Ini yang bikin logo bagus & kotak di pencarian Google & Tab Browser) -->
+    <link rel="icon" href="{{ asset('public/assets/img/favicon.png') }}" type="image/png">
+
+    <!-- 2. SEO DASAR GOOGLE -->
     <title>Buana Berlian - Travel Reguler & Kargo Malang Pacitan</title>
     <meta name="description" content="Layanan travel eksekutif dan kargo ekspres rute Malang - Pacitan PP. Pesan tiket online sekarang untuk perjalanan nyaman dan aman bersama Buana Berlian Tour & Travel.">
     <meta name="keywords" content="travel malang pacitan, travel pacitan malang, kargo malang pacitan, travel buana berlian, tiket travel online, travel eksekutif pacitan">
     <meta name="author" content="Buana Berlian Tour & Travel">
     <meta name="robots" content="index, follow">
 
+    <!-- 3. OPEN GRAPH (Preview Banner Lebar untuk WhatsApp/Sosmed) -->
     <meta property="og:title" content="Buana Berlian - Travel Malang Pacitan">
     <meta property="og:description" content="Pesan tiket travel eksekutif dan kargo rute Malang - Pacitan PP secara online. Cepat, aman, dan nyaman!">
-    <meta property="og:image" content="{{ asset('public/assets/img/SEO.png') }}">
+    <meta property="og:image" content="{{ asset('public/assets/img/LOGO.png') }}">
     <meta property="og:url" content="{{ url('/') }}">
     <meta property="og:type" content="website">
     
