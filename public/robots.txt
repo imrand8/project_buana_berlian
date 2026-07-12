@@ -1,0 +1,5 @@
+```text
+   User-agent: *
+   Allow: /
+   Disallow: /admin/
+   Sitemap: https://travelbuanaberlian.com/sitemap.xml

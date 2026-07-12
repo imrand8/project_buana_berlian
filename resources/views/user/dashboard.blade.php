@@ -1,11 +1,22 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buana Berlian Tour & Travel - Beranda</title>
-    <link rel="icon" href="{{ asset('public/assets/img/LOGO.png') }}" type="image/png">
     
+    <title>Buana Berlian - Travel Reguler & Kargo Malang Pacitan</title>
+    <meta name="description" content="Layanan travel eksekutif dan kargo ekspres rute Malang - Pacitan PP. Pesan tiket online sekarang untuk perjalanan nyaman dan aman bersama Buana Berlian Tour & Travel.">
+    <meta name="keywords" content="travel malang pacitan, travel pacitan malang, kargo malang pacitan, travel buana berlian, tiket travel online, travel eksekutif pacitan">
+    <meta name="author" content="Buana Berlian Tour & Travel">
+    <meta name="robots" content="index, follow">
+
+    <meta property="og:title" content="Buana Berlian - Travel Malang Pacitan">
+    <meta property="og:description" content="Pesan tiket travel eksekutif dan kargo rute Malang - Pacitan PP secara online. Cepat, aman, dan nyaman!">
+    <meta property="og:image" content="{{ asset('public/assets/img/LOGO.png') }}">
+    <meta property="og:url" content="{{ url('/') }}">
+    <meta property="og:type" content="website">
+    
+    <meta name="google-site-verification" content="XdUheWTDnH1joHtbHVJlyANCOwF8_YlAfEpDZSLdFMk" />
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
