@@ -7,12 +7,16 @@
 @php
     $pendingCount = 0;
     if(Auth::check()) {
-        // BENAR-BENAR HANYA MENGHITUNG 'ditolak'
+        // Hanya hitung tiket yang status utamanya adalah 'ditolak'
+        // dan pastikan kita hanya menghitung pesanan yang belum dibatalkan/dihapus
+        
         $pendingTravel = \App\Models\PesananTravel::where('user_id', Auth::id())
-                        ->where('status_pesanan', 'ditolak')->count();
+                        ->where('status_pesanan', 'ditolak')
+                        ->count();
                         
         $pendingKargo = \App\Models\PesananKargo::where('user_id', Auth::id())
-                        ->where('status_pesanan', 'ditolak')->count();
+                        ->where('status_pesanan', 'ditolak')
+                        ->count();
                         
         $pendingCount = $pendingTravel + $pendingKargo;
     }
