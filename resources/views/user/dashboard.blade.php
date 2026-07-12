@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!-- 1. FAVICON (Ini yang bikin logo bagus & kotak di pencarian Google & Tab Browser) -->
-    <link rel="icon" href="{{ asset('public/assets/img/icon.png') }}" type="image/png">
+    <link rel="icon" href="{{ asset('public/assets/img/iconx.png') }}" type="image/png">
 
     <!-- 2. SEO DASAR GOOGLE -->
     <title>Buana Berlian - Travel Reguler & Kargo Malang Pacitan</title>
