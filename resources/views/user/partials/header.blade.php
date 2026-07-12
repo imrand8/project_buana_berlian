@@ -4,6 +4,17 @@
     }
 </script>
 
+@php
+    $pendingCount = 0;
+    if(Auth::check()) {
+        $pendingTravel = \App\Models\PesananTravel::where('user_id', Auth::id())
+                        ->whereIn('status_pesanan', ['menunggu_verifikasi', 'ditolak'])->count();
+        $pendingKargo = \App\Models\PesananKargo::where('user_id', Auth::id())
+                        ->whereIn('status_pesanan', ['menunggu_verifikasi', 'ditolak'])->count();
+        $pendingCount = $pendingTravel + $pendingKargo;
+    }
+@endphp
+
 <header class="main-header">
     <div class="header-container">
         <a href="{{ url('/') }}" class="logo-link">
@@ -98,8 +109,12 @@
                 </a>
             @endauth
 
-            <button class="hamburger-btn" id="mobile-menu-toggle" aria-label="Toggle Menu">
+            <button class="hamburger-btn" id="mobile-menu-toggle" aria-label="Toggle Menu" style="position: relative;">
                 <i class="bi bi-list"></i>
+                {{-- Munculkan titik merah di Hamburger Menu jika ada notif --}}
+                @if($pendingCount > 0)
+                    <span class="badge-notif-mobile">{{ $pendingCount }}</span>
+                @endif
             </button>
         </div>
     </div>
@@ -224,6 +239,22 @@
         box-shadow: 0 2px 5px rgba(220, 53, 69, 0.4);
         display: inline-block;
         line-height: 1;
+    }
+
+    /* CSS UNTUK BADGE NOTIFIKASI DI TOMBOL HAMBURGER (MOBILE) */
+    .badge-notif-mobile {
+        position: absolute;
+        top: 2px;
+        right: -2px;
+        background-color: #dc3545;
+        color: white;
+        font-size: 0.6rem;
+        font-weight: 800;
+        padding: 2px 5px;
+        border-radius: 50rem;
+        box-shadow: 0 2px 5px rgba(220, 53, 69, 0.4);
+        line-height: 1;
+        border: 2px solid var(--nav-bg); /* Biar ada jarak efek potongan dari ikon */
     }
 </style>
 
