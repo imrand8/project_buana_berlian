@@ -389,15 +389,19 @@
                                             @endif
                                         @endif
 
-                                        {{-- 3. TOMBOL BATALKAN (TETAP SAMA) --}}
-                                        @if($statusFilter != 'success')
-                                            <form action="{{ route('user.pesanan.batal', ['type' => $tipe, 'id' => $pesanan->id]) }}" method="POST" class="m-0" id="formBatal-{{$pesanan->id}}">
-                                                @csrf @method('DELETE')
-                                                <button type="button" class="btn-action btn-danger-outline" onclick="confirmBatal('{{$pesanan->id}}', '{{ strtoupper($pesanan->metode_bayar) }}', '{{ $kode }}', '{{ $isTravel ? $pesanan->nama_penumpang : $pesanan->nama_penerima }}', '{{ number_format($pesanan->total_harga, 0, ',', '.') }}')">Batalkan</button>
-                                            </form>
-                                        @else
-                                            <button type="button" class="btn-action btn-danger-outline" onclick="batalLunas('{{ $kode }}', '{{ $isTravel ? $pesanan->nama_penumpang : $pesanan->nama_penerima }}')">Ajukan Batal</button>
-                                        @endif                                      
+                                        {{-- 3. TOMBOL BATALKAN / AJUKAN BATAL (DISEMBUNYIKAN JIKA SUDAH BATAL) --}}
+                                        @if($statusFilter != 'cancelled')
+                                            
+                                            @if($statusFilter != 'success')
+                                                <form action="{{ route('user.pesanan.batal', ['type' => $tipe, 'id' => $pesanan->id]) }}" method="POST" class="m-0" id="formBatal-{{$pesanan->id}}">
+                                                    @csrf @method('DELETE')
+                                                    <button type="button" class="btn-action btn-danger-outline" onclick="confirmBatal('{{$pesanan->id}}', '{{ strtoupper($pesanan->metode_bayar) }}', '{{ $kode }}', '{{ $isTravel ? $pesanan->nama_penumpang : $pesanan->nama_penerima }}', '{{ number_format($pesanan->total_harga, 0, ',', '.') }}')">Batalkan</button>
+                                                </form>
+                                            @else
+                                                <button type="button" class="btn-action btn-danger-outline" onclick="batalLunas('{{ $kode }}', '{{ $isTravel ? $pesanan->nama_penumpang : $pesanan->nama_penerima }}')">Ajukan Batal</button>
+                                            @endif
+                                            
+                                        @endif                                   
 
                                         {{-- 4. KONDISI JIKA DITOLAK (UPLOAD ULANG) --}}
                                         @if($pesanan->status_pesanan == 'ditolak')

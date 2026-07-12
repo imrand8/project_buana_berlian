@@ -15,7 +15,26 @@
                 <li class="nav-item"><a href="{{ url('/') }}" class="nav-link {{ Request::is('/') ? 'active' : '' }}">Beranda</a></li>
                 <li class="nav-item"><a href="{{ url('/layanan') }}" class="nav-link {{ Request::is('layanan') ? 'active' : '' }}">Pesan Layanan</a></li>
                 
-                <li class="nav-item"><a href="{{ url('/cek-tiket') }}" class="nav-link {{ Request::is('cek-tiket') ? 'active' : '' }}">Cek Tiket</a></li>
+                {{-- LOGIKA NOTIFIKASI TIKET BUTUH TINDAKAN --}}
+                @php
+                    $pendingCount = 0;
+                    if(Auth::check()) {
+                        $pendingTravel = \App\Models\PesananTravel::where('user_id', Auth::id())
+                                        ->whereIn('status_pesanan', ['menunggu_verifikasi', 'ditolak'])->count();
+                        $pendingKargo = \App\Models\PesananKargo::where('user_id', Auth::id())
+                                        ->whereIn('status_pesanan', ['menunggu_verifikasi', 'ditolak'])->count();
+                        $pendingCount = $pendingTravel + $pendingKargo;
+                    }
+                @endphp
+                
+                <li class="nav-item">
+                    <a href="{{ url('/cek-tiket') }}" class="nav-link {{ Request::is('cek-tiket') ? 'active' : '' }}">
+                        Cek Tiket
+                        @if($pendingCount > 0)
+                            <span class="badge-notif-header">{{ $pendingCount }}</span>
+                        @endif
+                    </a>
+                </li>
                 
                 <li class="nav-item"><a href="{{ url('/tentang-kami') }}" class="nav-link {{ Request::is('tentang-kami') ? 'active' : '' }}">Tentang Kami</a></li>
                 
@@ -190,6 +209,21 @@
         .login-mobile { display: inline-block; background: var(--p-color); color: white !important; padding: 10px 40px; border-radius: 30px; font-weight: 700; }
         
         [data-theme="dark"] .login-mobile { background-color: var(--accent-gold); color: #000 !important; }
+    }
+
+    /* CSS UNTUK BADGE NOTIFIKASI HEADER */
+    .badge-notif-header {
+        background-color: #dc3545;
+        color: white;
+        font-size: 0.65rem;
+        font-weight: 800;
+        padding: 2px 6px;
+        border-radius: 50rem;
+        margin-left: 4px;
+        vertical-align: top;
+        box-shadow: 0 2px 5px rgba(220, 53, 69, 0.4);
+        display: inline-block;
+        line-height: 1;
     }
 </style>
 
