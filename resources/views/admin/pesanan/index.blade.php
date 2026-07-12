@@ -256,13 +256,15 @@
                                 data-tujuan="{{ $kargo->kota_tujuan }}"
                                 data-tgl="{{ \Carbon\Carbon::parse($kargo->tanggal_berangkat)->format('d M Y') }}"
                                 data-armada="{{ $kargo->jadwal->armada->nama_armada ?? '-' }}"
+                                data-supir="{{ $kargo->jadwal->driver->nama_supir ?? '-' }}"
+                                data-metode="{{ $kargo->metode_bayar ?? 'Manual/Transfer' }}"
                                 data-harga="{{ $kargo->total_harga }}"
                                 data-status="{{ $kargo->status_pesanan }}"
                                 data-wa="{{ $kargo->nomor_wa_penerima }}">
                                 <i class="bi bi-box-seam"></i> Resi
                             </button>
                             @if($kargo->status_pesanan === 'lunas')
-                                <button class="btn-action-assign" onclick="openAssignModal({{ $kargo->id }}, '{{ $kargo->kode_resi }}', '{{ $kargo->jadwal_id ?? '' }}')" title="Pilih Mobil Pengangkut"><i class="bi bi-truck"></i></button>
+                                <button class="btn-action-assign" onclick="openAssignModal({{ $kargo->id }}, '{{ $kargo->kode_resi }}', '{{ $kargo->jadwal_id ?? '' }}', '{{ $kargo->kota_asal }}', '{{ $kargo->kota_tujuan }}')" title="Pilih Mobil Pengangkut"><i class="bi bi-truck"></i></button>
                             @else
                                 <button class="btn-action-assign" disabled style="opacity: 0.4; cursor: not-allowed; border-color: #ccc; color: #999; background: #f8f9fa;" title="Kargo belum di-ACC"><i class="bi bi-truck"></i></button>
                             @endif
@@ -420,8 +422,8 @@
                     
                     {{-- FIX: Pakai variabel jadwalsTersedia --}}
                     @forelse($jadwalsTersedia as $jdw) 
-                        <option value="{{ $jdw->id }}" data-tgl="{{ $jdw->tanggal_berangkat }}" data-jam="{{ $jdw->jam_berangkat }}">
-                            {{ $jdw->armada->nama_armada }} (Jam: {{ $jdw->jam_berangkat }})
+                        <option value="{{ $jdw->id }}" data-tgl="{{ $jdw->tanggal_berangkat }}" data-jam="{{ $jdw->jam_berangkat }}" data-asal="{{ strtolower($jdw->rute->kota_asal) }}" data-tujuan="{{ strtolower($jdw->rute->kota_tujuan) }}">
+                            {{ $jdw->armada->nama_armada }} (Jam: {{ $jdw->jam_berangkat }}) - {{ $jdw->rute->kota_asal }}➔{{ $jdw->rute->kota_tujuan }}
                         </option> 
                     @empty
                         <option value="" disabled>-- Semua mobil hari ini sudah berangkat --</option>
@@ -581,8 +583,9 @@
         let berat = btn.getAttribute('data-berat');
         let asal = btn.getAttribute('data-asal');
         let tujuan = btn.getAttribute('data-tujuan');
+        let supir = btn.getAttribute('data-supir'); // AMBIL DATA SUPIR
+        let metode = btn.getAttribute('data-metode'); // AMBIL DATA METODE
 
-        // 1. Tampilkan teks di panel modal
         document.getElementById('v_kg_kode').innerText = kode;
         document.getElementById('v_kg_pengirim').innerText = pengirim;
         document.getElementById('v_kg_wa_pengirim').innerText = wapengirim;
@@ -592,54 +595,68 @@
         document.getElementById('v_kg_asal').innerText = asal;
         document.getElementById('v_kg_tujuan').innerText = tujuan;
 
-        // 2. Simpan semua data ke memori sementara
+        // MASUKKAN KE MEMORI AGAR TIDAK ERROR SAAT CETAK
         tempKargo = { 
             kode: kode, penerima: penerima, pengirim: pengirim, 
             wa: btn.getAttribute('data-wa'), tgl: btn.getAttribute('data-tgl'), 
             armada: btn.getAttribute('data-armada'), berat: berat, asal: asal, 
-            tujuan: tujuan, harga: btn.getAttribute('data-harga'), status: btn.getAttribute('data-status') 
+            tujuan: tujuan, harga: btn.getAttribute('data-harga'), status: btn.getAttribute('data-status'),
+            supir: supir, metode: metode
         };
 
         new bootstrap.Modal(document.getElementById('modalEditKargo')).show();
     }
 
-    function openAssignModal(kargoId, resi, currentId) {
+    function openAssignModal(kargoId, resi, currentId, kargoAsal, kargoTujuan) {
         document.getElementById('assignOrderId').innerText = resi;
         document.getElementById('formAssignKargo').action = `/admin/kargo/${kargoId}/assign`;
         
-        // --- TAMBAHAN REVISI: Cek Aturan 30 Menit Sebelum Berangkat ---
         let selectArmada = document.getElementById('selectArmada');
         let sekarang = new Date();
 
+        // Samakan format huruf untuk pencocokan
+        kargoAsal = kargoAsal.toLowerCase();
+        kargoTujuan = kargoTujuan.toLowerCase();
+
         Array.from(selectArmada.options).forEach(opt => {
-            if(opt.value === "") return; // Abaikan placeholder
+            if(opt.value === "") return; 
 
             let tgl = opt.getAttribute('data-tgl');
             let jam = opt.getAttribute('data-jam');
+            let ruteAsal = opt.getAttribute('data-asal');
+            let ruteTujuan = opt.getAttribute('data-tujuan');
 
-            if(tgl && jam) {
+            let isDisabled = false;
+            let labelTambahan = '';
+
+            // 1. CEK VALIDASI RUTE
+            if (ruteAsal !== kargoAsal || ruteTujuan !== kargoTujuan) {
+                isDisabled = true;
+                labelTambahan = ' 🔴 (Beda Arah/Rute)';
+            }
+
+            // 2. CEK VALIDASI WAKTU (Hanya dicek jika rutenya sudah benar)
+            if (!isDisabled && tgl && jam) {
                 let waktuBerangkat = new Date(`${tgl}T${jam}`);
-                let batasWaktuAssign = new Date(waktuBerangkat.getTime() - (30 * 60 * 1000)); // Jadwal dikurangi 30 menit
+                let batasWaktuAssign = new Date(waktuBerangkat.getTime() - (30 * 60 * 1000));
 
                 if (sekarang >= batasWaktuAssign) {
-                    opt.disabled = true; // Kunci armada jika sisa waktu < 30 menit
-                    if (!opt.text.includes('(Persiapan Jalan)')) {
-                        // Menggunakan ikon merah dan bahasa yang lebih membumi
-                        opt.text += ' 🔴 (Persiapan Jalan)'; 
-                    }
-                } else {
-                    opt.disabled = false; // Buka kunci jika masih aman
-                    opt.text = opt.text.replace(' 🔴 (Persiapan Jalan)', '');
+                    isDisabled = true;
+                    labelTambahan = ' 🔴 (Persiapan Jalan)';
                 }
             }
+
+            // Eksekusi Kunci dan Label
+            opt.disabled = isDisabled;
+            // Bersihkan teks lama sebelum ditambah yang baru agar teks tidak menumpuk saat modal dibuka berkali-kali
+            opt.text = opt.text.replace(' 🔴 (Beda Arah/Rute)', '').replace(' 🔴 (Persiapan Jalan)', '');
+            if (isDisabled) opt.text += labelTambahan;
         });
 
-        // Set opsi yang dipilih, tapi kosongkan jika opsinya ternyata sudah terkunci
         selectArmada.value = currentId || "";
         if (selectArmada.selectedOptions.length > 0 && selectArmada.selectedOptions[0].disabled) {
             selectArmada.value = "";
         }
-        // --------------------------------------------------------------
 
         new bootstrap.Modal(document.getElementById('assignModal')).show();
     }

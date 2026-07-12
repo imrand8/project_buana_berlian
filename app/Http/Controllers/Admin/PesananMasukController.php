@@ -11,7 +11,7 @@ use Carbon\Carbon;
 
 class PesananMasukController extends Controller
 {
-    public function index(Request $request)
+public function index(Request $request)
     {
         $tanggal = $request->tanggal ?? \Carbon\Carbon::today('Asia/Jakarta')->toDateString();
 
@@ -24,17 +24,15 @@ class PesananMasukController extends Controller
             ->where('tanggal_berangkat', $tanggal)
             ->orderBy('created_at', 'desc')->get();
 
-        // Jadwal untuk tombol "Cetak Manifest" (tampil semua)
-        $jadwals = Jadwal::with(['armada', 'driver'])->where('tanggal_berangkat', $tanggal)->get();
+        // TAMBAHKAN RELASI 'rute' DI SINI AGAR BISA DICEK OLEH MODAL NANTI
+        $jadwals = Jadwal::with(['armada', 'driver', 'rute'])->where('tanggal_berangkat', $tanggal)->get();
 
-        // --- FIX: Filter khusus untuk Dropdown Assign Kargo ---
         $sekarang = \Carbon\Carbon::now('Asia/Jakarta');
         $jadwalsTersedia = $jadwals->filter(function ($j) use ($sekarang) {
             $waktuBerangkat = \Carbon\Carbon::parse($j->tanggal_berangkat . ' ' . $j->jam_berangkat, 'Asia/Jakarta');
             return $waktuBerangkat->greaterThan($sekarang);
         });
 
-        // Tambahkan 'jadwalsTersedia' ke dalam compact()
         return view('admin.pesanan.index', compact('travels', 'kargos', 'tanggal', 'jadwals', 'jadwalsTersedia'));
     }
 
@@ -47,28 +45,22 @@ class PesananMasukController extends Controller
             return redirect()->back()->with('error', 'GAGAL: Kargo belum di-ACC/Lunas. Tidak bisa ditugaskan ke mobil!');
         }
 
-        // --- FIX: Cegah Admin maksa assign ke mobil yang udah jalan ---
-        $jadwalTujuan = Jadwal::findOrFail($request->jadwal_id);
+        // Ambil relasi rute juga
+        $jadwalTujuan = Jadwal::with('rute')->findOrFail($request->jadwal_id);
         $waktuBerangkat = \Carbon\Carbon::parse($jadwalTujuan->tanggal_berangkat . ' ' . $jadwalTujuan->jam_berangkat, 'Asia/Jakarta');
         
         if (\Carbon\Carbon::now('Asia/Jakarta')->greaterThanOrEqualTo($waktuBerangkat)) {
             return redirect()->back()->with('error', 'GAGAL: Mobil tersebut sudah berangkat/melewati jam operasional!');
         }
-        // ----------------------------------------------------------------
+
+        // --- BLOKIR KARGO NYASAR (VALIDASI RUTE) ---
+        if (strtolower($kargo->kota_asal) !== strtolower($jadwalTujuan->rute->kota_asal) ||
+            strtolower($kargo->kota_tujuan) !== strtolower($jadwalTujuan->rute->kota_tujuan)) {
+            return redirect()->back()->with('error', 'GAGAL: Rute kargo (' . $kargo->kota_asal . '-' . $kargo->kota_tujuan . ') beda arah dengan mobil ini!');
+        }
+        // ------------------------------------------
 
         $kargo->update(['jadwal_id' => $request->jadwal_id]);
         return redirect()->back()->with('success', 'Kargo berhasil ditugaskan ke armada tersebut!');
-    }
-
-    public function destroyTravel($id)
-    {
-        PesananTravel::findOrFail($id)->delete();
-        return redirect()->back()->with('success', 'Pesanan Travel dibatalkan/dihapus.');
-    }
-
-    public function destroyKargo($id)
-    {
-        PesananKargo::findOrFail($id)->delete();
-        return redirect()->back()->with('success', 'Pesanan Kargo dibatalkan/dihapus.');
     }
 }
